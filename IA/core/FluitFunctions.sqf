@@ -1,0 +1,806 @@
+// Register Fluit's functions
+
+handle_gforce = {
+	/*
+	=== Visual G-Force FX ===
+		Author: 		Fluit
+		Version: 		1.0.2
+		Released:		2014-05-24
+		Description:	Adds visual effects to the player when suffering too many g's
+						while flying a jet. Not wearing the proper outfit will increase
+						the effects significantly.
+		
+		Changelog:		1.0.2	- maxg of pilot from 10 to 16
+						1.0.1	- Detects plane of any type or faction
+								- Can wear filot outfit from any faction
+								- Speed has an effect on the amount of blur
+		
+		To do:	- Add heartbeat sound while effects occur
+				- Enable on screen g-force display through parameter
+				- Reduce black out to black corners of screen
+	*/
+	private ["_gforce", "_headgear", "_uniforms", "_vol", "_outfit"];
+	_gforce = 0; _outfit = false; _vol = soundVolume; _volnew = soundVolume; _blur = 0; _effect = 0.4; _maxg = 5; _maxgblackout = 15; _warning = false; _blackout = false; _velocity = []; _velocityprev = [];
+	_log = 0; // 0 = off; 1 = gforce logging; 2 = complete logging
+	
+	_headgear = ["H_PilotHelmetFighter_B", "H_PilotHelmetFighter_O", "H_PilotHelmetFighter_I"];
+	_uniforms = ["U_B_PilotCoveralls", "U_O_PilotCoveralls", "U_I_pilotCoveralls"];
+	
+    while {true} do {
+		// is the player in a plane
+		if (vehicle player isKindOf "PLANE") then {
+			
+			// check if the player is wearing the correct outfit
+			if (headgear player in _headgear && uniform player in _uniforms) then {
+				_outfit = true;
+				_maxg = 16;
+				_maxgblackout = 32;
+				_effect = 0.1;
+			} else {
+				// not wearing pilot outfit => increased effects
+				_outfit = false;
+				_maxg = 5;
+				_effect = 0.4;
+				_maxgblackout = 15;
+				
+				// show warning if not yet shown
+				if (!_warning) then {
+					systemChat "Warning: you are not wearing the proper outfit to fly this.";
+					_warning = true;
+				};
+			};
+			
+			_volnew = _vol; // reset the volume;
+			
+			// get the plane velocity
+			_velocity = velocity (vehicle player);
+			if (count _velocityprev == 0) then {
+				_velocityprev = _velocity;
+			};
+			
+			// calculate gforce
+			_a_x = (( _velocity select 0 ) - ( _velocityprev select 0 )) / 9.8;
+			_a_y = (( _velocity select 1 ) - ( _velocityprev select 1 )) / 9.8;
+			_a_z = (( _velocity select 2 ) - ( _velocityprev select 2 )) / 9.8;
+			_gforce = (sqrt( (_a_x * _a_x) + (_a_y * _a_y) + (_a_z * _a_z))) * 7;
+			
+			// round down to 2 decimals
+			_gforce = (floor (_gforce * 100) / 100);
+			
+			// save velocity for next calculation
+			_velocityprev = _velocity;
+			
+			// calculate the amount of blur
+			_blur = 0;
+			if (_gforce > _maxg) then {
+				_blur = (_gforce - _maxg) * _effect;
+			};
+			
+			// speed has an effect on the amount of blur when going faster than 250
+			if (speed player >= 250) then {
+				if (!_outfit) then {
+					// if not wearing correct outfit speed will have a great effect on blur
+					_blur = _blur + (speed player / 1000);
+				} else {
+					_blur = _blur + (speed player / 5000);
+				};
+			};
+			
+			// round down to 2 decimals
+			_blur = (floor (_blur * 100) / 100);
+			
+			// apply the blur effect
+			"dynamicBlur" ppEffectEnable true;
+			"dynamicBlur" ppEffectAdjust [_blur];
+			"dynamicBlur" ppEffectCommit 1;
+			
+			// if blur greater than 2, reduce the volume
+			if (_blur > 1.5) then {
+				_volnew = (_vol / 1.7);
+			};
+			
+			// black out if player takes too many g's
+			if (_gforce > _maxgblackout) then {
+				if (!_blackout) then {
+					// only apply the black out effect if not already blacked out
+					_blackout = true;
+					"ColorCorrections" ppEffectEnable true;
+					"ColorCorrections" ppEffectAdjust [1.0, 1.0, 0.0, [0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 0.0],[0.0, 0.0, 0.0, 1.0]];
+					"ColorCorrections" ppEffectCommit 1;
+					_volnew = 0.2;
+				};
+			} else {
+				if (_blackout) then {
+					// remove the black out effect
+					_blackout = false;
+					"ColorCorrections" ppEffectEnable true;
+					"ColorCorrections" ppEffectAdjust [1.0, 1.0, 0.0, [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0],[0.0, 0.0, 0.0, 0.0]];
+					"ColorCorrections" ppEffectCommit 1;
+				};
+			};
+			
+			// alter game volume
+			1 fadeSound _volnew;
+			
+			// on screen logging
+			if (_log >= 1) then {
+				systemChat format ["G-force: %1", _gforce];
+			};
+			if (_log >= 2) then {
+				systemChat format ["Blur: %1  Volume: %2", _blur, _volnew];
+			};
+			
+			// g-force should be calculated every second
+			sleep 1;
+		} else {
+			// when player is not or no longer in plane the effects should be removed
+			"dynamicBlur" ppEffectEnable false;
+			"ColorCorrections" ppEffectEnable false;
+			
+			// reset variables after eject
+			_warning = false;
+			_blackout = false;
+			0 fadeSound _vol;
+			sleep 5;
+		};
+    };
+};
+
+restrict_artycomputer = {
+    while {true} do {
+		if (shownArtilleryComputer) then { 
+			player action ["GetOut", vehicle player];
+		};
+		sleep 2;
+    };
+};
+
+dr_handle_healing =
+{
+		diag_log "inside dr_handle_healing";
+		private ["_unit", "_healer", "_medic", "_damage", "_return"];
+		_unit = _this select 0;
+		_healer = _this select 1;
+		_medic = _this select 2;
+		_damage = 0.4;
+		
+		if (_medic) then {
+			// Medic has beter healing
+			_damage = 0.2;
+		};
+		
+		if (damage _unit > _damage) then {
+			_unit setDamage _damage;
+			diag_log format ["unit %1 is healed by %2 to damage %3", _unit, _healer, _damage];
+			systemchat format ["unit %1 is healed by %2 to damage %3", _unit, _healer, _damage];
+		};
+	    AISFinishHeal [_unit, _healer, _medic];
+		_return = true;
+		_return;
+};
+
+locations_minheight = {
+	private ["_validmount", "_center", "_size", "_minheight"];
+	_center 	= _this select 0;
+	_size 		= _this select 1;
+	_minheight	= _this select 2;
+	
+	diag_log format ["locations_minheight (center: %1, size: %2, minheight: %3)", _center, _size, _minheight];
+	
+	// Get valid locations
+	_validmount = [];
+	_mount = nearestlocations [_center, ["Mount"], _size];
+	{ 
+		_flatPos = (getPos _x) isFlatEmpty [5, 0, 0.2, 5, 0, false];
+		if (getTerrainHeightASL (getPos _x) >= _minheight && count _flatPos == 3) then
+		{
+			_validmount set [count _validmount, getPos _x];
+		};
+	} foreach _mount;
+	
+	_validmount;
+};
+
+random_sam_sites = {
+	private ["_samcount", "_sampos", "_valid", "_locations", "_spawned", "_spread"];
+	_locations	= _this select 0;
+	_samcount	= _this select 1;
+	_spread 	= _this select 2;
+	
+	// If no valid locations found, end function here
+	if (count _locations == 0) exitWith { systemChat "No valid locations found"; };
+	
+	systemChat format ["%1 valid locations found", count _locations];
+
+	// Spawn SAM sites at random locations
+	_numberofsams = 0;
+	_numberoftries = 100;
+	_finished = false;
+	_spawned = [];
+	while {!_finished} do {
+		_sampos = _locations call BIS_fnc_selectRandom;
+		_valid = true;
+		{
+			if ((_sampos distance _x) < _spread) then { _valid = false; };
+		} forEach _spawned;
+		
+		if (_valid) then {
+			_spawned set [count _spawned, _sampos];
+			_numberofsams = _numberofsams + 1;		
+			[_sampos] spawn create_sam_site;
+			sleep 10;
+		};
+		
+		_numberoftries = _numberoftries - 1;
+		if (_numberofsams >= _samcount) then {
+			_finished = true;
+			systemChat format ["Done creating %1 SAM sites", _numberofsams];
+		} else {
+			if (_numberoftries <= 0) then {
+				systemChat format ["Failed creating all SAM sites. Created only %1", _numberofsams];
+				_finished = true;
+			};
+		};
+	};
+	if (DEBUG) then
+	{
+		{
+			_m = createMarker [format ["sammrk%1",random 100000], _x];
+			_m setMarkerShape "ELLIPSE";
+			_m setMarkerSize [_spread / 2, _spread / 2];
+			_m setMarkerBrush "Solid";
+			_m setMarkerAlpha 0.5;
+			_m setMarkerColor "ColorRed";
+		} forEach _spawned;
+	};
+};
+
+create_sam_site = {
+	private ["_position", "_pos", "_dir", "_distance", "_barrier"];
+	_position = _this select 0;
+
+	systemChat format ["Creating SAM site at %1 ...", _position];
+	_flatPosAlt = [(_position select 0) - 5, (_position select 1) - 5, (_position select 2)];
+	_flatPosClose = [(_position select 0) + 5, (_position select 1) + 5, (_position select 2)];
+	_priorityGroup = createGroup resistance;
+	SamVeh1 = "O_APC_Tracked_02_AA_F" createVehicle _flatPosAlt;
+	waitUntil {!isNull SamVeh1};
+	SamVeh2 = "O_APC_Tracked_02_AA_F" createVehicle _flatPosClose;
+	waitUntil {!isNull SamVeh2};
+	SamVeh1 lock 3;
+	SamVeh2 lock 3;
+	
+	SamVeh1 setDir (direction SamVeh1) + random 360;
+	SamVeh2 setDir (direction SamVeh2) + random 360;
+
+	SamVeh1 addEventHandler["Fired",{if (!isPlayer (gunner SamVeh1)) then { SamVeh1 setVehicleAmmo 1; };}];
+	SamVeh2 addEventHandler["Fired",{if (!isPlayer (gunner SamVeh2)) then { SamVeh2 setVehicleAmmo 1; };}];
+	SamVeh1 addEventHandler["GetIn",{if (isPlayer (gunner SamVeh1)) then { SamVeh1 setVehicleAmmo 0; };}];
+	SamVeh2 addEventHandler["GetIn",{if (isPlayer (gunner SamVeh2)) then { SamVeh2 setVehicleAmmo 0; };}];
+	"I_crew_F" createUnit [_flatPosAlt, _priorityGroup, "priorityTarget1 = this; this moveInGunner SamVeh1;"];
+	"I_crew_F" createUnit [_flatPosClose, _priorityGroup, "priorityTarget2 = this; this moveInGunner SamVeh2;"];
+
+	_priorityGroup setBehaviour "COMBAT";
+
+	//Small sleep to let units settle in
+	sleep 10;
+
+	//Spawn H-Barrier cover "Land_HBarrierBig_F"
+	_distance = 15;
+	_dir = 0;
+	for "_c" from 0 to 15 do
+	{
+		_pos = [_position, _distance, _dir] call BIS_fnc_relPos;
+		_barrier = "Land_HBarrier_3_F" createVehicle _pos;
+		waitUntil {alive _barrier};
+		_barrier setDir _dir;
+		_dir = _dir + 22.5;
+	};
+};
+
+road_dir = {
+	private ["_road","_roadsConnectedTo","_connectedRoad","_roaddir"];
+	_road = _this select 0;
+	_roadsConnectedTo = roadsConnectedTo _road;
+	_roaddir = 0;
+	if (count _roadsConnectedTo > 0) then {
+		_connectedRoad = _roadsConnectedTo select 0;
+		_roaddir = [_road, _connectedRoad] call BIS_fnc_DirTo;
+	} else {
+		_roaddir = direction _road;
+	};
+	_roaddir;
+};
+
+random_camps = {
+	// Example: [round (random 3), 400, getMarkerPos "AO_marker", 1000, [getMarkerPos "respawn_west"]] spawn random_camps;
+	private ["_amount", "_camplocations", "_triesroad", "_triescamp", "_position", "_spacing", "_location", "_radius", "_markercolor"];
+	_amount 	= if (count _this > 0) then {_this select 0} else { 8 }; 	// Amount of camps to create
+	_spacing 	= if (count _this > 1) then {_this select 1} else { 2500 };	// Distance between camps in meters
+	_location	= if (count _this > 2) then {_this select 2} else { [] }; 	// Location where to create the camps - if not set use random all over the map
+	_radius		= if (count _this > 3) then {_this select 3} else { 2500 }; // Radius of user defined location
+	_avoid 		= if (count _this > 4) then {_this select 4} else { [] }; 	// Locations that should be avoided
+	
+	diag_log format ["random_camps amount %1, spacing %2, avoid %3", _amount, _spacing, _avoid];
+	
+	_camplocations = [];
+	_debug = DEBUG;
+	_triesroad = 10 * _amount; // Number of tries to find a road
+	_markercolor = "ColorRed";
+	while {count _camplocations < _amount} do {
+		_triesroad = _triesroad - 1;
+		diag_log format ["location: %1",_location];
+		if (count _location == 3) then {
+			_position = [_location, ceil (random _radius), random 360] call BIS_fnc_relPos; // User defined location
+		} else {
+			_position = ["water", "out"] call BIS_fnc_randomPos; // Get random position on the map
+		};
+		_list = _position nearRoads 200; // Get roads near this position
+		_created = false;
+		if (count _list > 0) then {
+			_triescamp = 20; // Number of tries to create the camp
+			while {!_created} do {
+				_triescamp = _triescamp - 1;
+				_road = _list call BIS_fnc_selectRandom; // Get random position on road
+				_roadpos = getPos _road;
+				_roaddir = [_road] call road_dir;
+				_allowed = true;
+				{
+					if ((_roadpos distance _x) < _spacing) exitWith {
+						_allowed = false;
+					};
+				} foreach _avoid;
+				{
+					if ((_roadpos distance _x) < _spacing) exitWith {
+						_allowed = false;
+					};
+				} foreach _camplocations;
+				
+				if (_allowed) then {
+					_randomcamp = round (random 3);
+					
+					switch (_randomcamp) do { 
+						case 0: {_created = [_roadpos, _roaddir] call aa_camp; _markercolor = "ColorBlue"; };
+						case 1: {_created = [_roadpos, _roaddir] call at_camp; _markercolor = "ColorYellow"; };
+						case 2: {_created = [_roadpos, _roaddir] call hmg_camp; _markercolor = "ColorGreen"; };
+						case 3: {_created = [_roadpos, _roaddir] call roadblock; _markercolor = "ColorRed"; };
+					};
+				} else {
+					diag_log format ["Position %1 not allowed.", _roadpos];
+				};
+				
+				if (_created) exitWith {
+					_camplocations set [count _camplocations, _roadpos];
+					diag_log format ["Camp created with %1 tries left.", _triescamp];
+					if (_debug) then {
+						_m = createMarker [format ["camp%1",random 999], _roadpos];
+						_m setMarkerShape "ELLIPSE";
+						_m setMarkerSize [100, 100];
+						_m setMarkerText "CAMP";
+						_m setMarkerBrush "Solid";
+						_m setMarkerType  "Marker";
+						_m setMarkerColor _markercolor;
+					};
+				};
+				if (_triescamp <= 0) exitWith {
+					diag_log "Camp creation failed. Trying different location.";
+					_created = true;
+				};
+			};
+		} else {
+			if (_triesroad <= 0) exitWith {
+				diag_log "Could not create all camps...";
+			};
+		};
+	};
+	diag_log format ["Created %1 of %2 camps.", count _camplocations, _amount];
+	diag_log format ["Leaving random camp script with %1 tries left.", _triesroad];
+};
+
+CampCleanup = {
+	if (isNil "campArray") then { 
+		campArray = [];
+	};
+	if !(isNull _this) then {
+		campArray = campArray + [_this];
+		publicVariable "campArray";
+	};
+};
+
+hmg_camp = {
+	private ["_pos", "_newpos", "_dir", "_campgroup", "_campgun1group", "_campgun2group", "_prop", "_bagspos"];
+	_pos = _this select 0; // Camp position
+	_dir = _this select 1; // Camp direction
+	
+	_flatPos = _pos isFlatEmpty [10, 0, 0.4, 10, 0, false];
+	if (count _flatPos == 0) exitWith {
+		// Return false if the camp fails to create
+		false;
+	};
+		
+	_campgroup 		= createGroup east;
+	_campgun1group 	= createGroup east;
+	_campgun2group 	= createGroup east;
+	_campgroup 		setFormDir _dir;
+	_campgun1group 	setFormDir _dir;
+	_campgun2group 	setFormDir _dir + 180;
+	_campgroup 		call CampCleanup;
+	_campgun1group 	call CampCleanup;
+	_campgun2group 	call CampCleanup;
+	
+	_prop = "Land_BagBunker_Tower_F" createVehicle _pos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	_newpos = [_pos, 9, (_dir - 15)] call BIS_fnc_relPos;
+	_prop = "Land_TTowerSmall_1_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	
+	_bagspos = [_pos, 6, (_dir + 90)] call BIS_fnc_relPos;
+	_numberofbags = 5;
+	_bagsdir = _dir;
+	for "_c" from 1 to _numberofbags do
+	{
+		_temppos = [_bagspos, 6, _bagsdir] call BIS_fnc_relPos;
+		_prop = "Land_BagFence_Long_F" createVehicle _temppos;
+		waitUntil {alive _prop};
+		_prop call CampCleanup;
+		_prop setDir _bagsdir;
+		_bagsdir = _bagsdir + (200 / _numberofbags);
+	};
+	sleep 1;
+	
+	_gun1 = "O_HMG_01_high_F" createVehicle _bagspos;
+	waitUntil {alive _gun1};
+	_gun1 call CampCleanup;
+	_gun1 setDir _dir;
+	_newpos = [_bagspos, 1, (_dir + 180)] call BIS_fnc_relPos;
+	_gunner1 = _campgun1group createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
+	waitUntil {alive _gunner1};
+	_gunner1 assignAsGunner _gun1;
+	_gunner1 moveInGunner _gun1;
+	_gunner1 setDir _dir;
+	
+	_newpos = [_bagspos, 5, _dir + 90] call BIS_fnc_relPos;
+	_soldier = _campgun1group createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
+	doStop _soldier;
+	
+	_bagspos = [_pos, 6, (_dir - 90)] call BIS_fnc_relPos;
+	_numberofbags = 5;
+	_bagsdir = _dir + 180;
+	for "_c" from 1 to _numberofbags do
+	{
+		_temppos = [_bagspos, 6, _bagsdir] call BIS_fnc_relPos;
+		_prop = "Land_BagFence_Long_F" createVehicle _temppos;
+		waitUntil {alive _prop};
+		_prop call CampCleanup;
+		_prop setDir _bagsdir;
+		_bagsdir = _bagsdir + (200 / _numberofbags);
+	};
+	sleep 1;
+	
+	_gun2 = "O_HMG_01_high_F" createVehicle _bagspos;
+	waitUntil {alive _gun2};
+	_gun2 call CampCleanup;
+	_gun2 setDir _dir + 180;
+	_newpos = [_bagspos, 1, (_dir + 180)] call BIS_fnc_relPos;
+	_gunner2 = _campgun2group createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
+	waitUntil {alive _gunner2};
+	_gunner2 assignAsGunner _gun2;
+	_gunner2 moveInGunner _gun2;
+	_gunner2 setDir _dir + 180;
+	
+	_newpos = [_bagspos, 5, _dir - 90] call BIS_fnc_relPos;
+	_soldier = _campgun2group createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
+	doStop _soldier;
+	
+	_soldier = _campgroup createUnit ["O_Soldier_F", _pos, [], 0, "NONE"];
+	doStop _soldier;
+	_newpos = _pos; _newpos set [2, 1];
+	_soldier = _campgroup createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
+	doStop _soldier;
+	true;
+};
+
+at_camp = {
+	private ["_pos", "_dir", "_newpos", "_newdir", "_campgroup", "_prop", "_soldier", "_numberofbarriers"];
+	_pos = _this select 0; // Camp position
+	_dir = _this select 1; // Camp direction
+	
+	_flatPos = _pos isFlatEmpty [10, 0, 0.4, 10, 0, false];
+	if (count _flatPos == 0) exitWith {
+		// Return false if the camp fails to create
+		false;
+	};
+	
+	_campgroup = createGroup east;
+	_campgroup call CampCleanup;
+	_campgroup setFormDir _dir;
+	
+	_prop = "CamoNet_OPFOR_open_F" createVehicle _pos;
+	_prop setDir (_dir + 180);
+	_prop call CampCleanup;
+	
+	_numberofbarriers = 12;
+	_newdir = 0;
+	for "_c" from 1 to _numberofbarriers do
+	{
+		_newpos = [_pos, 9, _newdir] call BIS_fnc_relPos;
+		_prop = "Land_CncBarrier_F" createVehicle _newpos;
+		_prop call CampCleanup;
+		waitUntil {alive _prop};
+		_prop setDir _newdir;
+		_newdir = _newdir + (360 / _numberofbarriers);
+	};
+	
+	_boxes = ["Box_East_Ammo_F", "Box_East_AmmoOrd_F", "Box_East_Grenades_F", "Box_East_Ammo_F"];
+	_prop = (_boxes call BIS_fnc_selectRandom) createVehicle _pos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	sleep 1;
+	_soldier = _campgroup createUnit ["O_Soldier_TL_F", _pos, [], 0, "NONE"];
+	doStop _soldier;
+	for "_c" from 1 to 2 do
+	{ 
+		_tempdir = random 360;
+		_newpos = [_pos, ceil (random 10), _tempdir] call BIS_fnc_relPos;
+		_soldier = _campgroup createUnit ["O_Soldier_AT_F", _newpos, [], 0, "NONE"];
+		doStop _soldier;
+		
+		_tempdir = random 360;
+		_newpos = [_pos, ceil (random 10), _tempdir] call BIS_fnc_relPos;
+		_soldier = _campgroup createUnit ["O_Soldier_AAT_F", _newpos, [], 0, "NONE"];
+		doStop _soldier;
+	};
+	true;
+};
+
+aa_camp = {
+	private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier", "_housepos"];
+	_pos = _this select 0; // Camp position
+	_dir = _this select 1; // Camp direction
+	
+	_flatPos = _pos isFlatEmpty [10, 0, 0.4, 10, 0, false];
+	if (count _flatPos == 0) exitWith {
+		// Return false if the camp fails to create
+		false;
+	};
+	
+	_campgroup = createGroup east;
+	_campgroup call CampCleanup;
+	_campgroup setFormDir _dir;
+	
+	_housepos = [_pos, 7, _dir - 90] call BIS_fnc_relPos;
+	_prop = "Land_Cargo_House_V3_F" createVehicle _housepos;
+	_prop call CampCleanup;
+	_prop setDir _dir - 90;
+	
+	_newpos = [_pos, 6, _dir + 90] call BIS_fnc_relPos;
+	_newpos = [_newpos, 3, _dir] call BIS_fnc_relPos;
+	_prop = "Land_HBarrier_5_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir + 90;
+	
+	_newpos = [_pos, 6, _dir + 90] call BIS_fnc_relPos;
+	_newpos = [_newpos, 3, _dir + 180] call BIS_fnc_relPos;
+	_prop = "Land_HBarrier_5_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir + 90;
+	
+	_newpos = [_housepos, 5, _dir] call BIS_fnc_relPos;
+	_prop = "Land_FieldToilet_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	_boxes = ["Box_East_Ammo_F", "Box_East_AmmoOrd_F", "Box_East_Grenades_F", "Box_East_Ammo_F"];
+	_prop = (_boxes call BIS_fnc_selectRandom) createVehicle _housepos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	sleep 1;
+	_soldier = _campgroup createUnit ["O_Soldier_TL_F", _housepos, [], 0, "NONE"];
+	doStop _soldier;
+	for "_c" from 1 to 2 do
+	{ 
+		_tempdir = random 360;
+		_newpos = [_pos, ceil (random 10), _tempdir] call BIS_fnc_relPos;
+		_soldier = _campgroup createUnit ["O_Soldier_AA_F", _newpos, [], 0, "NONE"];
+		doStop _soldier;
+		
+		_tempdir = random 360;
+		_newpos = [_pos, ceil (random 10), _tempdir] call BIS_fnc_relPos;
+		_soldier = _campgroup createUnit ["O_Soldier_AAA_F", _newpos, [], 0, "NONE"];
+		doStop _soldier;
+	};
+	true;
+};
+
+roadblock = {
+	private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier"];
+	_pos = _this select 0; // Camp position
+	_dir = _this select 1; // Camp direction
+	
+	_flatPos = _pos isFlatEmpty [10, 0, 0.4, 10, 0, false];
+	if (count _flatPos == 0) exitWith {
+		// Return false if the camp fails to create
+		false;
+	};
+	
+	_campgroup = createGroup east;
+	_campgroup call CampCleanup;
+	_campgroup setFormDir _dir;
+	
+	_newpos = [_pos, 3, _dir] call BIS_fnc_relPos;
+	//_newpos = [_newpos, 1, _dir - 90] call BIS_fnc_relPos;
+	_prop = "Land_BarGate_F" createVehicle _newpos;
+	waitUntil {alive _prop};
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	_newpos = [_pos, 9, _dir] call BIS_fnc_relPos;
+	_newpos = [_newpos, 6, _dir - 90] call BIS_fnc_relPos;
+	_prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	_newpos = [_pos, 9, _dir] call BIS_fnc_relPos;
+	_newpos = [_newpos, 10, _dir - 90] call BIS_fnc_relPos;
+	_prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	_newpos = [_pos, 9, _dir] call BIS_fnc_relPos;
+	_newpos = [_newpos, 6, _dir + 90] call BIS_fnc_relPos;
+	_prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	_newpos = [_pos, 9, _dir] call BIS_fnc_relPos;
+	_newpos = [_newpos, 10, _dir + 90] call BIS_fnc_relPos;
+	_prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	_newpos = [_pos, 7, _dir + 180] call BIS_fnc_relPos;
+	_newpos = [_newpos, 8, _dir + 90] call BIS_fnc_relPos;
+	_prop = "Land_Razorwire_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	_newpos = [_pos, 7, _dir + 180] call BIS_fnc_relPos;
+	_newpos = [_newpos, 8, _dir - 90] call BIS_fnc_relPos;
+	_prop = "Land_Razorwire_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	if (round (random 1) > 0 ) then {
+		// Chance of a toilet. AI have to poop too.
+		_newpos = [_pos, 2, _dir + 180] call BIS_fnc_relPos;
+		_newpos = [_newpos, 10, _dir + 90] call BIS_fnc_relPos;
+		_prop = "Land_FieldToilet_F" createVehicle _newpos;
+		_prop call CampCleanup;
+		_prop setDir _dir;
+	};
+	
+	_newpos = [_pos, 9, _dir - 90] call BIS_fnc_relPos;
+	_prop = "Land_BagBunker_Small_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir (_dir + 180);
+	
+	sleep 1;
+	
+	_campgun1group = createGroup east;
+	_campgun1group call CampCleanup;
+	_campgun1group setFormDir _dir;
+	_newpos = [_pos, 7, _dir + 90] call BIS_fnc_relPos;
+	_gun1 = "O_HMG_01_high_F" createVehicle _newpos;
+	waitUntil {alive _gun1};
+	_gun1 call CampCleanup;
+	_gun1 setDir _dir;
+	_newpos = [_newpos, 1, (_dir + 180)] call BIS_fnc_relPos;
+	_gunner1 = _campgun1group createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
+	waitUntil {alive _gunner1};
+	_gunner1 assignAsGunner _gun1;
+	_gunner1 moveInGunner _gun1;
+	_gunner1 setDir _dir;
+	
+	_soldier = _campgroup createUnit ["O_Soldier_TL_F", _pos, [], 0, "NONE"];
+	doStop _soldier;
+	for "_c" from 1 to 2 do
+	{ 
+		_tempdir = random 360;
+		_newpos = [_pos, 4, _tempdir] call BIS_fnc_relPos;
+		_soldier = _campgroup createUnit ["O_Soldier_AT_F", _newpos, [], 0, "NONE"];
+		doStop _soldier;
+		
+		_tempdir = random 360;
+		_newpos = [_pos, 4, _tempdir] call BIS_fnc_relPos;
+		_soldier = _campgroup createUnit ["O_Soldier_AA_F", _newpos, [], 0, "NONE"];
+		doStop _soldier;
+	};
+	true;
+};
+
+fluit_unlockable = {
+	// Returns true if the target is unlockable
+	private ["_target", "_allowed"];
+	_return = false;
+	_target = cursorTarget;
+	_allowed = false;
+	if !(isNil {_caller getVariable "friend"}) then {
+		_allowed = _caller getVariable "friend";
+	};
+	if (_allowed && alive _target && (locked _target == 2 || locked _target == 3)) then { 
+		_return = true; 
+	};	
+	_return;
+};
+
+fluit_lockable = {
+	// Returns true if the target is lockable
+	private ["_target", "_allowed"];
+	_return = false;
+	_target = cursorTarget;
+	_allowed = false;
+	if !(isNil {_caller getVariable "friend"}) then {
+		_allowed = _caller getVariable "friend";
+	};
+	if (_allowed && alive _target && (locked _target == 0 || locked _target == 1)) then { 
+		_return = true; 
+	};	
+	_return;
+};
+
+format_markers = {
+	private ["_markers"];
+	_markers = [];
+	_cleanup = 60;
+	while {true} do 
+	{
+		{  
+            private "_a";
+            _a = toArray _x;
+            _a resize 15;
+             if (toString _a == "_USER_DEFINED #") then {
+					if !(_x in _markers) then {
+						_a = toArray _x;
+						_hash = 0;
+						_slash = 0;
+						for "_c" from 0 to ((count _a) - 1) do {
+							_val = _a select _c;
+							if (_val == 35) then {_hash = _c};
+							if (_val == 47) then {_slash = _c};
+						};
+						_playerid = [];
+						for "_c" from (_hash + 1) to (_slash - 1) do {
+							_playerid set [count _playerid, _a select _c];
+						};
+						_playerid = toString _playerid;
+						systemChat format ["Thanks player %1", _playerid];
+						_markers set [count _markers, _x];
+						_text = format ["%1%2", format ["[%1:%2]", date select 3, date select 4], markerText _x];
+						//_x setMarkerText format ["%1%2", format ["[%1:%2]", date select 3, date select 4], markerText _x];
+						[[_x, _text], "change_marker_text"] spawn BIS_fnc_MP;
+					};
+             };
+        } forEach allMapMarkers;
+		//diag_log format ["_markers = %1",_markers];
+		
+		_cleanup = _cleanup - 1;
+		if (_cleanup < 1) then {
+			_delete = [];
+			{
+				if !(_x in allMapMarkers) then { _delete set [count _delete, _x]; };
+			} foreach _markers;
+			if (count _delete > 0) then { _markers = _markers - _delete; };
+			_cleanup = 60;
+		};
+        sleep 1;
+	};
+};
+
+change_marker_text = {
+	private ["_marker", "_text"];
+	_marker	= _this select 0;
+	_text	= _this select 1;
+	_marker setMarkerText _text;
+};
+
+fluitfunctions = true; // waitUntil {!isNil "fluitfunctions"}; to check if functions are loaded

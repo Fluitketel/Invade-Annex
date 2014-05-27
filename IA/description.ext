@@ -1,0 +1,660 @@
+//#include "scripts\unitCaching\description.ext"
+
+//--- com slot only 
+#include "core\Debriefing.hpp"
+
+//--- suicide button defines the buttons for call help and suicide 
+    #include "core\dialogs\defines.hpp"      
+    #include "core\dialogs\dialogs.hpp"      
+
+// Kegetys Spectator Script
+#include "spectator\spectating.hpp"
+
+// squad management
+#include "DOM_squad\SquadManagement.hpp"
+
+/* VAS includes */
+#include "VAS\menu.hpp"
+#include "VVS\menu.h"
+
+class CfgFunctions
+{
+	#include "VAS\cfgfunctions.hpp"
+	#include "VVS\Functions.h"
+	#include "taw_vd\CfgFunctions.hpp"
+};
+
+/* View Distance includes */
+#include "taw_vd\dialog.hpp"
+
+class Header
+{
+  gameType = COOP;
+  minPlayers = 1;
+  maxPlayers = 28;
+};
+
+enableSaving = [false, false];
+
+//========================================================================== START PARAMS
+
+class Params
+{
+	class Space0
+		{
+			title = "                                                                    GAME  SETTINGS"; 
+			values[]= {0}; 
+			texts[]= {" "}; 
+			default = 0;
+		};
+	class Perpetual
+	{
+		title = "Perpetual Mission Mode";
+		values[] = {0};
+		texts[] = {"Off"};
+		default = 0;
+	};
+
+	class TimeOfDay
+	{
+		title = "Time of Day";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,25};
+		texts[] = {"00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","Random"};
+		default = 9;
+	};
+
+//	class Weather
+//	{
+//		title = "initialWeather";
+//		values[] = {1,2,3,4,5,6,7};
+//		texts[] = {"Clear","Overcast","Light Rain","Heavy Rain","Light Fog","Heavy Fog","Random"};
+//		default = 1;
+//	};
+	
+	class AOENDCOUNT
+	{
+		title = "Amount of AO to complete";
+		values[] = {41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0};
+		texts[] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","All"};
+		default = 40;
+	};
+
+	class EnemyLeftThreshhold
+	{
+		title = "Enemy Left Threshold";
+		values[] = {1,2,3,4,5,6,7,8,9,10};
+		texts[] = {"1","2","3","4","5","6","7","8","9","10"};
+		default = 4;
+	};
+
+	class SpawnProtection
+	{
+		title = "Spawn Protection Zone";
+		values[] = {1,0};
+		texts[] = {"Enabled","Disabled"};
+		default = 0;
+	};
+
+	class AOSize
+	{
+		title = "Main AO Diameter";
+		values[] = {500};
+		texts[] = {"500m"};
+		default = 500;
+	};
+
+	class PlayerMarkers
+	{
+		title = "Player markers on map";
+		values[] = {1,0};
+		texts[] = {"Enabled","Disabled"};
+		default = 0;
+	};
+
+	class ViewDistance
+	{
+		title = "Player View Distance Dialog";
+		values[] = {1,0};
+		texts[] = {"Enabled","Disabled"};
+		default = 1;
+	};
+
+	class VehicleRespawnDistance
+	{
+		title = "Distance from players that vehicles won't respawn";
+		values[] = {10,50,100,200,300,400,500,1000,2000,5000,10000};
+		texts[] = {"10m","50m","100m","200m","300m","400m","500m","1km","2km","5km","10km"};
+		default = 10;
+	};
+
+    class MedicMarkers
+	{
+		title = "Should medics see revive icons on their screen?";
+		values[] = {1,0};
+		texts[] = {"Yes","No"};
+		default = 0;
+	};
+
+	class SpawnWrecks
+	{
+		title = "Spawn random wrecks across the island?";
+		values[] = {0};
+		texts[] = {"No"};
+		default = 0;
+	};
+	
+	class Space1
+		{
+			title = "                                                                    ENEMY SETTINGS"; 
+			values[]= {0}; 
+			texts[]= {" "}; 
+			default = 0;
+		};
+	
+	//def 4
+	class SquadsPatrol
+	{
+		title = "Squads Patrolling AO";
+		values[] = {0,1,2,3,4,5};
+		texts[] = {0,1,2,3,4,5};
+		default = 4;
+	};
+	
+	//def 2
+	class SquadsDefend
+	{
+		title = "Squads Defending AO";
+		values[] = {0,1,2,3,4,5};
+		texts[] = {0,1,2,3,4,5};
+		default = 3;
+	};
+	
+	//def 3
+	class TeamsPatrol
+	{
+		title = "Teams Patrolling AO";
+		values[] = {0,1,2,3,4,5};
+		texts[] = {0,1,2,3,4,5};
+		default = 3;
+	};
+	
+	//def 2
+	class ExternalperimPatrol
+	{
+		title = "Mid Patrolling AO";
+		values[] = {0,1,2,3,4,5};
+		texts[] = {0,1,2,3,4,5};
+		default = 3;
+	};
+	
+	//def 1
+	class TowerDefenders
+	{
+		title = "Tower Defenders";
+		values[] = {0,1,2,3};
+		texts[] = {0,1,2,3};
+		default = 1;
+	};
+	//def 2
+	class CarsPatrol
+	{
+		title = "Max Light Armour Patrolling AO";
+		values[] = {0,1,2,3,4};
+		texts[] = {0,1,2,3,4};
+		default = 2;
+	};
+	// def 1
+	class ArmourPatrol
+	{
+		title = "Max Heavy Armour Patrolling AO";
+		values[] = {0,1,2,3};
+		texts[] = {0,1,2,3};
+		default = 1;
+	};
+	//def 5
+	class CarsChance
+	{
+		title = "% Chance Of Light Armour AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 5;
+	};
+	//def 5
+	class ArmourChance
+	{
+		title = "% Chance Of Heavy Armour AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 5;
+	};
+	//def 6
+	class SniperChance
+	{
+		title = "% Chance Of Random amount of Snipers at AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 7;
+	};
+	//def 8
+	class ExternChance
+	{
+		title = "% Chance Of Random amount of External Patrols at AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 8;
+	};
+	
+		class HousesPercent
+	{
+		title = "% Chance Of Random House occupation at AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 5;
+	};
+	
+	class Space2
+		{
+			title = "                                                                    REINF SETTINGS"; 
+			values[]= {0}; 
+			texts[]= {" "}; 
+			default = 0;
+		};
+	//def 1
+	class SAMCampsON
+	{
+		title = "Enable SAM camps";
+		values[] = {1,0};
+		texts[] = {"Enabled","Disabled"};
+		default = 1;
+	};
+	//def 5
+	class SAMCamps
+	{
+		title = "Max Amount of SAM camps on map";
+		values[] = {0,1,2,3,4,5};
+		texts[] = {0,1,2,3,4,5};
+		default = 3;
+	};
+	//def5
+	class RAMCamps
+	{
+		title = "Amount of camps at AO";
+		values[] = {-1,0,1,2,3};
+		texts[] = {"random","0","1","2","3"};
+		default = -1;
+	};
+	//def 3
+	class HeavyReinforcement
+	{
+		title = "% Chance Of Heavy Reinforcements";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 3;
+	};
+	//def 3
+	class AOReinforcement
+	{
+		title = "% Chance Of Light Reinforcements";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 3;
+	};
+	//def 3
+	class ConvoyChance
+	{
+		title = "% Chance Of Convoys Moving to AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 3;
+	};
+	//def 0
+	class AirPatrol
+	{
+		title = "% Chance Of Air Vehicles Patrolling AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 0;
+	};
+	//def 5
+	class MortarChance
+	{
+		title = "% Chance Of Mortars at AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 5;
+	};
+	//def 5
+	class INOUTMortarChance
+	{
+		title = "% Chance Mortars are Inside of AO";
+		values[] = {0,1,2,3,4,5,6,7,8,9,10};
+		texts[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 5;
+	};
+	
+	class Space3
+		{
+			title = "                                                                    DEBUG n HC SETTING"; 
+			values[]= {0}; 
+			texts[]= {" "}; 
+			default = 0;
+		};
+		
+	class DebugMode
+	{
+		title = "Enable Debug Mode";
+		values[] = {1,0};
+		texts[] = {"Enable","Disable"};
+		default = 0;
+	};
+	
+	class DebugMode2
+	{
+		title = "Enable UPSMON Debug Mode";
+		values[] = {1,0};
+		texts[] = {"Enable","Disable"};
+		default = 0;
+	};
+	
+	class AICONTROL
+	{
+		title = "Enable AI Control Type";
+		values[] = {1,2,3};
+		texts[] = {"UPS","UPSBL1P","UPSMON"};
+		default = 3;
+	};
+	
+	class AISUPPRESSION
+	{
+		title = "Enable AI suppression";
+		values[] = {1,0};
+		texts[] = {"Enable","Disable"};
+		default = 1;
+	};
+	
+	class TOTALMAXAI
+	{
+		title = "Set the Total amount of AI allowed";
+		values[] = {100,110,120,130,140,150,160,170,180,190,200,250,300,400,500};
+		texts[] = {100,110,120,130,140,150,160,170,180,190,200,250,300,400,500};
+		default = 120;
+	};
+	
+	class HEADLESS
+	{
+		title = "Enable Headless Mode (EXPERIMENTAL)";
+		values[] = {1,0};
+		texts[] = {"Enable","Disable"};
+		default = 0;
+	};
+	
+	
+	class Space4
+		{
+			title = ""; 
+			values[]= {0}; 
+			texts[]= {" "}; 
+			default = 0;
+		};
+};
+
+//========================================================================== END PARAMS
+
+class CfgNotifications
+{
+	class Default
+	{
+		title = ""; // Tile displayed as text on black background. Filled by arguments.
+		iconPicture = ""; // Small icon displayed in left part. Colored by "color", filled by arguments.
+		iconText = ""; // Short text displayed over the icon. Colored by "color", filled by arguments.
+		description = ""; // Brief description displayed as structured text. Colored by "color", filled by arguments.
+		color[] = {1,1,1,1}; // Icon and text color
+		duration = 5; // How many seconds will the notification be displayed
+		priority = 0; // Priority; higher number = more important; tasks in queue are selected by priority
+		difficulty[] = {}; // Required difficulty settings. All listed difficulties has to be enabled
+	};
+
+	class NewMain
+	{
+		title = "NEW MAIN OBJECTIVE";
+		description = "Take %1";
+		iconPicture = "notificons\main_objective.paa";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 9;
+	};
+
+	class CompletedMain
+	{
+		title = "MAIN OBJECTIVE COMPLETE";
+		description = "Taken %1";
+		iconPicture = "notificons\main_objective_completed.paa";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 9;
+	};
+
+	class NewMainDefend
+	{
+		title = "DEFEND MAIN OBJECTIVE";
+		description = "Danger %1";
+		iconPicture = "notificons\defendtarget.paa";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 9;
+	};
+
+	class CompletedMainDefended
+	{
+		title = "MAIN OBJECTIVE DEFENDED";
+		description = "Defended %1";
+		iconPicture = "notificons\main_objective_completed.paa";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 9;
+	};
+	class NewSub
+	{
+		title = "NEW SUB-OBJECTIVE";
+		description = "%1";
+		iconPicture = "notificons\sub_objective.paa";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 8;
+	};
+
+	class CompletedSub
+	{
+		title = "SUB-OBJECTIVE COMPLETE";
+		description = "%1";
+		iconPicture = "notificons\sub_objective_completed.paa";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 8;
+	};
+
+	class NewSideMission
+	{
+		title = "NEW SIDE MISSION";
+		iconPicture = "notificons\side_mission.paa";
+		description = "%1";
+		color[] = {0, 0.7, 0.93, 1};
+		priority = 7;
+	};
+
+	class NewSideMissionFileData
+	{
+		title = "NEW SIDE MISSION";
+		iconPicture = "notificons\laptop.paa";
+		description = "%1";
+		color[] = {0, 0.7, 0.93, 1};
+		priority = 7;
+	};
+
+	class NewSideMissionFileDataComplete
+	{
+		title = "FILE DATA SAVED";
+		description = "%1";
+		iconPicture = "notificons\laptop.paa";
+		color[] = {0.38, 0.81, 0.16, 1};
+		priority = 6;
+	};
+
+	class NewSideMissionRadar
+	{
+		title = "NEW SIDE MISSION";
+		iconPicture = "notificons\smdestroyradar.paa";
+		description = "%1";
+		color[] = {0, 0.7, 0.93, 1};
+		priority = 7;
+	};
+	class CompletedSideMission
+	{
+		title = "SIDE MISSION COMPLETE";
+		iconPicture = "notificons\side_mission_completed.paa";
+		description = "%1";
+		color[] = {0, 0.7, 0.93, 1};
+		priority = 7;
+	};
+
+	class NewPriorityTarget
+	{
+		title = "NEW PRIORITY TARGET";
+		iconPicture = "notificons\priority_target.paa";
+		description = "%1";
+		color[] = {0.8, 0.13, 0.14, 1};
+		priority = 10;
+	};
+
+	class CompletedPriorityTarget
+	{
+		title = "PRIORITY TARGET DOWN";
+		iconPicture = "notificons\priority_target_neutralised.paa";
+		description = "%1";
+		color[] = {0.8, 0.13, 0.14, 1};
+		priority = 10;
+	};
+
+	class EnemyHelo
+	{
+		title = "ENEMY HELICOPTER INBOUND";
+		iconPicture = "notificons\heloinbound.paa";
+		description = "%1";
+		color[] = {0.8, 0.13, 0.14, 1};
+		priority = 8;
+	};
+
+	class EnemyHeloDown
+	{
+		title = "ENEMY HELICOPTER NEUTRALIZED";
+		iconPicture = "notificons\down.paa";
+		description = "%1";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 8;
+	};
+
+	class EnemyJetDown
+	{
+		title = "ENEMY HELICOPTER NEUTRALIZED";
+		iconPicture = "notificons\down.paa";
+		description = "%1";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 8;
+	};
+
+	class EnemyHeavyHelo
+	{
+		title = "ENEMY HELICOPTER INBOUND";
+		iconPicture = "notificons\heavyheliinbound.paa";
+		description = "%1";
+		color[] = {0.8, 0.13, 0.14, 1};
+		priority = 8;
+	};
+
+	class EnemyJet
+	{
+		title = "ENEMY JET INBOUND";
+		iconPicture = "notificons\enemyJetinbound.paa";
+		description = "%1";
+		color[] = {0.8, 0.13, 0.14, 1};
+		priority = 8;
+	};
+
+	class NewSideMissionJet
+	{
+		title = "NEW SIDE MISSION";
+		iconPicture = "notificons\enemyJetinbound.paa";
+		description = "%1";
+		color[] = {0.8, 0.13, 0.14, 1};
+		priority = 8;
+	};
+
+	class EnemyHeavyHeloDown
+	{
+		title = "ENEMY HELICOPTER NEUTRALIZED";
+		iconPicture = "notificons\down.paa";
+		description = "%1";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 8;
+	};
+
+	class FriendlyHeavyHeloDown
+	{
+		title = "FRIENDLY HELO GOT NEUTRALIZED";
+		iconPicture = "notificons\down.paa";
+		description = "%1";
+		color[] = {1, 0.81, 0.06, 1};
+		priority = 8;
+	};
+	class Reward
+	{
+		title = "TEAM REWARD";
+		description = "%1";
+		iconPicture = "notificons\reward.paa";
+		color[] = {0.38, 0.81, 0.16, 1};
+		priority = 6;
+	};
+
+	class ScoreBonus
+	{
+		title = "SCORE BONUS";
+		description = "%1";
+		iconPicture = "notificons\score_bonus.paa";
+		iconText = "+%2";
+		color[] = {0.38, 0.81, 0.16, 1};
+		priority = 5;
+	};
+};
+
+class RscTitles
+{
+	//// crewlist ////
+	#include "scripts\crew\namesleft.hpp"
+};
+
+class CfgSounds 
+{
+	class MOVIN
+		{
+			name = "MOVIN"; // Name for mission editor
+			sound[] = {core\signs\MOVIN.ogg, 2, 1};
+			titles[] = {0, ""};
+		};
+	class dumdidum
+		{
+			name = "dumdidum"; // Name for mission editor
+			sound[] = {core\signs\dumdidum.ogg, 2, 1};
+			titles[] = {0, ""};
+		};
+};
+
+/* Adds screen when loading. */
+author = Rarek [AW] Edit By Fluit & BL1P [dR];
+onLoadName = "[dR] Invade & Annex";
+
+__EXEC(_loadscreenpicture = ["core\signs\dr.paa","core\signs\Falcons.paa","core\signs\logo.jpg"]); 
+loadScreen = __EVAL(_loadscreenpicture select round random (count _loadscreenpicture - 1)); // LoadingPicture
+
+OnLoadMission = "Invade and Annex join us on TS3 at Voice.dedicatedrejects.com.";
+onLoadMissionTime = true;
+
+disabledAI = 1;
+Respawn = 3;
+RespawnDelay = 15;
+RespawnDialog = 0;
+joinUnassigned = false;
+
