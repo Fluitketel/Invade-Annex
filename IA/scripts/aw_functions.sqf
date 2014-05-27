@@ -239,7 +239,7 @@ aw_fnc_spawn2_waypointBehaviourBL1P =
 				if(waypointType _x == "MOVE") then {_x setWaypointBehaviour "SAD"};
 				_x setWaypointSpeed "FULL";
 				_x setWaypointBehaviour "COMBAT";
-				_x setWaypointBehaviour "WEDGE";
+				_x setWaypointBehaviour "LINE";
 				
 			}forEach (waypoints _this);
 		};
@@ -248,9 +248,9 @@ aw_fnc_spawn2_waypointBehaviourBL1P =
 		{
 			{
 				if(waypointType _x == "SAD") then {_x setWaypointBehaviour "MOVE"};
-				_x setWaypointSpeed "LIMITED";
-				_x setWaypointBehaviour "SAFE";
-				_x setWaypointBehaviour "STAG COLUMN";
+				_x setWaypointSpeed "FULL";
+				_x setWaypointBehaviour "AWARE";
+				_x setWaypointBehaviour "LINE";
 			}forEach (waypoints _this);
 		};
 		sleep 0.5;
@@ -289,6 +289,54 @@ aw_fnc_spawn2_hold =
 	_wp setWaypointBehaviour "SAFE";
 	_wp setWaypointSpeed "LIMITED";
 };
+aw_fnc_spawn2_randomPatrolBL1P = 
+{
+	if(hasinterface) exitWith{};
+	private["_group","_center","_radius","_wp","_checkDist","_angle","_currentAngle","_pos","_wp1","_x"];
+	_group = _this select 0;
+	_center = _this select 1;
+	_radius = _this select 2;
+	_waypointNumbers = if(count _this > 3) then {_this select 3} else {20 + floor ((random 10))};
+	
+	for [{_x=1},{_x<=_waypointNumbers},{_x=_x+1}] do
+	{
+		_pos = [_center,(random _radius),(random 360)] call aw_fnc_radPos;
+		_wp = _group addWaypoint [_pos,0];
+		_wp setWaypointType "MOVE";
+		_wp setWaypointSpeed "FULL";
+		_wp setWaypointFormation "LINE";
+		//_wp setWaypointBehaviour "COMBAT";
+		_wp setWaypointTimeOut [0,10,40];
+		
+		if(DEBUG) then
+		{
+			_name = format ["%1",_wp];
+			createMarkerLocal [_name,waypointPosition _wp];
+			_name setMarkerType "mil_dot";
+			_name setMarkerText format["%1",_x];
+		};
+		
+		if(_x == 1) then {_wp1 = _wp};
+	};
+	
+	_wp = _group addWaypoint [waypointPosition _wp1,0];
+	_wp setWaypointType "CYCLE";
+	_wp setWaypointSpeed "FULL";
+	_wp setWaypointFormation "LINE";
+	//_wp setWaypointBehaviour "COMBAT";
+	
+	if(DEBUG) then
+	{
+		_name = format ["%1",_wp];
+		createMarkerLocal [_name,waypointPosition _wp];
+		_name setMarkerType "mil_dot";
+		_name setMarkerText "Cycle";
+	};
+	
+	_group spawn aw_fnc_spawn2_waypointBehaviourBL1P;
+};
+
+
 
 aw_fnc_spawn2_randomPatrol = 
 {

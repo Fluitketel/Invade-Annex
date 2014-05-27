@@ -2,6 +2,8 @@ waitUntil {sleep 0.5; !(isNil "currentAOUp")};
 waitUntil {sleep 0.5; !(isNil "currentAO")};
 private ["_ConvoyCreatePos","_ConvoyMovetoPos","_ConvoyGroup","_fuzzyPos","_Convoydead","_ConRandAmount","_ConvoySafePos","_Convoy_Vehicle","_flatPos","_accepted","_debugCounter","_position","_nearUnits","_RandCreation","_randomInfantry","_SERVERUNITSCHECK","_randomChopper","_giveup","_SERVERUNITSCHECK1","_SERVERUNITSCHECKresistance"];
 
+if (DEBUG) then {diag_log "===============Reading CONVOY reinforcements====================";};
+
 ConvoyAlive = false;
 publicVariable "ConvoyAlive";
 
@@ -42,7 +44,6 @@ while {!_giveup} do
 		
     if (radioTowerAlive && (_SERVERUNITSCHECK < PARAMS_TOTALMAXAI) && (_RandCreation <= PARAMS_ConvoyChance)) then 
 	{
-		If (DEBUG) then {diag_log format ["_SERVERUNITSCHECK = %1",_SERVERUNITSCHECK];
         if (!ConvoyAlive) then 
 		{
 			

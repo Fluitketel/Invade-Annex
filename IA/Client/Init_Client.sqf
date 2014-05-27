@@ -97,7 +97,7 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 	
 	//bl1p uav action
 	_type = typeOf player;
-	if (_type == "B_Soldier_SL_F" || _type == "B_Soldier_TL_F") then 
+	if (_type == "B_Soldier_SL_F" || _type == "B_Soldier_TL_F" || _type == "B_officer_F") then 
 		{
 			_uavAction = player addAction
 			[
@@ -127,7 +127,7 @@ while {true} do
 	waitUntil {sleep 0.5; alive player};
 	//bl1p uav action
 	_type = typeOf player;
-	if (_type == "B_Soldier_SL_F" || _type == "B_Soldier_TL_F") then 
+	if (_type == "B_Soldier_SL_F" || _type == "B_Soldier_TL_F" || _type == "B_officer_F") then 
 		{
 			_uavAction = player addAction
 			[

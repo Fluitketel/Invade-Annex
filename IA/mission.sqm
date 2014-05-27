@@ -631,7 +631,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item4
 		{
@@ -687,7 +687,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_1";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item9
 		{
@@ -914,7 +914,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_5";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item30
 		{
@@ -1323,7 +1323,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="Quad_5_1";
-			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item68
 		{
@@ -1334,7 +1334,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="Quad_5_1_1";
-			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item69
 		{
@@ -1345,7 +1345,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="Quad_5_1_2";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item70
 		{
@@ -1356,7 +1356,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="Quad_5_1_3";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item71
 		{
@@ -2107,13 +2107,13 @@ class Mission
 		class Item142
 		{
 			position[]={14508.287,17.510746,16836.295};
-			azimut=584.77313;
+			azimut=584.77301;
 			id=172;
 			side="EMPTY";
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="Quad_5_1_4";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item143
 		{
@@ -2124,7 +2124,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="Quad_5_1_1_1";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item144
 		{
@@ -2135,7 +2135,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="Quad_5_1_2_1";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item145
 		{
@@ -2146,7 +2146,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="Quad_5_1_3_1";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item146
 		{
@@ -2158,7 +2158,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_1";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item147
 		{
@@ -2229,7 +2229,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_2";
-			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item154
 		{
@@ -2287,7 +2287,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_5_1";
-			init="_m = [this,600,3600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,14400] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item159
 		{
@@ -2382,10 +2382,10 @@ class Mission
 	};
 	class Markers
 	{
-		items=60;
+		items=62;
 		class Item0
 		{
-			position[]={-1020.1518,0.0068885754,-994.54395};
+			position[]={-998.77991,0.0035977568,-973.92627};
 			name="aoCircle";
 			markerType="ELLIPSE";
 			type="Empty";
@@ -2396,7 +2396,7 @@ class Mission
 		};
 		class Item1
 		{
-			position[]={-1011.5851,0.011006039,-504.35364};
+			position[]={-990.9295,-0.0041345861,-212.40295};
 			name="aoMarker";
 			text="Objective";
 			type="o_unknown";
@@ -2404,7 +2404,7 @@ class Mission
 		};
 		class Item2
 		{
-			position[]={-993.87665,0.0036659951,-1016.5746};
+			position[]={12.941046,-0.00087367976,-1032.274};
 			name="priorityMarker";
 			text="Priority Target";
 			type="o_mortar";
@@ -2412,7 +2412,7 @@ class Mission
 		};
 		class Item3
 		{
-			position[]={-1007.642,-0.00026120013,-1488.354};
+			position[]={-986.98676,0.0037564659,-1743.9546};
 			name="radioMarker";
 			text="Radiotower";
 			type="loc_Transmitter";
@@ -2420,7 +2420,7 @@ class Mission
 		};
 		class Item4
 		{
-			position[]={-1006.7785,0.00099924125,-995.84741};
+			position[]={5.0828009,0.0042501269,-1036.7678};
 			name="priorityCircle";
 			markerType="ELLIPSE";
 			type="Empty";
@@ -2777,6 +2777,25 @@ class Mission
 			name="VVS_Support_1";
 			type="b_support";
 			angle=-226.42799;
+		};
+		class Item60
+		{
+			position[]={-2011.8193,0.0051068505,-600.28625};
+			name="aoMarker_2";
+			text="Objective";
+			type="o_unknown";
+			colorName="ColorWEST";
+		};
+		class Item61
+		{
+			position[]={-1994.9773,0.0035447702,-975.39917};
+			name="aoCircle_2";
+			markerType="ELLIPSE";
+			type="Empty";
+			colorName="ColorWEST";
+			fillName="FDiagonal";
+			a=250;
+			b=250;
 		};
 	};
 	class Sensors

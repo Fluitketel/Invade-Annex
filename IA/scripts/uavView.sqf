@@ -266,7 +266,7 @@ AW_fnc_establishingShot = {
 				
 				BIS_fnc_establishingShot_fakeUAV camPreparePos _coords;
 				BIS_fnc_establishingShot_fakeUAV camCommitPrepared 0;
-				sleep 0.5;
+				//sleep 0.5;
 			};
 		};
 		

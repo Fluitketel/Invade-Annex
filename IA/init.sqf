@@ -204,6 +204,15 @@ enableSaving [false, false];
 		//-- bl1p
 		"aoCircle" SetMarkerAlpha 0;
 		"aoMarker" SetMarkerAlpha 0;
+		
+		//--- DEFEND MARKERS
+		{
+			_x setMarkerPosLocal (markerPos _x);
+			_x setMarkerTextLocal (markerText _x);
+		} forEach ["aoMarker_2","aoCircle_2"];
+		//-- bl1p
+		//"aoCircle_2" SetMarkerAlpha 0;
+		//"aoMarker_2" SetMarkerAlpha 0;
 	};
 
 "showNotification" addPublicVariableEventHandler
@@ -395,6 +404,9 @@ if(DEBUG) then
 			diag_log "I am in the SERVER and HEADLESS section of the init.sqf";
 		};
 		
+//--- bl1p read the defend function
+		execVm "core\bl1p_fnc_defend.sqf";
+		
 // Body removal script by celery
 [300,900,900,900] execVM "scripts\bodyRemoval.sqf";
 
@@ -426,6 +438,7 @@ if (!DR_IsHeadless) then
 		refreshMarkers = true;
 		sideObj = objNull;
 		priorityTargets = ["None"];
+		UnlockAssets = true;publicvariable "UnlockAssets";
 		smRewards =
 		[
 			["an Quad", "an Quad"],
@@ -675,7 +688,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		//Set target start text
 		_targetStartText = format
 		[
-			"<t align='center' size='2.2'>New Target</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/>We did a good job with the last target, lads. Get yourselves over to %1 and take 'em all down!<br/><br/><t size='1.5' align='center' color='#FFCF11'>Take down that radio tower so the enemy cannot call in reinforcements!</t>",
+			"<t align='center' size='2.2'>New Target</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/>Get yourselves over to %1 and take 'em all down!<br/><br/><t size='1.5' align='center' color='#FFCF11'>Take down that radio tower so the enemy cannot call in reinforcements!</t>",
 			currentAO
 		];
 
@@ -734,7 +747,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 				
 					"radioMarker" setMarkerPos [0,0,0];
 					_radioTowerDownText =
-						"<t align='center' size='2.2'>Radio Tower</t><br/><t size='1.5' color='#08b000' align='center'>DESTROYED</t><br/>____________________<br/>The enemy radio tower has been destroyed! Fantastic job, lads!<br/><br/><t size='1.2' color='#08b000' align='center'> The enemy cannot call in anymore support now!</t><br/><br/> You're now all free to use your Personal UAVs!";
+						"<t align='center' size='2.2'>Radio Tower</t><br/><t size='1.5' color='#08b000' align='center'>DESTROYED</t><br/>____________________<br/>The enemy radio tower has been destroyed!<br/><br/><t size='1.2' color='#08b000' align='center'> The enemy cannot call in anymore support now!</t><br/><br/> Leaders can now use UAVs!";
 					GlobalHint = _radioTowerDownText; publicVariable "GlobalHint"; hint parseText GlobalHint;
 					showNotification = ["CompletedSub", "Enemy radio tower destroyed."]; publicVariable "showNotification";
 					showNotification = ["Reward", "Personal UAVs now available."]; publicVariable "showNotification";
@@ -742,7 +755,11 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 				
 		//---bl1p headless and server wait
 		waitUntil {sleep 5; count list dt < PARAMS_EnemyLeftThreshhold};
-		
+	
+		//--- bl1p unlock assets
+		UnlockAssets = true;
+		publicvariable "UnlockAssets";
+	
 	//---bl1p server only		
 	if (!DR_IsHeadless) then
 	{
@@ -769,7 +786,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		//Set target completion text
 		_targetCompleteText = format
 		[
-			"<t align='center' size='2.2'>Target Taken</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/><t align='left'>Fantastic job taking %1, boys! Give us a moment here at HQ and we'll line up your next target for you.</t>",
+			"<t align='center' size='2.2'>Target Taken</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/><t align='left'>Please wait for next target.</t>",
 			currentAO
 		];
 
@@ -936,7 +953,20 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		{
 			showNotification = ["CompletedSub", "Enemy Convoy Retreated when AO was captured."]; publicVariable "showNotification";
 		};
+		//////////////////////////////////////////////////
+		//--- RUN RANDOM TO MAYBE CREATE DEFENED MISSION
+		//////////////////////////////////////////////////
+		
+		if (random 1 >= 0.5) then   //chance AI will re-attack
+		{
+			RunninngDefenceAO = true;
+			publicvariable "RunninngDefenceAO";
+			[] call bl1p_fnc_defend;
+			waituntil {sleep 1; !RunninngDefenceAO};
+		};
+		
 
+		
 		//Hide priorityMarker
 		"priorityMarker" setMarkerPos [0,0,0];
 		"priorityCircle" setMarkerPos [0,0,0];
