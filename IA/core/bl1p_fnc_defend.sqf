@@ -16,12 +16,6 @@ bl1p_fnc_defend =
 			GlobalHint = _targetStartText; publicVariable "GlobalHint"; hint parseText GlobalHint;
 			showNotification = ["NewMainDefend", currentAO]; publicVariable "showNotification";
 
-			{_x setMarkerPos (getMarkerPos currentAO);} forEach ["aoCircle_2","aoMarker_2"];
-			//{_x SetMarkerAlpha 1;} forEach ["aoCircle_2","aoMarker_2"];
-			"aoMarker_2" setMarkerText format["Defend %1",currentAO];
-
-			sleep 10; // give ao complete hint some time to be read
-			
 			publicVariable "refreshMarkers";
 			publicVariable "currentAO";
 			currentAOUp = true;
@@ -32,7 +26,14 @@ bl1p_fnc_defend =
 			//--- bl1p lock assets
 			UnlockAssets = false;
 			publicvariable "UnlockAssets";
+			
+			sleep 1;
+			{_x setMarkerPos (getMarkerPos currentAO);} forEach ["aoCircle_2","aoMarker_2"];
+			"aoMarker_2" setMarkerText format["Defend %1",currentAO];
+			"aoCircle_2" SetMarkerAlpha 1;
+			"aoMarker_2" SetMarkerAlpha 1;
 
+			sleep 10; // give ao complete hint some time to be read
 			
 			//Create AO detection trigger
 			_dt2 = createTrigger ["EmptyDetector", getMarkerPos currentAO];
@@ -63,6 +64,9 @@ bl1p_fnc_defend =
 			_distance = 1200;
 			_waves = [1,2,3,4,5] call BIS_fnc_selectRandom; //--- random amount of waves
 			_waveRuns = 1;
+			ELAPSED_TIME  = 0;
+			START_TIME = diag_tickTime;
+			
 			while {_defend} do
 			{
 				_x = 0;
@@ -104,7 +108,9 @@ bl1p_fnc_defend =
 						}
 						else
 						{
-						_inf_Patrol = [_randomPos, EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Mechanized" >> "OIA_MechInfSquad")] call BIS_fnc_spawnGroup;
+							//_inf_Patrol = [_randomPos, EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Mechanized" >> "OIA_MechInfSquad")] call BIS_fnc_spawnGroup;
+							_inf_Patrol = createGroup east;
+							_veh = [_randomPos,0,"O_APC_Wheeled_02_rcws_F",_inf_Patrol] call BIS_fnc_spawnVehicle;
 							if(DEBUG) then
 							{
 							diag_log "====================================Wave Motorised Attack forces created==============================";
@@ -151,6 +157,14 @@ bl1p_fnc_defend =
 							{
 							diag_log format ["_DEFENDSERVERUNITSCHECK = %1",_DEFENDSERVERUNITSCHECK];
 							};
+							
+							ELAPSED_TIME = diag_tickTime - START_TIME;
+							publicVariable "ELAPSED_TIME";
+							if (DEBUG) then 
+							{
+							diag_log format ["ELAPSED_TIME = %1",ELAPSED_TIME];
+							};
+						if (ELAPSED_TIME >= 3600) exitwith {diag_log "====LEAVING DEFENCE WHILE LOOP because TIMER====";}; 
 						if (count list _dt2 < 1) exitwith {diag_log "====LEAVING DEFENCE WHILE LOOP because No alive west in zone====";}; 
 						sleep 5;
 					};
@@ -169,15 +183,20 @@ bl1p_fnc_defend =
 						{
 						diag_log format ["_waveRuns = %1  _waves = %2",_waveRuns,_waves];
 						};
+						
+				//-- set some default vars		
 				AttackWon = false;
+				ELAPSED = false; publicvariable "ELAPSED";
 				
 				//--- end checks
+				if (ELAPSED_TIME >= 3600) then {_defend = false ;AttackWon = true;ELAPSED = true; publicvariable "ELAPSED";};
 				if (count list _dt2 < 1) then {_defend = false ;AttackWon = false;};
 				if (_waveRuns > _waves) then {_defend = false ;AttackWon = true;};
 					if (DEBUG) then
 						{
 						diag_log format ["AttackWon = %1  _defend = %2",AttackWon,_defend];
 						};
+				sleep 2;
 			};
 			if (AttackWon) then 
 			{
@@ -191,7 +210,15 @@ bl1p_fnc_defend =
 					
 					"<t align='center' size='2.2'>Defended Target</t><br/><t size='1.5' align='center'color='#0d4e8f'>%1</t><br/>____________________<br/>Congratulations you held out!<br/>____________________<br/>Assets are Available",currentAO
 				];
-
+				if (ELAPSED) then 
+					{
+						_AttackResultHint = format
+						[
+							
+							"<t align='center' size='2.2'>Defended Target</t><br/><t size='1.5' align='center'color='#0d4e8f'>%1</t><br/>____________________<br/>Enemy Forces have retreated.<br/>____________________<br/>Assets are Available",currentAO
+						];
+					};
+					
 				hqSideChat = _AttackResult; publicVariable "hqSideChat"; [WEST,"HQ"] sideChat hqSideChat;
 				GlobalHint = _AttackResultHint; publicVariable "GlobalHint"; hint parseText GlobalHint;
 				showNotification = ["CompletedMainDefended", currentAO]; publicVariable "showNotification";
@@ -209,17 +236,18 @@ bl1p_fnc_defend =
 				_AttackResultHint = format
 				[
 					
-					"<t align='center' size='2.2'>Failed Target</t><br/><t size='1.5' align='center'color='#0d4e8f'>%1</t><br/>____________________<br/>You Failed held to hold out!<br/>____________________<br/>Assets are unavialble Until we clear another AO",currentAO
+					"<t align='center' size='2.2'>Failed Target</t><br/><t size='1.5' align='center'color='#0d4e8f'>%1</t><br/>____________________<br/>You failed to hold out!<br/>____________________<br/>Assets are unavialble Until we clear another AO",currentAO
 				];
 
 				hqSideChat = _AttackResult; publicVariable "hqSideChat"; [WEST,"HQ"] sideChat hqSideChat;
 				GlobalHint = _AttackResultHint; publicVariable "GlobalHint"; hint parseText GlobalHint;
-				//showNotification = ["NewMainDefend", currentAO]; publicVariable "showNotification";
+				
 				//--- bl1p unlock assets
 				UnlockAssets = false;
 				publicvariable "UnlockAssets";
 			};
 			_arraystocleanup = [];
+
 			// clean up defend attack units
 			if ((!isnil ("AttackReinforcementUnits")) && (count AttackReinforcementUnits > 0)) then {
 			if (DEBUG) then
@@ -240,7 +268,8 @@ bl1p_fnc_defend =
 		
 			//--- hide DEFEND MARKERS
 			{_x setMarkerPos [0,0,0];} forEach ["aoCircle_2","aoMarker_2"];
-			//{_x SetMarkerAlpha 0;} forEach ["aoCircle_2","aoMarker_2"];
+			"aoCircle_2" SetMarkerAlpha 0;
+			"aoMarker_2" SetMarkerAlpha 0;
 			
 			//Delete detection trigger
 			deleteVehicle _dt2;

@@ -211,8 +211,8 @@ enableSaving [false, false];
 			_x setMarkerTextLocal (markerText _x);
 		} forEach ["aoMarker_2","aoCircle_2"];
 		//-- bl1p
-		//"aoCircle_2" SetMarkerAlpha 0;
-		//"aoMarker_2" SetMarkerAlpha 0;
+		"aoCircle_2" SetMarkerAlpha 0;
+		"aoMarker_2" SetMarkerAlpha 0;
 	};
 
 "showNotification" addPublicVariableEventHandler
@@ -953,15 +953,17 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		{
 			showNotification = ["CompletedSub", "Enemy Convoy Retreated when AO was captured."]; publicVariable "showNotification";
 		};
+		
 		//////////////////////////////////////////////////
 		//--- RUN RANDOM TO MAYBE CREATE DEFENED MISSION
 		//////////////////////////////////////////////////
-		
-		if (random 1 >= 0.5) then   //chance AI will re-attack
+		if (random 1 >= 0.8) then   //-- random chance
 		{
 			RunninngDefenceAO = true;
 			publicvariable "RunninngDefenceAO";
 			[] call bl1p_fnc_defend;
+			"aoCircle_2" SetMarkerAlpha 1;
+			"aoMarker_2" SetMarkerAlpha 1;
 			waituntil {sleep 1; !RunninngDefenceAO};
 		};
 		

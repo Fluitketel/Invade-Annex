@@ -95,6 +95,23 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 		"aoMarker" SetMarkerAlpha 0;
 	};
 	
+	if (isNil 'RunninngDefenceAO') then {RunninngDefenceAO = false};
+	if (RunninngDefenceAO) then
+	{
+		{
+			_x setMarkerPosLocal (getMarkerPos currentAO);
+		} forEach ["aoCircle_2","aoMarker_2"];
+		"aoMarker_2" setMarkerTextLocal format["Defend %1",currentAO];
+	} else {
+		{
+			_x setMarkerPosLocal [0,0,0];
+		} forEach ["aoCircle_2","aoMarker_2"];
+		//-- bl1p
+		"aoCircle_2" SetMarkerAlpha 0;
+		"aoMarker_2" SetMarkerAlpha 0;
+	};
+	
+	
 	//bl1p uav action
 	_type = typeOf player;
 	if (_type == "B_Soldier_SL_F" || _type == "B_Soldier_TL_F" || _type == "B_officer_F") then 

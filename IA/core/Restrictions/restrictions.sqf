@@ -190,6 +190,13 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		//Sniper
 		if 
 		(
+			(player hasWeapon "srifle_DMR_01_F") || 
+			(player hasWeapon "srifle_DMR_01_ACO_F") || 
+			(player hasWeapon "srifle_DMR_01_MRCO_pointer_F") || 
+			(player hasWeapon "srifle_DMR_01_SOS_F") || 
+			(player hasWeapon "srifle_DMR_01_DMS_F") || 
+			(player hasWeapon "srifle_DMR_01_DMS_pointer_snds_F") || 
+			(player hasWeapon "srifle_DMR_01_ARCO_pointer_F") || 
 			(player hasWeapon "srifle_GM6_F") || 
 			(player hasWeapon "srifle_LRR_F") || 
 			(player hasWeapon "srifle_GM6_SOS_F") || 
@@ -205,6 +212,13 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 					{
 						_layer = 85125; 
 						_layer cutText ["====WEAPON BOOBY TRAPPED=====","PLAIN"];
+						player removeWeapon "srifle_DMR_01_F";
+						player removeWeapon "srifle_DMR_01_ACO_F";
+						player removeWeapon "srifle_DMR_01_MRCO_pointer_F";
+						player removeWeapon "srifle_DMR_01_SOS_F";
+						player removeWeapon "srifle_DMR_01_DMS_F";
+						player removeWeapon "srifle_DMR_01_DMS_pointer_snds_F";
+						player removeWeapon "srifle_DMR_01_ARCO_pointer_F";
 						player removeWeapon "srifle_GM6_F";
 						player removeWeapon "srifle_LRR_F";
 						player removeWeapon "srifle_GM6_SOS_F";
@@ -216,6 +230,13 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 					}
 					else
 					{	
+						player removeWeapon "srifle_DMR_01_F";
+						player removeWeapon "srifle_DMR_01_ACO_F";
+						player removeWeapon "srifle_DMR_01_MRCO_pointer_F";
+						player removeWeapon "srifle_DMR_01_SOS_F";
+						player removeWeapon "srifle_DMR_01_DMS_F";
+						player removeWeapon "srifle_DMR_01_DMS_pointer_snds_F";
+						player removeWeapon "srifle_DMR_01_ARCO_pointer_F";
 						player removeWeapon "srifle_GM6_F";
 						player removeWeapon "srifle_LRR_F";
 						player removeWeapon "srifle_GM6_SOS_F";
