@@ -798,7 +798,7 @@ _enemiesArray = _enemiesArray + campArray;
 			{
 				
 				_x = 0;
-				for "_x" from 0 to (round random PARAMS_CarsPatrol) do 
+				for "_x" from 1 to (round random PARAMS_CarsPatrol) do 
 				{
 					_spawngroupcar = createGroup east;
 					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,6] call aw_fnc_randomPos;
@@ -891,7 +891,7 @@ _enemiesArray = _enemiesArray + campArray;
 			if ( _randarmour <= PARAMS_ArmourChance) then
 			{
 				
-				for "_x" from 1 to PARAMS_ArmourPatrol do 
+				for "_x" from 1 to (round random PARAMS_ArmourPatrol) do 
 				{
 					_armourGroup = createGroup east;
 					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,7] call aw_fnc_randomPos;
