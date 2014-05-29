@@ -283,6 +283,14 @@ class Params
 		texts[] = {"random","0","1","2","3"};
 		default = -1;
 	};
+	//def5
+	class Roadblocks
+	{
+		title = "Roadblocks at AO";
+		values[] = {1,0};
+		texts[] = {"Enabled","Disabled"};
+		default = 1;
+	};
 	//def 3
 	class HeavyReinforcement
 	{
