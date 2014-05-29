@@ -19,6 +19,10 @@ _locations = _locations + _loctemp;
 
 if (DEBUG) then {diag_log Format ["Max Sam sites = %1",PARAMS_SAMCamps];};
 
-[_locations, PARAMS_SAMCamps, 4000] spawn random_sam_sites;
+_numberofsamcamps = PARAMS_SAMCamps;
+if (_numberofsamcamps < 0)  then {
+    _numberofsamcamps = round (random 5);
+};    
+[_locations, _numberofsamcamps, 4000] spawn random_sam_sites;
 
 if (DEBUG) then {diag_log "===============FINISHED SAM CREATION SCRIPT=================";};
