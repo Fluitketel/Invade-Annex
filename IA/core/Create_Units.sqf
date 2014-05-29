@@ -64,7 +64,7 @@ _numberofcamps = PARAMS_RAMCamps;
 if (PARAMS_RAMCamps < 0)  then {
     _numberofcamps = round (random 3);
 };    
-[_numberofcamps, 400, getMarkerPos currentAO, 1000, [getMarkerPos "respawn_west"]] call random_camps;
+[_numberofcamps, 400, getMarkerPos currentAO, 500, [getMarkerPos "respawn_west"]] call random_camps;
 
 //////////////////////////////////////////////////////// CAMPS END ////////////////////////////////////////////////////////
 
