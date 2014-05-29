@@ -71,7 +71,7 @@ if (PARAMS_RAMCamps < 0) then {
 
 //////////////////////////////////////////////////////// ROADBLOCKS START ////////////////////////////////////////////////////////
 if (PARAMS_Roadblocks == 1) then {
-	[round (random 2), 1000, getMarkerPos currentAO, 800 + round (random 400)] spawn defensive_roadblocks;
+	[round (random 2), 1000, getMarkerPos currentAO, 800 + round (random 400)] call defensive_roadblocks;
 };
 //////////////////////////////////////////////////////// ROADBLOCKS END ////////////////////////////////////////////////////////
 
