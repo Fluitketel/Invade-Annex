@@ -169,15 +169,6 @@ class Params
 		default = 2;
 	};
 	
-	//def 3
-	//class TeamsPatrol
-	//{
-	//	title = "Teams Patrolling AO";
-	//	values[] = {0,1,2,3,4,5};
-	//	texts[] = {0,1,2,3,4,5};
-	//	default = 3;
-	//};
-	
 	//def 2
 	class ExternalperimPatrol
 	{
@@ -201,7 +192,7 @@ class Params
 		title = "Max Light Armour Patrolling AO";
 		values[] = {0,1,2,3,4};
 		texts[] = {0,1,2,3,4};
-		default = 2;
+		default = 3;
 	};
 	// def 1
 	class ArmourPatrol
@@ -209,7 +200,7 @@ class Params
 		title = "Max Heavy Armour Patrolling AO";
 		values[] = {0,1,2,3};
 		texts[] = {0,1,2,3};
-		default = 1;
+		default = 2;
 	};
 	//def 5
 	class CarsChance
@@ -259,21 +250,13 @@ class Params
 			texts[]= {" "}; 
 			default = 0;
 		};
-	//def 1
-	class SAMCampsON
-	{
-		title = "Enable SAM camps";
-		values[] = {1,0};
-		texts[] = {"Enabled","Disabled"};
-		default = 1;
-	};
-	//def 5
+
 	class SAMCamps
 	{
 		title = "Amount of SAM camps on map";
 		values[] = {-1,0,1,2,3,4,5};
 		texts[] = {"random",0,1,2,3,4,5};
-		default = 3;
+		default = -1;
 	};
 	//def5
 	class RAMCamps
@@ -353,7 +336,7 @@ class Params
 		title = "Enable Debug Mode";
 		values[] = {1,0};
 		texts[] = {"Enable","Disable"};
-		default = 1;
+		default = 0;
 	};
 	
 	class DebugMode2

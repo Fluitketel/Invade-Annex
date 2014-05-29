@@ -118,7 +118,8 @@ bl1p_fnc_defend =
 						};
 					
 						//[_inf_Patrol, getMarkerPos currentAO,250] call aw_fnc_spawn2_perimeterPatrolBL1P;
-						waituntil {sleep 1;alive (leader _inf_Patrol)};
+						//waituntil {sleep 1;alive (leader _inf_Patrol)};
+						sleep 0.5;
 						[_inf_Patrol, getMarkerPos currentAO,100] call aw_fnc_spawn2_randomPatrolBL1P;
 						
 						{

@@ -956,7 +956,9 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		//////////////////////////////////////////////////
 		//--- RUN RANDOM TO MAYBE CREATE DEFENED MISSION
 		//////////////////////////////////////////////////
-		if (random 1 >= 0.8) then   //-- random chance
+		_createDefend = random 1;
+		if (DEBUG) then {diag_log format ["====_createDefend chance = %1 with >=0.8 to create====",_createDefend];};
+		if (_createDefend >= 0.8) then   //-- random chance
 		{
 			RunninngDefenceAO = true;
 			publicvariable "RunninngDefenceAO";

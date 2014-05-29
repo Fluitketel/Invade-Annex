@@ -643,6 +643,11 @@ _enemiesArray = _enemiesArray + campArray;
 //////////////////////////////////////////////////////// EXTPAT START ////////////////////////////////////////////////////////		
 		// External Squads OUTSIDE AO NONE UPS
 			_randExtern = random 10;
+			if (_randmort <= PARAMS_MortarChance) then 
+			{
+			_randExtern = 0.1;
+			if (DEBUG) then {diag_log "mortars = true so external groups = true";};
+			};
 				if (DEBUG) then 
 					{
 						if (_randExtern <= PARAMS_ExternChance) then
