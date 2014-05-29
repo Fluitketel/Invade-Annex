@@ -70,7 +70,7 @@ if (PARAMS_RAMCamps < 0) then {
 
 
 //////////////////////////////////////////////////////// ROADBLOCKS START ////////////////////////////////////////////////////////
-if (PARAMS_Roadblocks == 1 && _numberofcamps < 2) then {
+if (PARAMS_Roadblocks == 1) then {
 	[round (random 2), 1000, getMarkerPos currentAO, 800 + round (random 400)] call defensive_roadblocks;
 };
 //////////////////////////////////////////////////////// ROADBLOCKS END ////////////////////////////////////////////////////////
@@ -502,87 +502,7 @@ _enemiesArray = _enemiesArray + campArray;
 //////////////////////////////////////////////////////// DEFPAT END ////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////// TEAMPAT START ////////////////////////////////////////////////////////			
-		// TeamsPatrol UPS
-			_x = 0;
-			if (DEBUG) then {diag_log format ["=====Creating %1 TPAT=====",PARAMS_TeamsPatrol];};
-			for "_x" from 1 to PARAMS_TeamsPatrol do {
-				
-				_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,2] call aw_fnc_randomPos;
-				if ((count _randomPos) == 3) then 
-				{
-					_upsZone2 = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-					_upsZone2 setTriggerArea [PARAMS_AOSize, PARAMS_AOSize, 0, false];
-					
-					_spawnGroup = createGroup EAST;
-					_randomtype = random 12;
-					if (_randomtype <=3) then 
-						{
-							[_randomPos,_spawnGroup] call urbanSquad1;
-						};
-					if ((_randomtype >3) && (_randomtype <=6)) then 
-						{
-							[_randomPos,_spawnGroup] call urbanSquad2;
-						};
-					if ((_randomtype >6) && (_randomtype <=9)) then 
-						{
-							[_randomPos,_spawnGroup] call OpSquad1;
-						};
-					if (_randomtype >9) then 
-						{
-							[_randomPos,_spawnGroup] call GurillaSquad;
-						};
-					
-					// wait untill alive
-					waitUntil {alive (leader _spawnGroup)};
-						if (PARAMS_AICONTROL == 2) then 
-						{
-							
-							[(leader _spawnGroup), _upsZone2,"RANDOMDN", "NOFOLLOW"] execVM "UPS_BL1P.sqf";
-						};
-						if (PARAMS_AICONTROL == 3) then
-						{
-						nul=[(leader _spawnGroup), "aoCircle", "RANDOM"] execVm "scripts\UPSMON.sqf";
-						};
-						if (PARAMS_AICONTROL == 1) then
-						{
-							
-							[(leader _spawnGroup), _upsZone2,"RANDOMDN"] execVM "ups.sqf";
-						};
-					
-					[(leader _spawnGroup)] execVM "core\spotter.sqf";
-					
-					[(units _spawnGroup)] call aw_setGroupSkill;
-					sleep 1;
-					
-					if(DEBUG) then
-					{
-						_name = format ["%1%2",name (leader _spawnGroup),_x];
-						createMarker [_name,getPos (leader _spawnGroup)];
-						_name setMarkerType "o_unknown";
-						_name setMarkerText format ["T-Pat UPS %1",_x];;
-						_name setMarkerColor "ColorRed";
-						[_spawnGroup,_name] spawn
-						{
-							private["_group","_marker"];
-							_group = _this select 0;
-							_marker = _this select 1;
-
-							while{count (units _group) > 0} do
-							{
-								_marker setMarkerPos (getPos (leader _group));
-								sleep 1;
-							};
-							deleteMarker _marker;
-						};
-					};
-
-					_enemiesArray = _enemiesArray + [_spawnGroup];
-				}
-				else
-				{
-					diag_log "====DID NOT CREATE TPAT BECAUSE OF FAILED RANDOM POS====";
-				};
-			};
+// consolidated with sqpat
 //////////////////////////////////////////////////////// TEAMPAT END ////////////////////////////////////////////////////////
 			
 //////////////////////////////////////////////////////// MIDPAT START ////////////////////////////////////////////////////////
@@ -878,7 +798,7 @@ _enemiesArray = _enemiesArray + campArray;
 			{
 				
 				_x = 0;
-				for "_x" from 1 to PARAMS_CarsPatrol do 
+				for "_x" from 0 to (round random PARAMS_CarsPatrol) do 
 				{
 					_spawngroupcar = createGroup east;
 					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,6] call aw_fnc_randomPos;
