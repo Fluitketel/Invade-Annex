@@ -522,15 +522,14 @@ if ((PARAMS_HEADLESS == 0) && (!DR_IsHeadless)) then
 
 // create some random aa opsitions
 	
-	if ((PARAMS_SAMCampsON == 1) && (PARAMS_HEADLESS == 1) && (DR_IsHeadless)) then
+	if ((PARAMS_HEADLESS == 1) && (DR_IsHeadless)) then
 	{
 		_null = [] execVM "core\AAPosCreation.sqf";
 		
 	};
-	if ((PARAMS_SAMCampsON == 1) && (PARAMS_HEADLESS == 0) && (!DR_IsHeadless)) then
+	if ((PARAMS_HEADLESS == 0) && (!DR_IsHeadless)) then
 	{
 		_null = [] execVM "core\AAPosCreation.sqf";
-		
 	};
 	
 

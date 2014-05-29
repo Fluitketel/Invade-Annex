@@ -270,9 +270,9 @@ class Params
 	//def 5
 	class SAMCamps
 	{
-		title = "Max Amount of SAM camps on map";
-		values[] = {0,1,2,3,4,5};
-		texts[] = {0,1,2,3,4,5};
+		title = "Amount of SAM camps on map";
+		values[] = {-1,0,1,2,3,4,5};
+		texts[] = {"random",0,1,2,3,4,5};
 		default = 3;
 	};
 	//def5
