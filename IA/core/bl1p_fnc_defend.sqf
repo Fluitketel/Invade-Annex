@@ -189,9 +189,9 @@ bl1p_fnc_defend =
 				ELAPSED = false; publicvariable "ELAPSED";
 				
 				//--- end checks
-				if (ELAPSED_TIME >= 3600) then {_defend = false ;AttackWon = true;ELAPSED = true; publicvariable "ELAPSED";};
 				if (count list _dt2 < 1) then {_defend = false ;AttackWon = false;};
-				if (_waveRuns > _waves) then {_defend = false ;AttackWon = true;};
+				if ((ELAPSED_TIME >= 3600) && (count list _dt2 >= 1))  then {_defend = false ;AttackWon = true;ELAPSED = true; publicvariable "ELAPSED";};
+				if ((_waveRuns > _waves) && (count list _dt2 >= 1)) then {_defend = false ;AttackWon = true;};
 					if (DEBUG) then
 						{
 						diag_log format ["AttackWon = %1  _defend = %2",AttackWon,_defend];
