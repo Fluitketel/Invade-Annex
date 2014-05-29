@@ -64,14 +64,14 @@ _numberofcamps = PARAMS_RAMCamps;
 if (PARAMS_RAMCamps < 0)  then {
     _numberofcamps = round (random 3);
 };    
-[_numberofcamps, 400, getMarkerPos currentAO, 500, [getMarkerPos "respawn_west"]] call random_camps;
+[_numberofcamps, 300, getMarkerPos currentAO, 400, [getMarkerPos "respawn_west"]] call random_camps;
 
 //////////////////////////////////////////////////////// CAMPS END ////////////////////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////// ROADBLOCKS START ////////////////////////////////////////////////////////
 if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
-	[round (random 2), 1000, getMarkerPos currentAO, 500 + round (random 400)] call defensive_roadblocks;
+	[round (random 2), 1000, getMarkerPos currentAO, 400 + round (random 400)] call defensive_roadblocks;
 };
 //////////////////////////////////////////////////////// ROADBLOCKS END ////////////////////////////////////////////////////////
 
