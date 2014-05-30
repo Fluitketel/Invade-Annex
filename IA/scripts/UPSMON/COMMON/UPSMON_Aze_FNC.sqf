@@ -612,7 +612,8 @@ UPSMON_findnearestenemy = {
 
 	If (count _enemies > 0) then
 	{
-		_enemies = [_enemies, [], { _npc distance (_x select 0) }, "ASCEND"] call BIS_fnc_sortBy;
+		//_enemies = [_enemies, [], { _npc distance (_x select 0) }, "ASCEND"] call BIS_fnc_sortBy;
+		_enemies = [_enemies, [], { _npc distance (_x select 0) }, "ASCEND"] call fluit_sortBy;
 
 	};
 	if (UPSMON_Debug>0) then {diag_log format ["Targets found by %1: %2",_npc,_enemies];};

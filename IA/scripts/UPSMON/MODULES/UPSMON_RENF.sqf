@@ -34,7 +34,8 @@ private ["_npc","_target","_radiorange","_renf","_fixedtargetpos","_side","_dir1
 	if (UPSMON_Debug>0) then {diag_log format["%1 ask reinforcement position %2 KRON_Renf: %3",_npcpos,_fixedtargetpos,_UPSMON_Renf]};
 	If (count _UPSMON_Renf > 0) then
 	{
-		_ArrayGrpRenf = [_UPSMON_Renf, [], { _npcpos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+		//_ArrayGrpRenf = [_UPSMON_Renf, [], { _npcpos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+		_ArrayGrpRenf = [_UPSMON_Renf, [], { _npcpos distance _x }, "ASCEND"] call fluit_sortBy;
 		{
 			_alliednpc = _x;
 			If (alive _alliednpc && _npcpos distance _alliednpc <= _radiorange && (_alliednpc getvariable "UPSMON_REINFORCEMENT") == "REINFORCEMENT") exitwith 

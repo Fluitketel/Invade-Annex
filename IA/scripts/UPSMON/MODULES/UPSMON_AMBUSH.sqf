@@ -63,7 +63,8 @@ UPSMON_getAmbushpos = {
 				
 		if (count _roads > 0) then 
 		{
-			_roads = [_roads, [], { _npc distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+			//_roads = [_roads, [], { _npc distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+			_roads = [_roads, [], { _npc distance _x }, "ASCEND"] call fluit_sortBy;
 			
 			// Thanks ARJay
 			_roadConnectedTo = roadsConnectedTo (_roads select 0);
@@ -214,7 +215,8 @@ UPSMON_FindAmbushPos = {
 			
 	if (count _AmbushPositions > 0) then 
 	{
-		_AmbushPositions = [_AmbushPositions, [], {_npc distance _x}, "DESCEND"] call BIS_fnc_sortBy;
+		//_AmbushPositions = [_AmbushPositions, [], {_npc distance _x}, "DESCEND"] call BIS_fnc_sortBy;
+		_AmbushPositions = [_AmbushPositions, [], {_npc distance _x}, "DESCEND"] call fluit_sortBy;
 		_AmbushPosition = _AmbushPositions select 0;
 	
 	};

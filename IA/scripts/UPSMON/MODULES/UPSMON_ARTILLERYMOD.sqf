@@ -25,7 +25,8 @@ UPSMON_selectartillery = {
 	
 	_arti = ObjNull;
 	_rounds = 0;
-	_artiarray = [_artillerysideunits, [], { _npcpos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+	//_artiarray = [_artillerysideunits, [], { _npcpos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+	_artiarray = [_artillerysideunits, [], { _npcpos distance _x }, "ASCEND"] call fluit_sortBy;
 	{
 		_support = (vehicle _x) getVariable "UPSMON_ArtiOptions";
 		if (!alive _x) then
