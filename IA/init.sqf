@@ -412,7 +412,7 @@ if(DEBUG) then
 
 
 	//Init UPSMON script 
-		call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
+		//call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 
 
 //--- bl1p supresion thing
