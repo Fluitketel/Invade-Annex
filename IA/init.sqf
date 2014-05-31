@@ -589,6 +589,8 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		publicvariable "dt";
 	};
 	
+	upsmon_enabled = true; publicVariable "upsmon_enabled";
+	call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 	
 	//--- bl1p Spawn AI on headless or server
 	if ((PARAMS_HEADLESS == 1) && (DR_IsHeadless)) then 
@@ -797,6 +799,8 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 				{
 					diag_log "===============STARTING CLEAN UP=====================";
 				};
+		
+		upsmon_enabled = false; publicVariable "upsmon_enabled"; // Disable UPSMON
 		
 		//FIRST check of groups Before cleaning
 		_Eastgroups=[];
