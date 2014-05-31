@@ -795,11 +795,20 @@ _enemiesArray = _enemiesArray + campArray;
 				{
 					_spawngroupcar = createGroup east;
 					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,6] call aw_fnc_randomPos;
-					if ((count _randomPos) == 3) then 
+					_list = _randomPos nearRoads 400;
+					if (count _list > 0) then {
+						_road = _list call BIS_fnc_selectRandom;
+						_roadpos = getPos _road;
+					} else {
+						_roadpos = _randomPos;
+					};
+					_road = _list call BIS_fnc_selectRandom;
+					_roadpos = getPos _road;
+					if ((count _roadpos) == 3) then 
 					{
-						_vehcar = [_randomPos,0,"O_APC_Wheeled_02_rcws_F",_spawngroupcar] call BIS_fnc_spawnVehicle;
+						_vehcar = [_roadpos,0,"O_APC_Wheeled_02_rcws_F",_spawngroupcar] call BIS_fnc_spawnVehicle;
 						// wait untill alive
-						waitUntil {alive (leader _spawngroupcar)};
+						//waitUntil {alive (leader _spawngroupcar)};
 						_InOrOutChanceCar = random 10;
 						if (_InOrOutChanceCar <= 3) then 
 							{
@@ -887,25 +896,34 @@ _enemiesArray = _enemiesArray + campArray;
 				for "_x" from 1 to (round random PARAMS_ArmourPatrol) do 
 				{
 					_armourGroup = createGroup east;
-					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,7] call aw_fnc_randomPos;
-					if ((count _randomPos) == 3) then 
+					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,6] call aw_fnc_randomPos;
+					_list = _randomPos nearRoads 400;
+					if (count _list > 0) then {
+						_road = _list call BIS_fnc_selectRandom;
+						_roadpos = getPos _road;
+					} else {
+						_roadpos = _randomPos;
+					};
+					_road = _list call BIS_fnc_selectRandom;
+					_roadpos = getPos _road;
+					if ((count _roadpos) == 3) then 
 					{
 						_randomArmourChance = random 6;
 						if(_randomArmourChance <= 2) then 
 						{
-						_armour = [_randomPos,0,"O_MBT_02_cannon_F",_armourGroup] call BIS_fnc_spawnVehicle;
+						_armour = [_roadpos,0,"O_MBT_02_cannon_F",_armourGroup] call BIS_fnc_spawnVehicle;
 						}; 
 						if (_randomArmourChance > 2 && _randomArmourChance <= 4) then
 						{
-						_armour = [_randomPos,0,"O_APC_Tracked_02_AA_F",_armourGroup] call BIS_fnc_spawnVehicle;
+						_armour = [_roadpos,0,"O_APC_Tracked_02_AA_F",_armourGroup] call BIS_fnc_spawnVehicle;
 						};
 						if (_randomArmourChance > 4) then
 						{
-						_armour = [_randomPos,0,"O_APC_Tracked_02_cannon_F",_armourGroup] call BIS_fnc_spawnVehicle;
+						_armour = [_roadpos,0,"O_APC_Tracked_02_cannon_F",_armourGroup] call BIS_fnc_spawnVehicle;
 						};
 						sleep 1;
 						// wait untill alive
-						waitUntil {alive (leader _armourGroup)};
+						//waitUntil {alive (leader _armourGroup)};
 						_InOrOutChance = random 10;
 						if (_InOrOutChance <= 3) then 
 							{
