@@ -349,16 +349,13 @@ _enemiesArray = _enemiesArray + campArray;
 //////////////////////////////////////////////////////// SQPAT START ////////////////////////////////////////////////////////
 		// squad patrol UPS
 			_x = 0;
-			if (DEBUG) then {diag_log format ["=====Creating %1 SQPAT=====",PARAMS_SquadsPatrol];};
+			if (DEBUG) then {diag_log format ["=====Creating %1 SQPAT UPSMON=====",PARAMS_SquadsPatrol];};
 			for "_x" from 1 to PARAMS_SquadsPatrol do 
 			{
 				
 				_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,2] call aw_fnc_randomPos;
 				if ((count _randomPos) == 3) then 
 				{	
-					_upsZone = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-					_upsZone setTriggerArea [PARAMS_AOSize, PARAMS_AOSize, 0, false];
-					
 					
 					_spawnGroup = createGroup EAST;
 					_randomtype = random 12;
@@ -379,21 +376,10 @@ _enemiesArray = _enemiesArray + campArray;
 							[_randomPos,_spawnGroup] call GurillaSquad;
 						};
 					
-					//[(leader _spawnGroup), _upsZone, "RANDOMDN"] execVM "ups.sqf";
+					
 					// wait untill alive
 					waitUntil {alive (leader _spawnGroup)};
-						if (PARAMS_AICONTROL == 2) then 
-						{
-							[(leader _spawnGroup), _upsZone, "RANDOMDN", "NOFOLLOW"] execVM "UPS_BL1P.sqf";
-						};
-						if (PARAMS_AICONTROL == 3) then
-						{
-						nul=[(leader _spawnGroup), "aoCircle","RANDOM"] execVm "scripts\UPSMON.sqf";
-						};
-						if (PARAMS_AICONTROL == 1) then
-						{
-							[(leader _spawnGroup), _upsZone, "RANDOMDN"] execVM "ups.sqf";
-						};
+							nul=[(leader _spawnGroup), "aoCircle","RANDOM"] execVm "scripts\UPSMON.sqf";
 					sleep 0.5;
 					[(leader _spawnGroup)] execVM "core\spotter.sqf";
 					sleep 0.5;
@@ -518,7 +504,7 @@ _enemiesArray = _enemiesArray + campArray;
 					_amountHotel = PARAMS_ExternalperimPatrol;
 				};
 				
-				if (DEBUG) then {diag_log format ["=====Creating %1 MIDPAT=====",PARAMS_ExternalperimPatrol];};
+				if (DEBUG) then {diag_log format ["=====Creating %1 MIDPAT UPSMON=====",PARAMS_ExternalperimPatrol];};
 			for "_x" from 1 to _amountHotel do {
 				_randomPos = [getMarkerPos currentAO, 450,2] call aw_fnc_randomPosbl1p;
 				if ((count _randomPos) == 3) then 
@@ -543,7 +529,7 @@ _enemiesArray = _enemiesArray + campArray;
 							[_randomPos,_spawnGroup] call GurillaSquad;
 						};
 					// house chance
-					if ((currentAO == "Bates Motel") && (PARAMS_AICONTROL == 3)) then
+					if (currentAO == "Bates Motel") then
 					{
 						//--- bl1p it is hotel
 						if (DEBUG) then {diag_log format ["HOTEL ===== being creating currentAO = %1",currentAO];};
@@ -590,13 +576,15 @@ _enemiesArray = _enemiesArray + campArray;
 						_HousesPercent = random 10;
 						// wait untill alive
 						waitUntil {alive (leader _spawnGroup)};
-						if ((Houses) && (_HousesPercent <= PARAMS_HousesPercent) && (PARAMS_AICONTROL == 3)) then 
+						if ((Houses) && (_HousesPercent <= PARAMS_HousesPercent)) then 
 						{
 						if (DEBUG) then {diag_log format ["_HousesPercent = %1 PARAMS_HousesPercent = %2 :: Houses = %3",_HousesPercent,PARAMS_HousesPercent,Houses];};
+						if (DEBUG) then {diag_log "=====Creating MIDPAT UPSMON NOT HOTEL=====";};
+						
 							nul=[(leader _spawnGroup), "aoCircle", "RANDOMDN"] execVm "scripts\UPSMON.sqf";
-							_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-							_upsZoneMid setTriggerArea [100, 100, 0, false];
-							[(leader _spawnGroup), _upsZoneMid, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
+							//_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
+							//_upsZoneMid setTriggerArea [100, 100, 0, false];
+							//[(leader _spawnGroup), _upsZoneMid, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
 						}
 						else
 						{
@@ -646,17 +634,17 @@ _enemiesArray = _enemiesArray + campArray;
 			if (_randmort <= PARAMS_MortarChance) then 
 			{
 			_randExtern = 0.1;
-			if (DEBUG) then {diag_log "mortars = true so external groups = true";};
+			if (DEBUG) then {diag_log "====mortars = true so external groups = true====";};
 			};
 				if (DEBUG) then 
 					{
 						if (_randExtern <= PARAMS_ExternChance) then
 							{
-								diag_log format ["_randExtern = %1 I AM CREATING External NONE UPS ",_randExtern];
+								diag_log format ["=========_randExtern = %1 I AM CREATING External UPS ==========",_randExtern];
 							}
 							else
 							{
-								diag_log format ["_randExtern = %1 I AM NOT CREATING External NONE UPS ",_randExtern];
+								diag_log format ["=====_randExtern = %1 I AM NOT CREATING External UPS =========",_randExtern];
 							};
 					};
 			if ( _randExtern <= PARAMS_ExternChance) then	
@@ -665,9 +653,9 @@ _enemiesArray = _enemiesArray + campArray;
 					_randamountSquad = [2,3,4] call BIS_fnc_selectRandom;
 					if(DEBUG) then
 						{
-						diag_log format ["_randamountSquad = %1 amount of extern squad",_randamountSquad];
+						diag_log format ["====_randamountSquad = %1 amount of extern squad====",_randamountSquad];
 						};
-						if (DEBUG) then {diag_log format ["=====Creating %1 EXTSQ=====",_randamountSquad];};
+						if (DEBUG) then {diag_log format ["=====Creating %1 EXTSQ UPS=====",_randamountSquad];};
 					for "_x" from 1 to _randamountSquad do 
 					{
 						_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+500,2] call aw_fnc_randomPosbl1p;
@@ -1161,22 +1149,9 @@ BL_fnc_towerDefence =
 			"O_sniper_F" createUnit [getMarkerPos "radioMarker", _spawnGroupSN];
 			// wait untill alive
 			waitUntil {alive (leader _spawnGroupSN)};
-			if 	(PARAMS_AICONTROL == 2) then 
-				{
-					
-					[(leader _spawnGroupSN), _upsZone3, "RANDOMUP", "NOMOVE"] execVM "UPS_BL1P.sqf";
-				};
-				if (PARAMS_AICONTROL == 3) then
-				{
-					//nul=[(leader _spawnGroupSN), "aoCircle", "RANDOMUP", "NOAI"] execVm "scripts\UPSMON.sqf";
-					[(leader _spawnGroupSN), _upsZone3, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
-				};
-				if (PARAMS_AICONTROL == 1) then
-				{
-					[(leader _spawnGroupSN), _upsZone3, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
-				};
 			
-			
+					[(leader _spawnGroupSN), _upsZone3, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
+				
 			[(units _spawnGroupSN)] call aw_setGroupSkillElite;
 			sleep 1;
 			

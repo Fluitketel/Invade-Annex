@@ -77,15 +77,8 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 						
 						_upsZoneAir = createTrigger ["EmptyDetector", getMarkerPos currentAO];
 						_upsZoneAir setTriggerArea [PARAMS_AOSize+500, PARAMS_AOSize+500, 0, false];
-						if (PARAMS_AICONTROL == 3) then 
-						{
-							
+						
 							nul=[(leader _helo_Patrol), "aoCircle"] execVm "scripts\UPSMON.sqf";
-						}
-						else
-						{
-							[(leader _helo_Patrol), _upsZoneAir] execVM "ups.sqf";
-						};
 						
 						// declare some variables
 						ReinforcedPlane = true;
@@ -138,15 +131,9 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 						
 						_upsZoneAir = createTrigger ["EmptyDetector", getMarkerPos currentAO];
 						_upsZoneAir setTriggerArea [PARAMS_AOSize+500, PARAMS_AOSize+500, 0, false];
-						if (PARAMS_AICONTROL == 3) then 
-						{
-							
+						
 							nul=[(leader _helo_Patrol), "aoCircle"] execVm "scripts\UPSMON.sqf";
-						}
-						else
-						{
-							[(leader _helo_Patrol), _upsZoneAir] execVM "ups.sqf";
-						};	
+						
 						
 						// declare some variables
 						ReinforcedPlane = true;

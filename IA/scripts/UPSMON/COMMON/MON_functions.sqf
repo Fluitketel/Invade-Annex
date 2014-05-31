@@ -1551,11 +1551,10 @@ UPSMON_Gunnercontrol = {
 //Returns leader if was dead
 UPSMON_getleader = {
 	private ["_npc","_members","_side"];
-	
 	_npc = _this select 0;	
 	_members = _this select 1;
 	_side = (_npc getvariable "UPSMON_Grpinfos") select 0;
-	
+
 	//sleep 0.05;
 	if (!alive _npc ) then 
 	{	

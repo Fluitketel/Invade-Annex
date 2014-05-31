@@ -28,7 +28,7 @@ setObjectViewDistance 2000;
 /* =============== GLOBAL VARIABLES ============== */
 
 
-private ["_pos","_uavAction","_isAdmin","_i","_isPerpetual","_accepted","_position","_randomWreck","_firstTarget","_validTarget","_targetsLeft","_flatPos","_targetStartText","_lastTarget","_targets","_dt","_enemiesArray","_enemiesArray2","_radioTowerDownText","_targetCompleteText","_null","_unitSpawnPlus","_unitSpawnMinus","_missionCompleteText","_SERVERUNITSCHECK","_debugCounter"];
+private ["_pos","_uavAction","_isAdmin","_i","_isPerpetual","_accepted","_position","_randomWreck","_firstTarget","_validTarget","_targetsLeft","_flatPos","_targetStartText","_lastTarget","_targets","_dt","_enemiesArray","_enemiesArray2","_radioTowerDownText","_targetCompleteText","_null","_unitSpawnPlus","_unitSpawnMinus","_missionCompleteText","_SERVERUNITSCHECK","_debugCounter","_doneTargets","_Houses","_allowedTargetAmount"];
 
 _handle = execVM "scripts\aw_functions.sqf";
 waitUntil{scriptDone _handle};
@@ -410,11 +410,10 @@ if(DEBUG) then
 // Body removal script by celery
 [300,900,900,900] execVM "scripts\bodyRemoval.sqf";
 
-if (PARAMS_AICONTROL == 3) then 
-	{
+
 	//Init UPSMON script 
 		call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
-	};
+
 
 //--- bl1p supresion thing
 
@@ -439,18 +438,9 @@ if (!DR_IsHeadless) then
 		sideObj = objNull;
 		priorityTargets = ["None"];
 		UnlockAssets = true;publicvariable "UnlockAssets";
-		smRewards =
-		[
-			["an Quad", "an Quad"],
-			["an Quad", "an Quad"],
-			["an Quad", "an Quad"],
-			["an Quad", "an Quad"],
-			["an Quad", "an Quad"],
-			["an Quad", "an Quad"],
-			["an Quad", "an Quad"]
-		];
-	smMarkerList =
-	["smReward1","smReward2","smReward3","smReward4","smReward5","smReward6","smReward7","smReward8","smReward9","smReward10","smReward11","smReward12","smReward13","smReward14","smReward15","smReward16","smReward17","smReward18","smReward19","smReward20","smReward21","smReward22","smReward23","smReward24","smReward25","smReward26","smReward27"];
+		NUKEYES = false;publicVariable "NUKEYES";
+		LASTNUKE = 0; publicVariable "LASTNUKE";
+		LASTDEFEND = 0; publicVariable "LASTDEFEND";
 	//////////////////////////
 	//--- bl1p run remloc TEST
 	// execVM "core\BL1P_FUNC_REMLOC.sqf";
@@ -801,7 +791,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 			deleteVehicle dt;
 			sleep 1;
 	};
-			
+	
 	//--- bl1p headless and server clean up units left over before next AO call
 		if(DEBUG) then
 				{
@@ -953,11 +943,30 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 			showNotification = ["CompletedSub", "Enemy Convoy Retreated when AO was captured."]; publicVariable "showNotification";
 		};
 		
-		//////////////////////////////////////////////////
-		//--- RUN RANDOM TO MAYBE CREATE DEFENED MISSION
-		//////////////////////////////////////////////////
+	//////////////////////////////////////////////////
+	//--- RUN INCREASING RANDOM TO CREATE DEFENED MISSION
+	//////////////////////////////////////////////////
 		_createDefend = random 1;
-		if (DEBUG) then {diag_log format ["====_createDefend chance = %1 with >=0.8 to create====",_createDefend];};
+		if (DEBUG) then
+			{
+				diag_log "=========DEFENCE CHECKS START============";
+				diag_log format ["BASE _createDefend = %1",_createDefend];
+			};
+			
+		_doneTargetsForDefend = ((count (_initialTargets)) - (count (_targets)));
+		if (_doneTargetsForDefend > LASTDEFEND) then {_createDefend = _createDefend + 0.02 * (_doneTargetsForDefend - LASTDEFEND);};
+		if (DEBUG) then
+			{
+				diag_log format ["_doneTargetsForDefend = %1",_doneTargetsForDefend];
+				diag_log format ["LASTDEFEND = %1",LASTDEFEND];
+				diag_log format ["AFTER ALTERATION _createDefend = %1 (+ 0.02 for each _doneTargetsForDefend - LASTDEFEND)",_createDefend];
+				if (_createDefend > 0.8) then
+				{
+					diag_log "_createDefend = Pass";
+				} else {diag_log "_createDefend = Fail";};
+				diag_log "=========DEFENCE CHECKS END============";
+			};
+		//if (DEBUG) then {diag_log format ["====_createDefend chance = %1 with >=0.8 to create====",_createDefend];};
 		if (_createDefend >= 0.8) then   //-- random chance
 		{
 			RunninngDefenceAO = true;
@@ -965,9 +974,90 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 			[] call bl1p_fnc_defend;
 			"aoCircle_2" SetMarkerAlpha 1;
 			"aoMarker_2" SetMarkerAlpha 1;
+			LASTDEFEND = _doneTargetsForDefend;
+			publicVariable "LASTDEFEND";
 			waituntil {sleep 1; !RunninngDefenceAO};
 		};
+	//////////////////////////////////////////////////
+	//--- END DEFEND MISSION
+	//////////////////////////////////////////////////
+	
+	//////////////////////////////////////////////////
+	//--- RUN CHECKS FOR NUKE MISSION
+	//////////////////////////////////////////////////
 		
+		//--- bl1p count how many AOs have been done
+		_doneTargets = ((count (_initialTargets)) - (count (_targets)));
+		if (DEBUG) then 
+			{
+				diag_log "=========NUKE CHECKS START============";
+				diag_log format ["done targets = %1",_doneTargets];
+				diag_log format ["LASTNUKE = %1",LASTNUKE];
+				if (_doneTargets > LASTNUKE+5) then 
+				{
+					diag_log "(AO count = Pass)";
+				} else {diag_log "(AO count = Fail)";};
+			};
+		sleep 0.2;
+		
+		//--- bl1p count how many players online
+		players_online = West countSide allunits;
+		publicVariable "players_online";
+		if (DEBUG) then 
+			{
+				diag_log format ["players_online = %1",players_online];
+			if (players_online >= 5) then
+			{
+				diag_log "players_online count = Pass";
+			} else {diag_log "players_online count = Fail";};
+			};
+		sleep 0.2;
+		
+		//--- was last defend a fail 
+		if (DEBUG) then
+		{
+			if (!UnlockAssets) then
+				{
+				diag_log "UnlockedAssets = Pass";
+				} else {diag_log "UnlockedAssets = Fail";};
+		};
+		sleep 0.2;
+		
+		//--- bl1p create the INCREASING random chance for a nuke mission
+		_NukeRandom = random 1; //--- base random
+		if (DEBUG) then
+			{
+			diag_log format ["BASE _NukeRandom = %1",_NukeRandom];
+			};
+		if (_doneTargets > LASTNUKE) then {_NukeRandom = _NukeRandom + 0.02 * (_doneTargets - LASTNUKE);}; 
+		if (DEBUG) then
+			{
+				diag_log format ["AFTER ALTERATION _NukeRandom = %1 (+ 0.02 for each _doneTargets - LASTNUKE)",_NukeRandom];
+				if (_NukeRandom > 0.8) then
+				{
+					diag_log "_NukeRandom = Pass";
+				} else {diag_log "_NukeRandom = Fail";};
+			};
+		//--- run check 
+		if ((!NUKEYES) && (_doneTargets > LASTNUKE+5) && (players_online >= 5) && (!UnlockAssets) && (_NukeRandom > 0.8)) then 
+		{
+			diag_log "====----NUKE CHECKS PASSED----====";
+			NUKEYES = true;
+			publicVariable "NUKEYES";
+			//--- save how many targets where done on last nuke creation as LASTNUKE
+			LASTNUKE = _doneTargets;
+			publicVariable "LASTNUKE";
+			diag_log format ["LASTNUKE = %1",LASTNUKE];
+		}else {NUKEYES = false; publicVariable "NUKEYES";diag_log "====----NUKE CHECKS FAILED----====";};
+		
+		if (DEBUG) then
+		{
+		diag_log format ["====----NUKEYES = %1----====",NUKEYES];
+		diag_log "=========NUKE CHECKS END============";
+		};
+	//////////////////////////////////////////////////
+	//--- END CHECKS FOR NUKE MISSION
+	//////////////////////////////////////////////////
 
 		
 		//Hide priorityMarker
@@ -993,22 +1083,21 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		[] spawn aw_cleanGroups;
 		sleep 5;
 		
+		//--- bl1p stat collection report
+		diag_log "=====================STATS=====================";
+		diag_log format ["_doneTargets = %1 players_online = %2",_doneTargets,players_online];
+		diag_log format ["TotalFullRevives = %1 TotalMedicalRevives = %2 TotalNormalRevives = %3",TotalFullRevives,TotalMedicalRevives,TotalNormalRevives];
+		diag_log format ["Totalfriendlyfire = %1 TotalSuicides = %2 TotalDrags = %3",Totalfriendlyfire,TotalSuicides,TotalDrags];
+		diag_log format ["TotalRespawns = %1",TotalRespawns];
+		diag_log format ["Side Score = %1",scoreSide WEST];
 };
 
-	//--- bl1p stat collection report
-	diag_log "=====================STATS=====================";
-	diag_log format ["TotalFullRevives = %1 TotalMedicalRevives = %2 TotalNormalRevives = %3",TotalFullRevives,TotalMedicalRevives,TotalNormalRevives];
-	diag_log format ["Totalfriendlyfire = %1 TotalSuicides = %2 TotalDrags = %3",Totalfriendlyfire,TotalSuicides,TotalDrags];
-	diag_log format ["TotalRespawns = %1",TotalRespawns];
-	diag_log format ["Side Score = %1",scoreSide WEST];
 
-
-	
-	
 if(DEBUG) then
 			{
 				diag_log "OUT OF WHILE LOOP FOR AO CREATION";	
 			};
+			
 //--- bl1p server only	
 if (!DR_IsHeadless) then
 	{	

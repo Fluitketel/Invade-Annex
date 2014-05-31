@@ -418,7 +418,7 @@ random_camps = {
 						case 2: {_created = [_camppos, _campdir] call hmg_camp; _markercolor = "ColorGreen"; };
 					};
 				} else {
-					diag_log format ["Position %1 not allowed.", _camppos];
+					//diag_log format ["Position %1 not allowed.", _camppos];
 				};
 				
 				if (_created) exitWith {

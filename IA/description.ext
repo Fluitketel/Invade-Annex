@@ -347,14 +347,6 @@ class Params
 		default = 0;
 	};
 	
-	class AICONTROL
-	{
-		title = "Enable AI Control Type";
-		values[] = {1,2,3};
-		texts[] = {"UPS","UPSBL1P","UPSMON"};
-		default = 3;
-	};
-	
 	class AISUPPRESSION
 	{
 		title = "Enable AI suppression";
