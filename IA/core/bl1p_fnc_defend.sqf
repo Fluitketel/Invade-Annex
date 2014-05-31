@@ -109,15 +109,12 @@ bl1p_fnc_defend =
 						}
 						else
 						{
+							_roadpos = _randomPos;
 							_list = _randomPos nearRoads 400;
 							if (count _list > 0) then {
 								_road = _list call BIS_fnc_selectRandom;
 								_roadpos = getPos _road;
-							} else {
-								_roadpos = _randomPos;
 							};
-							_road = _list call BIS_fnc_selectRandom;
-							_roadpos = getPos _road;
 							_inf_Patrol = createGroup east;
 							_veh = [_roadpos,0,"O_APC_Wheeled_02_rcws_F",_inf_Patrol] call BIS_fnc_spawnVehicle;
 							if(DEBUG) then

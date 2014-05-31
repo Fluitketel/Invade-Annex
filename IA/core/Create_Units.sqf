@@ -795,15 +795,12 @@ _enemiesArray = _enemiesArray + campArray;
 				{
 					_spawngroupcar = createGroup east;
 					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,6] call aw_fnc_randomPos;
+					_roadpos = _randomPos;
 					_list = _randomPos nearRoads 400;
 					if (count _list > 0) then {
 						_road = _list call BIS_fnc_selectRandom;
 						_roadpos = getPos _road;
-					} else {
-						_roadpos = _randomPos;
 					};
-					_road = _list call BIS_fnc_selectRandom;
-					_roadpos = getPos _road;
 					if ((count _roadpos) == 3) then 
 					{
 						_vehcar = [_roadpos,0,"O_APC_Wheeled_02_rcws_F",_spawngroupcar] call BIS_fnc_spawnVehicle;
@@ -897,15 +894,12 @@ _enemiesArray = _enemiesArray + campArray;
 				{
 					_armourGroup = createGroup east;
 					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize,6] call aw_fnc_randomPos;
+					_roadpos = _randomPos;
 					_list = _randomPos nearRoads 400;
 					if (count _list > 0) then {
 						_road = _list call BIS_fnc_selectRandom;
 						_roadpos = getPos _road;
-					} else {
-						_roadpos = _randomPos;
 					};
-					_road = _list call BIS_fnc_selectRandom;
-					_roadpos = getPos _road;
 					if ((count _roadpos) == 3) then 
 					{
 						_randomArmourChance = random 6;
