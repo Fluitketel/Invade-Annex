@@ -155,8 +155,7 @@ restrict_artycomputer = {
     };
 };
 
-dr_handle_healing =
-{
+dr_handle_healing = {
 		diag_log "inside dr_handle_healing";
 		private ["_unit", "_healer", "_medic", "_damage", "_return"];
 		_unit = _this select 0;
@@ -411,7 +410,7 @@ random_camps = {
 				} foreach _camplocations;
 				
 				if (_allowed) then {
-					_randomcamp = round (random 2);				
+					_randomcamp = round (random 2);
 					switch (_randomcamp) do { 
 						case 0: {_created = [_camppos, _campdir] call at_camp; _markercolor = "ColorYellow"; };
 						case 1: {_created = [_camppos, _campdir] call aa_camp; _markercolor = "ColorBlue"; };
@@ -427,7 +426,7 @@ random_camps = {
 					if (_debug) then {
 						_m = createMarker [format ["camp%1",random 999], _camppos];
 						_m setMarkerShape "ELLIPSE";
-						_m setMarkerSize [100, 100];
+						_m setMarkerSize [50, 50];
 						_m setMarkerText "CAMP";
 						_m setMarkerBrush "Solid";
 						_m setMarkerType  "Marker";
@@ -499,8 +498,8 @@ defensive_roadblocks = {
 					if (_debug) then {
 						_m = createMarker [format ["camp%1",random 999], _roadpos];
 						_m setMarkerShape "ELLIPSE";
-						_m setMarkerSize [100, 100];
-						_m setMarkerText "CAMP";
+						_m setMarkerSize [50, 50];
+						_m setMarkerText "ROADBLOCK";
 						_m setMarkerBrush "Solid";
 						_m setMarkerType  "Marker";
 						_m setMarkerColor "ColorRed";
@@ -538,7 +537,7 @@ hmg_camp = {
 	_pos = _this select 0; // Camp position
 	_dir = _this select 1; // Camp direction
 	
-	_flatPos = _pos isFlatEmpty [10, 0, 0.4, 10, 0, false];
+	_flatPos = _pos isFlatEmpty [13, 0, 0.2, 10, 0, false];
 	if (count _flatPos == 0) exitWith {
 		// Return false if the camp fails to create
 		false;
@@ -559,7 +558,7 @@ hmg_camp = {
 	_prop setDir _dir;
 	
 	_newpos = [_pos, 9, (_dir - 15)] call BIS_fnc_relPos;
-	_prop = "Land_TTowerSmall_1_F" createVehicle _newpos;
+	_prop = (["Flag_CSAT_F","Land_TTowerSmall_1_F","Land_TTowerSmall_2_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
 	_prop call CampCleanup;
 	
 	_bagspos = [_pos, 6, (_dir + 90)] call BIS_fnc_relPos;
@@ -574,7 +573,7 @@ hmg_camp = {
 		_prop setDir _bagsdir;
 		_bagsdir = _bagsdir + (200 / _numberofbags);
 	};
-	sleep 1;
+	sleep 0.5;
 	
 	_gun1 = "O_HMG_01_high_F" createVehicle _bagspos;
 	waitUntil {alive _gun1};
@@ -633,7 +632,7 @@ at_camp = {
 	_pos = _this select 0; // Camp position
 	_dir = _this select 1; // Camp direction
 	
-	_flatPos = _pos isFlatEmpty [10, 0, 0.4, 10, 0, false];
+	_flatPos = _pos isFlatEmpty [12, 0, 0.2, 10, 0, false];
 	if (count _flatPos == 0) exitWith {
 		// Return false if the camp fails to create
 		false;
@@ -680,23 +679,26 @@ at_camp = {
 		_newdir = _newdir + (360 / _numberofbarriers);
 	};
 	
-	_boxes = ["Box_East_Ammo_F", "Box_East_AmmoOrd_F", "Box_East_Grenades_F", "Box_East_Ammo_F"];
-	_prop = (_boxes call BIS_fnc_selectRandom) createVehicle _pos;
+	_prop = (["Box_East_Ammo_F", "Box_East_AmmoOrd_F", "Box_East_Grenades_F", "Box_East_Ammo_F"] call BIS_fnc_selectRandom) createVehicle _pos;
 	_prop call CampCleanup;
 	_prop setDir _dir;
+	
+	_props = ["Land_ChairPlastic_F","Land_Sacks_heap_F","Land_Sack_F","Land_Tyres_F","Land_GarbageBags_F","Land_CinderBlocks_F","Land_Bricks_V2_F","Land_BarrelTrash_F","Land_BarrelEmpty_F","Land_MetalBarrel_F","Land_Pallets_stack_F","Land_BarrelEmpty_grey_F","Land_GarbageBarrel_01_F"];
+	for "_c" from 1 to (1 + floor(random 6)) do {
+		_newpos = [_pos, (4 + round(random 12)), random 360] call BIS_fnc_relPos;
+		_prop = (_props call BIS_fnc_selectRandom) createVehicle _newpos;
+		_prop call CampCleanup;
+		_prop setDir random 360;
+	};
 	
 	sleep 1;
 	_soldier = _campgroup createUnit ["O_Soldier_TL_F", _pos, [], 0, "NONE"];
 	doStop _soldier;
-	for "_c" from 1 to 2 do
-	{ 
-		_tempdir = random 360;
-		_newpos = [_pos, ceil (random 10), _tempdir] call BIS_fnc_relPos;
+	for "_c" from 1 to (1 + round (random 1)) do { 
+		_newpos = [_pos, ceil (random 10), random 360] call BIS_fnc_relPos;
 		_soldier = _campgroup createUnit ["O_Soldier_AT_F", _newpos, [], 0, "NONE"];
 		doStop _soldier;
-		
-		_tempdir = random 360;
-		_newpos = [_pos, ceil (random 10), _tempdir] call BIS_fnc_relPos;
+		_newpos = [_pos, ceil (random 10), random 360] call BIS_fnc_relPos;
 		_soldier = _campgroup createUnit ["O_Soldier_AAT_F", _newpos, [], 0, "NONE"];
 		doStop _soldier;
 	};
@@ -704,11 +706,21 @@ at_camp = {
 };
 
 aa_camp = {
+	private ["_pos", "_dir", "_camps", "_camp", "_created"];
+	_pos = _this select 0; // Camp position
+	_dir = _this select 1; // Camp direction
+	_camps = [aa_camp1, aa_camp2];
+	_camp = _camps call BIS_fnc_selectRandom;
+	_created = [_pos, _dir] call _camp;
+	_created;
+};
+
+aa_camp1 = {
 	private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier", "_housepos"];
 	_pos = _this select 0; // Camp position
 	_dir = _this select 1; // Camp direction
 	
-	_flatPos = _pos isFlatEmpty [10, 0, 0.4, 10, 0, false];
+	_flatPos = _pos isFlatEmpty [15, 0, 0.2, 10, 0, false];
 	if (count _flatPos == 0) exitWith {
 		// Return false if the camp fails to create
 		false;
@@ -740,23 +752,151 @@ aa_camp = {
 	_prop call CampCleanup;
 	_prop setDir _dir;
 	
-	_boxes = ["Box_East_Ammo_F", "Box_East_AmmoOrd_F", "Box_East_Grenades_F", "Box_East_Ammo_F"];
-	_prop = (_boxes call BIS_fnc_selectRandom) createVehicle _housepos;
+	_barrels = ["Land_BarrelWater_grey_F", "Land_BarrelEmpty_grey_F", "Land_GarbageBarrel_01_F", "Land_BarrelTrash_grey_F"];
+	_newpos = [_housepos, 4, _dir + 200] call BIS_fnc_relPos;
+	_prop = (_barrels call BIS_fnc_selectRandom) createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	if (random 1 < 0.7) then {
+		_prop = (_barrels call BIS_fnc_selectRandom) createVehicle _newpos;
+		_prop call CampCleanup;
+		_prop setDir _dir;
+	};
+	
+	if (random 1 < 0.7) then {
+		_newpos = [_pos, 6, _dir + 170] call BIS_fnc_relPos;
+		_prop = (["Land_Pallet_MilBoxes_F", "Land_PaperBox_closed_F", "Land_PaperBox_open_empty_F", "Land_PaperBox_open_full_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
+		_prop call CampCleanup;
+		_prop setDir _dir;
+	};
+	
+	_prop = (["Box_East_Ammo_F", "Box_East_AmmoOrd_F", "Box_East_Grenades_F", "Box_East_Ammo_F"] call BIS_fnc_selectRandom) createVehicle _housepos;
 	_prop call CampCleanup;
 	_prop setDir _dir;
 	
 	sleep 1;
+	
+	if (random 1 < 0.5) then {
+		_campgun1group = createGroup east;
+		_campgun1group call CampCleanup;
+		_campgun1group setFormDir _dir;
+		
+		_gun1 = "O_static_AA_F" createVehicle _pos;
+		waitUntil {alive _gun1};
+		_gun1 call CampCleanup;
+		_gun1 setDir _dir;
+		_gunner1 = _campgun1group createUnit ["O_Soldier_F", _pos, [], 0, "NONE"];
+		waitUntil {alive _gunner1};
+		_gunner1 assignAsGunner _gun1;
+		_gunner1 moveInGunner _gun1;
+	};
+	
 	_soldier = _campgroup createUnit ["O_Soldier_TL_F", _housepos, [], 0, "NONE"];
 	doStop _soldier;
-	for "_c" from 1 to 2 do
+	for "_c" from 1 to (1 + round (random 1)) do { 
+		_newpos = [_pos, ceil (random 10), random 360] call BIS_fnc_relPos;
+		_soldier = _campgroup createUnit ["O_Soldier_AA_F", _newpos, [], 0, "NONE"];
+		doStop _soldier;
+		_newpos = [_pos, ceil (random 10), random 360] call BIS_fnc_relPos;
+		_soldier = _campgroup createUnit ["O_Soldier_AAA_F", _newpos, [], 0, "NONE"];
+		doStop _soldier;
+	};
+	true;
+};
+
+aa_camp2 = {
+	private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier", "_ammo"];
+	_pos = _this select 0; // Camp position
+	_dir = _this select 1; // Camp direction
+	
+	_flatPos = _pos isFlatEmpty [15, 0, 0.2, 12, 0, false];
+	if (count _flatPos == 0) exitWith {
+		// Return false if the camp fails to create
+		false;
+	};
+	
+	_campgroup = createGroup east;
+	_campgroup call CampCleanup;
+	_campgroup setFormDir _dir;
+	
+	_ammo = "Box_East_WpsLaunch_F" createVehicle _pos;
+	_ammo call CampCleanup;
+	_ammo setDir _dir;
+	
+	_newpos = [_ammo, 6, _dir + 90] call BIS_fnc_relPos;
+	_newpos = [_newpos, 4, _dir] call BIS_fnc_relPos;
+	_prop = "Land_HBarrierWall6_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir + 90;
+	
+	_newpos = [_ammo, 6, _dir + 90] call BIS_fnc_relPos;
+	_newpos = [_newpos, 4, _dir + 180] call BIS_fnc_relPos;
+	_prop = "Land_HBarrierWall6_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir + 90;
+	
+	_newpos = [_ammo, 5, _dir - 90] call BIS_fnc_relPos;
+	_newpos = [_newpos, 4, _dir] call BIS_fnc_relPos;
+	_prop = "Land_HBarrierWall6_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir - 90;
+	
+	_newpos = [_ammo, 5, _dir - 90] call BIS_fnc_relPos;
+	_newpos = [_newpos, 4, _dir + 180] call BIS_fnc_relPos;
+	_prop = "Land_HBarrierWall6_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir - 90;
+	
+	_newpos = [_ammo, 10, _dir] call BIS_fnc_relPos;
+	_tower = "Land_HBarrierTower_F" createVehicle _newpos;
+	_tower call CampCleanup;
+	_tower setDir _dir + 180;
+	
+	if (random 1 < 0.75) then {
+		_campgun1group = createGroup east;
+		_campgun1group call CampCleanup;
+		_campgun1group setFormDir _dir + 180;
+		
+		_newpos = [_ammo, 5, _dir + 180] call BIS_fnc_relPos;
+		_gun1 = "O_static_AA_F" createVehicle _newpos;
+		waitUntil {alive _gun1};
+		_gun1 call CampCleanup;
+		_gun1 setDir _dir + 180;
+		_newpos = [_newpos, 1, _dir] call BIS_fnc_relPos;
+		_gunner1 = _campgun1group createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
+		waitUntil {alive _gunner1};
+		_gunner1 assignAsGunner _gun1;
+		_gunner1 moveInGunner _gun1;
+	};
+	
+	_newpos = [_ammo, 11, _dir + 180] call BIS_fnc_relPos;
+	_prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir;
+	
+	_newpos = [_ammo, 10, _dir + 180] call BIS_fnc_relPos;
+	_newpos = [_newpos, 4, _dir - 90] call BIS_fnc_relPos;
+	_prop = "Land_CncBarrier_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir + 30;
+	
+	_newpos = [_ammo, 10, _dir + 180] call BIS_fnc_relPos;
+	_newpos = [_newpos, 4, _dir + 90] call BIS_fnc_relPos;
+	_prop = "Land_CncBarrier_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir - 30;
+	
+	sleep 0.5;
+	_soldier = _campgroup createUnit ["O_Soldier_TL_F", getPos _tower, [], 0, "NONE"];
+	doStop _soldier;
+	for "_c" from 1 to (1 + round (random 1)) do
 	{ 
-		_tempdir = random 360;
-		_newpos = [_pos, ceil (random 10), _tempdir] call BIS_fnc_relPos;
+		_newpos = [_pos, round (random 5), random 360] call BIS_fnc_relPos;
 		_soldier = _campgroup createUnit ["O_Soldier_AA_F", _newpos, [], 0, "NONE"];
 		doStop _soldier;
 		
-		_tempdir = random 360;
-		_newpos = [_pos, ceil (random 10), _tempdir] call BIS_fnc_relPos;
+		_newpos = [_pos, round (random 5), random 360] call BIS_fnc_relPos;
 		_soldier = _campgroup createUnit ["O_Soldier_AAA_F", _newpos, [], 0, "NONE"];
 		doStop _soldier;
 	};
@@ -779,6 +919,12 @@ roadblock = {
 	waitUntil {alive _gate};
 	_gate call CampCleanup;
 	_gate setDir _dir;
+	
+	_newpos = [_gate, 6, _dir] call BIS_fnc_relPos;
+	_newpos = [_newpos, 11, _dir - 90] call BIS_fnc_relPos;
+	_prop = "Land_Sign_WarningMilitaryArea_F" createVehicle _newpos;
+	_prop call CampCleanup;
+	_prop setDir _dir + 180;
 	
 	_newpos = [_gate, 7, _dir] call BIS_fnc_relPos;
 	_newpos = [_newpos, 11, _dir - 90] call BIS_fnc_relPos;
@@ -812,7 +958,7 @@ roadblock = {
 	_prop call CampCleanup;
 	_prop setDir _dir;
 	
-	_newpos = [_gate, 2, _dir + 180] call BIS_fnc_relPos;
+	_newpos = [_gate, 4, _dir + 180] call BIS_fnc_relPos;
 	_newpos = [_newpos, 5, _dir + 90] call BIS_fnc_relPos;
 	_prop = (["Flag_CSAT_F","Land_TTowerSmall_1_F","Land_FieldToilet_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
 	_prop call CampCleanup;
@@ -836,7 +982,7 @@ roadblock = {
 	_campgun1group = createGroup east;
 	_campgun1group call CampCleanup;
 	_campgun1group setFormDir _dir;
-	_newpos = [_gate, 8, _dir + 90] call BIS_fnc_relPos;
+	_newpos = [_gate, 6, _dir + 90] call BIS_fnc_relPos;
 	_gun1 = objNull;
 	if (random 1 < 0.3) then {
 		_gun1 = "O_GMG_01_high_F" createVehicle _newpos;
@@ -858,14 +1004,14 @@ roadblock = {
 	_newpos = [_newpos, 4, _dir  - 90] call BIS_fnc_relPos;
 	_soldier = _campgroup createUnit ["O_Soldier_TL_F", _newpos, [], 0, "NONE"];
 	doStop _soldier;
-	for "_c" from 1 to 2 do
+	for "_c" from 1 to (1 + round (random 1)) do
 	{
-		_newpos = [_newpos, (5 + (random 5)), _dir + (90 + (random 180))] call BIS_fnc_relPos;
+		_newpos = [_newpos, round (random 6), random 360] call BIS_fnc_relPos;
 		_soldier = _campgroup createUnit ["O_Soldier_AT_F", _newpos, [], 0, "NONE"];
 		waitUntil {alive _soldier};
 		doStop _soldier;
 		
-		_newpos = [_newpos, (5 + (random 5)), _dir + (90 + (random 180))] call BIS_fnc_relPos;
+		_newpos = [_newpos, round (random 6), random 360] call BIS_fnc_relPos;
 		_soldier = _campgroup createUnit ["O_Soldier_AA_F", _newpos, [], 0, "NONE"];
 		waitUntil {alive _soldier};
 		doStop _soldier;
