@@ -123,7 +123,7 @@ aw_fnc_randomPos =
 	_debugCounter = 0;
 	while{!_exit} do
 	{
-		if (DEBUG) then { diag_log format["Finding flat position in aw_fnc_randomPos script.Attempt #%1",_debugCounter]; };
+		//if (DEBUG) then { diag_log format["Finding flat position in aw_fnc_randomPos script.Attempt #%1",_debugCounter]; };
 		_debugCounter = _debugCounter + 1;
 		
 		_radius = random (_this select 1);
@@ -169,7 +169,7 @@ aw_fnc_randomPosbl1p =
 	_debugCounter = 0;
 	while{!_exit} do
 	{
-		if (DEBUG) then { diag_log format["Finding flat position in aw_fnc_randomPosBL1P script.Attempt #%1",_debugCounter]; };
+		//if (DEBUG) then { diag_log format["Finding flat position in aw_fnc_randomPosBL1P script.Attempt #%1",_debugCounter]; };
 		_debugCounter = _debugCounter + 1;
 		
 		_radius = _this select 1;

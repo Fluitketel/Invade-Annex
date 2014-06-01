@@ -293,7 +293,7 @@ _enemiesArray = _enemiesArray + campArray;
 						
 						"O_officer_F" createUnit [_randomPos, _spawnGroupSP];
 						// wait untill alive
-						waitUntil {alive (leader _spawnGroupSP)};
+						//waitUntil {alive (leader _spawnGroupSP)};
 						
 						(leader _spawnGroupSP) addWeapon "Rangefinder";
 						(leader _spawnGroupSP) selectWeapon "Rangefinder";
@@ -378,7 +378,7 @@ _enemiesArray = _enemiesArray + campArray;
 					
 					
 					// wait untill alive
-					waitUntil {alive (leader _spawnGroup)};
+					//waitUntil {alive (leader _spawnGroup)};
 							nul=[(leader _spawnGroup), "aoCircle","RANDOM"] execVm "scripts\UPSMON.sqf";
 					sleep 0.5;
 					[(leader _spawnGroup)] execVM "core\spotter.sqf";
@@ -447,7 +447,7 @@ _enemiesArray = _enemiesArray + campArray;
 					
 					//
 					// wait untill alive
-					waitUntil {alive (leader _spawnGroup)};
+					//waitUntil {alive (leader _spawnGroup)};
 					sleep 0.5;
 					[_spawnGroup, getMarkerPos currentAO,75] call aw_fnc_spawn2_perimeterPatrol;
 					sleep 0.5;
@@ -539,7 +539,7 @@ _enemiesArray = _enemiesArray + campArray;
 							_HotelName setMarkerSize [100, 100];
 							_HotelName setMarkerAlpha 0;
 							// wait untill alive
-							waitUntil {alive (leader _spawnGroup)};
+							//waitUntil {alive (leader _spawnGroup)};
 							nul=[(leader _spawnGroup), "HOTEL", "RANDOMA", "NOSHARE"] execVm "scripts\UPSMON.sqf";
 							
 					
@@ -575,7 +575,7 @@ _enemiesArray = _enemiesArray + campArray;
 					//--- bl1p normal none hotel
 						_HousesPercent = random 10;
 						// wait untill alive
-						waitUntil {alive (leader _spawnGroup)};
+						//waitUntil {alive (leader _spawnGroup)};
 						if ((Houses) && (_HousesPercent <= PARAMS_HousesPercent)) then 
 						{
 						if (DEBUG) then {diag_log format ["_HousesPercent = %1 PARAMS_HousesPercent = %2 :: Houses = %3",_HousesPercent,PARAMS_HousesPercent,Houses];};
@@ -727,7 +727,7 @@ _enemiesArray = _enemiesArray + campArray;
 									};
 								};
 							// wait untill alive
-							waitUntil {alive (leader _spawnGroupSPX)};
+							//waitUntil {alive (leader _spawnGroupSPX)};
 							sleep 0.5;
 							//[_spawnGroupSPX, getMarkerPos currentAO,700] call aw_fnc_spawn2_perimeterPatrol;
 							_upsZoneExt = createTrigger ["EmptyDetector", getMarkerPos currentAO];
@@ -889,7 +889,7 @@ _enemiesArray = _enemiesArray + campArray;
 					};
 			if ( _randarmour <= PARAMS_ArmourChance) then
 			{
-				
+				if (DEBUG) then {diag_log format ["Creating %1 Armour vehicles",PARAMS_ArmourPatrol];};
 				for "_x" from 1 to (round random PARAMS_ArmourPatrol) do 
 				{
 					_armourGroup = createGroup east;
@@ -1083,7 +1083,7 @@ BL_fnc_towerDefence =
 	_x = 0;
 	for "_x" from 1 to PARAMS_TowerDefenders do 
 	{
-		_randomPos = [getMarkerPos "radioMarker", 100] call aw_fnc_randomPosbl1p;
+		_randomPos = [getMarkerPos "radioMarker", 10] call aw_fnc_randomPosbl1p;
 		if ((count _randomPos) == 3) then 
 		{
 			_spawnGroup = createGroup EAST;
@@ -1093,8 +1093,8 @@ BL_fnc_towerDefence =
 			"O_recon_F" createUnit [_randomPos, _spawnGroup];
 			
 			// wait untill alive
-			waitUntil {alive (leader _spawnGroup)};
-			[_spawnGroup, getMarkerPos "radioMarker"] call BIS_fnc_taskDefend;
+			//waitUntil {alive (leader _spawnGroup)};
+			//[_spawnGroup, getMarkerPos "radioMarker"] call BIS_fnc_taskDefend;
 			[(units _spawnGroup)] call aw_setGroupSkill;
 			sleep 1;
 			
@@ -1154,13 +1154,13 @@ BL_fnc_towerDefence =
 			
 			
 			_upsZone3 = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-			_upsZone3 setTriggerArea [PARAMS_AOSize, PARAMS_AOSize, 0, false];
+			_upsZone3 setTriggerArea [100, 100, 0, false];
 			
 			_spawnGroupSN = createGroup EAST;
 			
 			"O_sniper_F" createUnit [getMarkerPos "radioMarker", _spawnGroupSN];
 			// wait untill alive
-			waitUntil {alive (leader _spawnGroupSN)};
+			//waitUntil {alive (leader _spawnGroupSN)};
 			
 					[(leader _spawnGroupSN), _upsZone3, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
 				

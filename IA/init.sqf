@@ -615,7 +615,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		_debugCounter = 1;
 		while {(count _flatPos) < 1} do
 		{
-			if (DEBUG) then { diag_log format["Finding position in INIT script For radio tower.Attempt #%1",_debugCounter]; };
+			//if (DEBUG) then { diag_log format["Finding position in INIT script For radio tower.Attempt #%1",_debugCounter]; };
 			_debugCounter = _debugCounter + 1;
 			_position = [[[getMarkerPos currentAO, PARAMS_AOSize],dt],["water","out"]] call BIS_fnc_randomPos;
 			_flatPos = _position isFlatEmpty[3, 1, 0.7, 20, 0, false];

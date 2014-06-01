@@ -64,7 +64,7 @@ while {!_giveup} do
 									_debugCounter = 1;
 									diag_log "Cant find a good convoy start position exit 1";
 								};
-								if (DEBUG) then { diag_log format["Finding flat position in convoy script.Attempt #%1",_debugCounter]; };
+								//if (DEBUG) then { diag_log format["Finding flat position in convoy script.Attempt #%1",_debugCounter]; };
 
 								//---bl1p change from 3000 to 10000 when not testing
 								_position = [[[getMarkerPos currentAO,10000]],["water","out"]] call BIS_fnc_randomPos;
