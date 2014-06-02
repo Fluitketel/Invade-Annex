@@ -256,9 +256,6 @@ _mindist=(_rangeX^2+_rangeY^2)/4;
 //_orgSpeed = speedmode _npc;
 _orgMode = "SAFE";
 _orgSpeed = "LIMITED";
-
-
-
 _speedmode = _orgSpeed;
 
 if (DEBUG) then {diag_log format ["UPS +++++_orgMode = %1 :: _orgSpeed = %2 _speedmode = %3++++++",_orgMode,_orgSpeed,_speedmode];};
