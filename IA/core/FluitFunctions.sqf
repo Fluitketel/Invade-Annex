@@ -375,7 +375,6 @@ random_camps = {
 	_markercolor = "ColorRed";
 	while {count _camplocations < _amount} do {
 		_triesroad = _triesroad - 1;
-		diag_log format ["location: %1",_location];
 		if (count _location == 3) then {
 			_position = [_location, ceil (random _radius), random 360] call BIS_fnc_relPos; // User defined location
 		} else {
@@ -395,7 +394,11 @@ random_camps = {
 					_campdir = [_road] call road_dir;
 				} else {
 					_camppos = [_position, ceil (random 200), random 360] call BIS_fnc_relPos;
-					_campdir = [_location, _camppos] call BIS_fnc_DirTo;
+					_campdir = random 360;
+					if (count _location == 3) then {
+						// Align the camp with the center of the location
+						_campdir = [_location, _camppos] call BIS_fnc_DirTo;
+					};
 				};
 				_allowed = true;
 				{
@@ -417,7 +420,7 @@ random_camps = {
 						case 2: {_created = [_camppos, _campdir] call hmg_camp; _markercolor = "ColorGreen"; };
 					};
 				} else {
-					//diag_log format ["Position %1 not allowed.", _camppos];
+					diag_log format ["Position %1 not allowed.", _camppos];
 				};
 				
 				if (_created) exitWith {
@@ -433,7 +436,7 @@ random_camps = {
 						_m setMarkerColor _markercolor;
 					};
 				};
-				if (_triescamp <= 0) exitWith {
+				if (_triescamp < 1) exitWith {
 					diag_log "Camp creation failed. Trying different location.";
 					_created = true;
 				};
@@ -468,7 +471,6 @@ defensive_roadblocks = {
 	_triesroad = 10 * _amount; // Number of tries to find a road
 	while {count _camplocations < _amount} do {
 		_triesroad = _triesroad - 1;
-		diag_log format ["location: %1",_location];
 		_position = [_location, _radius, random 360] call BIS_fnc_relPos;
 		_list = _position nearRoads 200; // Get roads near this position
 		_created = false;
