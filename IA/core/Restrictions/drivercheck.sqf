@@ -95,6 +95,21 @@ _layer = 85125;
 			   };
             };
 			
+			
+			//Mortar check
+			if (typeOf _veh == "O_Mortar_01_F") then 
+			{
+                //_friend = player getVariable "friend";
+			    _forbidden = [gunner _veh];
+                if (player in _forbidden) then 
+			   {
+					_veh setVehicleAmmo 0;
+					systemChat format ["Sorry %1 Mortar is Damaged",name player];
+                    player action ["getOut", _veh];
+					sleep 1;
+			   };
+            };
+			
 			//friend and pilot check on PLANE
 			if (typeOf _veh == "B_Plane_CAS_01_F") then 
 			{
@@ -105,7 +120,7 @@ _layer = 85125;
 					systemChat format ["Sorry %1 Only LvL 1 Plane Pilots in the vehicle",name player];
                     player action ["eject", _veh];
 					_veh engineon false;
-					sleep 1;
+					sleep 0.5;
 			   };
             };
 			
