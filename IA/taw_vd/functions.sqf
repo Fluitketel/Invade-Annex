@@ -49,17 +49,17 @@ fnc_terrainchange =
 	{
 		case "none":
 		{
-			setTerrainGrid 50;
+			setTerrainGrid 3.125;
 		};
 		
 		case "low":
 		{
-			setTerrainGrid 30;
+			setTerrainGrid 3.125;
 		};
 		
 		case "norm":
 		{
-			setTerrainGrid 12.5;
+			setTerrainGrid 3.125;
 		};
 		
 		case "high":

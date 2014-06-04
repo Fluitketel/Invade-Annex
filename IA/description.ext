@@ -55,22 +55,17 @@ class Params
 		default = 0;
 	};
 
-	class TimeOfDay
+
+class Daytime
 	{
-		title = "Time of Day";
-		values[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,25};
-		texts[] = {"00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","Random"};
-		default = 9;
+		title = "Time";
+		texts[] = {"Morning","Day","Evening","Night"};
+		values[] = {6,12,18,0};
+		default = 12;
+		function = "BIS_fnc_paramDaytime"; // (Optional) Function called when player joins, selected value is passed as an argument
+ 		isGlobal = 0; // (Optional) 1 to execute script / function locally for every player who joins, 0 to do it only on server
 	};
 
-//	class Weather
-//	{
-//		title = "initialWeather";
-//		values[] = {1,2,3,4,5,6,7};
-//		texts[] = {"Clear","Overcast","Light Rain","Heavy Rain","Light Fog","Heavy Fog","Random"};
-//		default = 1;
-//	};
-	
 	class AOENDCOUNT
 	{
 		title = "Amount of AO to complete";
@@ -127,22 +122,6 @@ class Params
 		default = 10;
 	};
 
-    class MedicMarkers
-	{
-		title = "Should medics see revive icons on their screen?";
-		values[] = {1,0};
-		texts[] = {"Yes","No"};
-		default = 0;
-	};
-
-	class SpawnWrecks
-	{
-		title = "Spawn random wrecks across the island?";
-		values[] = {0};
-		texts[] = {"No"};
-		default = 0;
-	};
-	
 	class Space1
 		{
 			title = "                                                                    ENEMY SETTINGS"; 
@@ -450,139 +429,6 @@ class CfgNotifications
 		priority = 8;
 	};
 
-	class NewSideMission
-	{
-		title = "NEW SIDE MISSION";
-		iconPicture = "notificons\side_mission.paa";
-		description = "%1";
-		color[] = {0, 0.7, 0.93, 1};
-		priority = 7;
-	};
-
-	class NewSideMissionFileData
-	{
-		title = "NEW SIDE MISSION";
-		iconPicture = "notificons\laptop.paa";
-		description = "%1";
-		color[] = {0, 0.7, 0.93, 1};
-		priority = 7;
-	};
-
-	class NewSideMissionFileDataComplete
-	{
-		title = "FILE DATA SAVED";
-		description = "%1";
-		iconPicture = "notificons\laptop.paa";
-		color[] = {0.38, 0.81, 0.16, 1};
-		priority = 6;
-	};
-
-	class NewSideMissionRadar
-	{
-		title = "NEW SIDE MISSION";
-		iconPicture = "notificons\smdestroyradar.paa";
-		description = "%1";
-		color[] = {0, 0.7, 0.93, 1};
-		priority = 7;
-	};
-	class CompletedSideMission
-	{
-		title = "SIDE MISSION COMPLETE";
-		iconPicture = "notificons\side_mission_completed.paa";
-		description = "%1";
-		color[] = {0, 0.7, 0.93, 1};
-		priority = 7;
-	};
-
-	class NewPriorityTarget
-	{
-		title = "NEW PRIORITY TARGET";
-		iconPicture = "notificons\priority_target.paa";
-		description = "%1";
-		color[] = {0.8, 0.13, 0.14, 1};
-		priority = 10;
-	};
-
-	class CompletedPriorityTarget
-	{
-		title = "PRIORITY TARGET DOWN";
-		iconPicture = "notificons\priority_target_neutralised.paa";
-		description = "%1";
-		color[] = {0.8, 0.13, 0.14, 1};
-		priority = 10;
-	};
-
-	class EnemyHelo
-	{
-		title = "ENEMY HELICOPTER INBOUND";
-		iconPicture = "notificons\heloinbound.paa";
-		description = "%1";
-		color[] = {0.8, 0.13, 0.14, 1};
-		priority = 8;
-	};
-
-	class EnemyHeloDown
-	{
-		title = "ENEMY HELICOPTER NEUTRALIZED";
-		iconPicture = "notificons\down.paa";
-		description = "%1";
-		color[] = {1, 0.81, 0.06, 1};
-		priority = 8;
-	};
-
-	class EnemyJetDown
-	{
-		title = "ENEMY HELICOPTER NEUTRALIZED";
-		iconPicture = "notificons\down.paa";
-		description = "%1";
-		color[] = {1, 0.81, 0.06, 1};
-		priority = 8;
-	};
-
-	class EnemyHeavyHelo
-	{
-		title = "ENEMY HELICOPTER INBOUND";
-		iconPicture = "notificons\heavyheliinbound.paa";
-		description = "%1";
-		color[] = {0.8, 0.13, 0.14, 1};
-		priority = 8;
-	};
-
-	class EnemyJet
-	{
-		title = "ENEMY JET INBOUND";
-		iconPicture = "notificons\enemyJetinbound.paa";
-		description = "%1";
-		color[] = {0.8, 0.13, 0.14, 1};
-		priority = 8;
-	};
-
-	class NewSideMissionJet
-	{
-		title = "NEW SIDE MISSION";
-		iconPicture = "notificons\enemyJetinbound.paa";
-		description = "%1";
-		color[] = {0.8, 0.13, 0.14, 1};
-		priority = 8;
-	};
-
-	class EnemyHeavyHeloDown
-	{
-		title = "ENEMY HELICOPTER NEUTRALIZED";
-		iconPicture = "notificons\down.paa";
-		description = "%1";
-		color[] = {1, 0.81, 0.06, 1};
-		priority = 8;
-	};
-
-	class FriendlyHeavyHeloDown
-	{
-		title = "FRIENDLY HELO GOT NEUTRALIZED";
-		iconPicture = "notificons\down.paa";
-		description = "%1";
-		color[] = {1, 0.81, 0.06, 1};
-		priority = 8;
-	};
 	class Reward
 	{
 		title = "TEAM REWARD";
@@ -592,15 +438,6 @@ class CfgNotifications
 		priority = 6;
 	};
 
-	class ScoreBonus
-	{
-		title = "SCORE BONUS";
-		description = "%1";
-		iconPicture = "notificons\score_bonus.paa";
-		iconText = "+%2";
-		color[] = {0.38, 0.81, 0.16, 1};
-		priority = 5;
-	};
 };
 
 class RscTitles

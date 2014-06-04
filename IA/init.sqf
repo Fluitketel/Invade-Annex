@@ -309,19 +309,21 @@ if (PARAMS_SpawnProtection == 1) then { _null = [] execVM "scripts\grenadeStop.s
 if (PARAMS_PlayerMarkers == 1) then { _null = [] execVM "misc\playerMarkers.sqf"; };
 
 //Set time of day
-	if (PARAMS_TimeOfDay == 25) then 
-		{
-			_randTime = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23] call BIS_fnc_selectRandom; 
-			skipTime _randTime;
-			if(DEBUG) then
-			{
-			diag_log format ["_randTime = %1",_randTime]
-			};
-		}
-	else
-	{
-		skipTime PARAMS_TimeOfDay;
-	};
+//	if (PARAMS_TimeOfDay == 25) then 
+//		{
+//			_randTime = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23] call BIS_fnc_selectRandom; 
+//			skipTime _randTime;
+//			if(DEBUG) then
+//			{
+//			diag_log format ["_randTime = %1",_randTime]
+//			};
+//		}
+//	else
+//	{
+//		skipTime PARAMS_TimeOfDay;
+//	};
+
+
 // report weather if debug
 // removed because of none sync
 if(DEBUG) then

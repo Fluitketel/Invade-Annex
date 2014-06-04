@@ -1,4 +1,4 @@
-//--- BL1P THIS SCRIPT IS AUTO RAN BY BIS ON PAYER RESPAWN
+//--- BL1P THIS SCRIPT IS AUTO RAN BY BIS ON PlAYER RESPAWN
 	if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked from the onPlayerrespawn.sqf I am not a true client";};
     
 	_unit = _this select 0;

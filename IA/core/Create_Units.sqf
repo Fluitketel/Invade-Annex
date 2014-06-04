@@ -150,7 +150,10 @@ _enemiesArray = _enemiesArray + campArray;
 					"O_support_Mort_F" createUnit [_randomPos, _spawnGroupMortarGunner];
 				
 					mortar1 = "O_Mortar_01_F" createVehicle _randomPos;
-					mortar1 setVehicleAmmo 1;
+					//mortar1 setVehicleAmmo 1;
+					mortar1 addEventHandler["Fired",{if (!isPlayer (gunner mortar1)) then { mortar1 setVehicleAmmo 1; };}];
+					mortar1 addEventHandler["GetIn",{if (isPlayer (gunner mortar1)) then { mortar1 setVehicleAmmo 0; };}];
+					
 					
 					_spawnGroupMortarGunner addvehicle mortar1;
 					
@@ -243,7 +246,10 @@ _enemiesArray = _enemiesArray + campArray;
 							"O_support_Mort_F" createUnit [_randomPos, _spawnGroupMortarGunner];
 						
 							mortar2 = "O_Mortar_01_F" createVehicle _randomPos;
-							mortar2 setVehicleAmmo 1;
+							//mortar2 setVehicleAmmo 1;
+							mortar2 addEventHandler["Fired",{if (!isPlayer (gunner mortar2)) then { mortar2 setVehicleAmmo 1; };}];
+							mortar2 addEventHandler["GetIn",{if (isPlayer (gunner mortar2)) then { mortar2 setVehicleAmmo 0; };}];
+							
 							_spawnGroupMortarGunner addvehicle mortar2;
 							
 							

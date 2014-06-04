@@ -87,13 +87,12 @@ class Mission
 		"A3_Structures_F_Training",
 		"A3_Boat_F_Boat_Transport_01",
 		"A3_Air_F_Beta_Heli_Transport_02",
-		"A3_Structures_F_Mil_Flags",
 		"a3_map_altis"
 	};
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co27 [dR] I&A HCVBL61.3.2 Altis";
+		briefingName="co27 [dR] I&A HCVBL61.3.4 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;
@@ -590,7 +589,7 @@ class Mission
 	};
 	class Vehicles
 	{
-		items=171;
+		items=168;
 		class Item0
 		{
 			position[]={15246.208,-0.0082027912,14204.392};
@@ -1292,7 +1291,7 @@ class Mission
 			vehicle="SignAd_Sponsor_Vrana_F";
 			leader=1;
 			skill=0.60000002;
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];         this setObjectTexture [0, ""core\signs\Falcons.paa""] ";
+			init="this allowDamage false;this setObjectTexture [0, ""core\signs\Falcons.paa""] ";
 		};
 		class Item65
 		{
@@ -1303,7 +1302,7 @@ class Mission
 			vehicle="SignAd_Sponsor_F";
 			leader=1;
 			skill=0.60000002;
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];         this setObjectTexture [0, ""core\signs\dr_rules.paa""]";
+			init="this allowDamage false;this setObjectTexture [0, ""core\signs\dr_rules.paa""]";
 		};
 		class Item66
 		{
@@ -1892,7 +1891,7 @@ class Mission
 			vehicle="SignAd_Sponsor_Vrana_F";
 			leader=1;
 			skill=0.60000002;
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];         this setObjectTexture [0, ""core\signs\dr.paa""] ";
+			init="this allowDamage false;this setObjectTexture [0, ""core\signs\dr.paa""] ";
 		};
 		class Item122
 		{
@@ -2335,7 +2334,7 @@ class Mission
 			vehicle="SignAd_Sponsor_Vrana_F";
 			skill=0.60000002;
 			text="Supportsign";
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];         this setObjectTexture [0, ""core\signs\Support.paa""];this addAction[""Order support vehicle"",VVS_fnc_openVVS,[""VVS_Support_1"",""Support""]]; ";
+			init="this allowDamage false;this setObjectTexture [0, ""core\signs\Support.paa""];this addAction[""Order support vehicle"",VVS_fnc_openVVS,[""VVS_Support_1"",""Support""]]; ";
 		};
 		class Item164
 		{
@@ -2346,7 +2345,7 @@ class Mission
 			vehicle="SignAd_Sponsor_Vrana_F";
 			skill=0.60000002;
 			text="Supportsign_1";
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];         this setObjectTexture [0, ""core\signs\Air.paa""];this addAction[""Order Air Vehicle"",VVS_fnc_openVVS,[""VVS_air_1"",""Air""]];";
+			init="this allowDamage false;this setObjectTexture [0, ""core\signs\Air.paa""];this addAction[""Order Air Vehicle"",VVS_fnc_openVVS,[""VVS_air_1"",""Air""]];";
 		};
 		class Item165
 		{
@@ -2357,7 +2356,7 @@ class Mission
 			vehicle="SignAd_Sponsor_Vrana_F";
 			skill=0.60000002;
 			text="Supportsign_2";
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];         this setObjectTexture [0, ""core\signs\Cars.paa""];this addAction[""Order Car vehicle"",VVS_fnc_openVVS,[""VVS_car_1"",""Car""]];";
+			init="this allowDamage false;this setObjectTexture [0, ""core\signs\Cars.paa""];this addAction[""Order Car vehicle"",VVS_fnc_openVVS,[""VVS_car_1"",""Car""]];";
 		};
 		class Item166
 		{
@@ -2368,7 +2367,7 @@ class Mission
 			vehicle="SignAd_Sponsor_Vrana_F";
 			skill=0.60000002;
 			text="Supportsign_3";
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];         this setObjectTexture [0, ""core\signs\Armour.paa""];this addAction[""Order Armoured vehicle"",VVS_fnc_openVVS,[""VVS_tank_1"",""Armored""]];";
+			init="this allowDamage false;this setObjectTexture [0, ""core\signs\Armour.paa""];this addAction[""Order Armoured vehicle"",VVS_fnc_openVVS,[""VVS_tank_1"",""Armored""]];";
 		};
 		class Item167
 		{
@@ -2379,33 +2378,6 @@ class Mission
 			vehicle="Land_CncBarrierMedium4_F";
 			leader=1;
 			skill=0.60000002;
-		};
-		class Item168
-		{
-			position[]={14644.456,17.91,16750.219};
-			id=198;
-			side="EMPTY";
-			vehicle="Flag_UK_F";
-			skill=0.60000002;
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];";
-		};
-		class Item169
-		{
-			position[]={14646.588,17.91,16752.391};
-			id=199;
-			side="EMPTY";
-			vehicle="Flag_UNO_F";
-			skill=0.60000002;
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];this setFlagTexture ""core\signs\dr.paa""; this allowDamage false;";
-		};
-		class Item170
-		{
-			position[]={14648.645,17.91,16754.564};
-			id=200;
-			side="EMPTY";
-			vehicle="Flag_US_F";
-			skill=0.60000002;
-			init="this allowDamage false; this addEventHandler [""HandleDamage"",{}];";
 		};
 	};
 	class Markers

@@ -15,6 +15,9 @@ Xeno for DOM_squad management no link
 tpwcas Ai supresion scriptng = http://www.armaholic.com/page.php?id=17049
 TAW_VD view distance scripts = http://www.armaholic.com/page.php?id=19751
 Kegertys spectator scripts = http://forums.bistudio.com/showthread.php?148405-Kegety-s-Spectating-script-1-05-for-Arma-3
-Benny Warfare for script snippets stolen from his CTI and Warfare missions.
+Benny Warfare for script snippets stolen from his CTI and Warfare missions. (with his permission)
+Dedicated Rejects for hosting the Mission.
+All Dedicated Rejects Arma3 members who helped test the mission and didnt moad about stuff that went wrong.
+
 
 If I have missed anybody out I am sorry and please contact me (BL1P) and I will add you to the credits.

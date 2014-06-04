@@ -11,8 +11,8 @@ if(_type == "") exitWith {};
 	
 switch (_type) do
 {
-	case "none": {if(isNil "tawvd_disablenone") then {setTerrainGrid 6;};};
-	case "low": {setTerrainGrid 5;};
-	case "norm": {setTerrainGrid 4;};
+	case "none": {if(isNil "tawvd_disablenone") then {setTerrainGrid 3.125;};};
+	case "low": {setTerrainGrid 3.125;};
+	case "norm": {setTerrainGrid 3.125;};
 	case "high": {setTerrainGrid 3.125;};
 };
