@@ -327,17 +327,6 @@ vas_backpacks = [
 "B_AssaultPack_rgr_LAT",
 "B_AssaultPack_sgg",
 
-"B_Bergen_blk",
-"B_Bergen_mcamo",
-"B_Bergen_rgr",
-"B_Bergen_sgg",
-
-"B_Carryall_cbr",
-"B_Carryall_khk",
-"B_Carryall_mcamo",
-"B_Carryall_oli",
-"B_Carryall_oucamo",
-
 "B_FieldPack_blk",
 "B_FieldPack_blk_DiverExp",
 "B_FieldPack_cbr",
@@ -397,7 +386,18 @@ vas_glasses = [];
 //Below are variables you can use to restrict certain items from being used.
 //Remove Weapon
 vas_r_weapons = [];
-vas_r_backpacks = [];
+vas_r_backpacks = 
+[
+"B_Bergen_blk",
+"B_Bergen_mcamo",
+"B_Bergen_rgr",
+"B_Bergen_sgg",
+"B_Carryall_cbr",
+"B_Carryall_khk",
+"B_Carryall_mcamo",
+"B_Carryall_oli",
+"B_Carryall_oucamo"
+];
 //Magazines to remove from VAS
 vas_r_magazines = ["Titan_AP","30Rnd_556x45_Stanag_Tracer_Yellow","30Rnd_556x45_Stanag_Tracer_Green"];
 //Items to remove from VAS

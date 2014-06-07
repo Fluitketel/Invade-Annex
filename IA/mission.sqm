@@ -820,7 +820,7 @@ class Mission
 			vehicle="B_supplyCrate_F";
 			skill=0.60000002;
 			text="ammo1";
-			init="this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false";
+			init="clearitemcargo this;  clearWeaponCargoGlobal this;  clearMagazineCargoGlobal this;      this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false";
 		};
 		class Item21
 		{
@@ -1247,7 +1247,7 @@ class Mission
 			vehicle="B_supplyCrate_F";
 			skill=0.60000002;
 			text="ammo6";
-			init="this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false";
+			init="clearitemcargo this;  clearWeaponCargoGlobal this;  clearMagazineCargoGlobal this;      this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false";
 		};
 		class Item61
 		{
@@ -1258,7 +1258,7 @@ class Mission
 			vehicle="B_supplyCrate_F";
 			skill=0.60000002;
 			text="ammo7";
-			init="this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false";
+			init="clearitemcargo this;  clearWeaponCargoGlobal this;  clearMagazineCargoGlobal this;      this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false";
 		};
 		class Item62
 		{
@@ -1946,7 +1946,7 @@ class Mission
 			vehicle="B_supplyCrate_F";
 			skill=0.60000002;
 			text="ammo6_1";
-			init="this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false";
+			init="clearitemcargo this;  clearWeaponCargoGlobal this;  clearMagazineCargoGlobal this;      this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false;";
 		};
 		class Item127
 		{

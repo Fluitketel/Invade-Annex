@@ -328,7 +328,15 @@ if (_noslow!="NOSLOW") then {
 	_npc setSpeedMode "limited";
 	_speedmode = "limited";
 }; 
-
+//--- bl1p
+if (_noslow=="NOSLOW") then 
+	{
+		_npc setbehaviour "SAFE"; 
+		_npc setSpeedMode "FULL";
+		_npc setFormation "LINE";	
+		_speedmode = "FULL";		
+	}; 
+	
 // make start position random 
 if (_initpos!="ORIGINAL") then {
 	// find a random position (try a max of 20 positions)

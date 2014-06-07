@@ -1,6 +1,16 @@
     diag_log "========================== I AM IN THE RPT START FROM initPlayerLocal.sqf ======================"; //--- THIS SCRIPT IS AUTO RAN BY BIS ON PAYER JOINING
 	if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked from the intiPlayerLocal.sqf I am not a true client";};
 
+	
+//--- Lets remove everything
+	removeAllWeapons player;
+	removeAllItems player;
+	removeBackpack player;
+	removeVest player;
+	removeHeadgear player;
+	player unassignItem "NVGoggles";
+	player removeItem "NVGoggles";
+	
 //--- Wait for player to initialize
 	waitUntil {!isNull player}; 
 	
@@ -24,8 +34,3 @@
 //--- bl1p ooo im tired // removed to see if flipped stops walking because of this script
 //	execVM "core\fatigueSystem\fatiguesystem.sqf";											//--- Alter amount of damage effects
 //	execVM "core\fatigueSystem\reducedfatigue.sqf";											//--- Alter amount of damage effects
-	
-	 
-
-	
-	

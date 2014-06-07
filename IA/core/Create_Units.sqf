@@ -740,12 +740,7 @@ _enemiesArray = _enemiesArray + campArray;
 							_upsZoneExt setTriggerArea [1000, 1000, 0, false];
 							sleep 0.5;
 							
-							{
-							_x setbehaviour "safe"; 
-							_x setSpeedMode "limited";
-							} foreach units _spawnGroupSPX;
-							
-							[(leader _spawnGroupSPX), _upsZoneExt , "noslow"] execVM "UPS_BL1P.sqf";
+							[(leader _spawnGroupSPX), _upsZoneExt] execVM "UPS_BL1P.sqf";
 							
 							sleep 0.5;
 							[(units _spawnGroupSPX)] call aw_setGroupSkill;

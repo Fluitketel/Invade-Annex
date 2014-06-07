@@ -3,9 +3,9 @@ _unit = _this select 0;
 if(isNull _unit) exitWith {};
 
 //--- clear all cargo all vehicles
-clearitemcargo _unit; 
-clearWeaponCargoGlobal _unit; 
-clearMagazineCargoGlobal _unit;
+//clearitemcargo _unit; 
+//clearWeaponCargoGlobal _unit; 
+//clearMagazineCargoGlobal _unit;
 
 //--- Mowhawk
 if(typeOf _unit == "I_Heli_Transport_02_F") then 
@@ -29,31 +29,9 @@ if((_unit isKindOf "I_Heli_Transport_02_F")) then
 //--- boats
 if((_unit isKindOf "Ship") OR (_unit isKindOf "Wheeled_APC_F")) then {[_unit] execVM "scripts\aw_boatPush\aw_boatPush_setupUnit.sqf"};
 
-//--- hunters
-if (typeOf _unit == "B_MRAP_01_F") then 
-	{
-		// fill vehicle with our junk
 
-		_unit addItemCargoGlobal ["FirstAidKit", 25];
-		_unit addMagazineCargoGlobal ["30Rnd_556x45_Stanag", 50];
-		_unit addMagazineCargoGlobal ["200Rnd_65x39_cased_Box_Tracer", 10];
-		_unit addMagazineCargoGlobal ["30Rnd_65x39_caseless_mag", 50];
-		_unit addMagazineCargoGlobal ["30Rnd_65x39_caseless_mag_Tracer",50];
-		_unit addMagazineCargoGlobal ["100Rnd_65x39_caseless_mag_Tracer",50];
-		_unit addMagazineCargoGlobal ["ATMine_Range_Mag",5];
-		_unit addMagazineCargoGlobal ["APERSBoundingMine_Range_Mag",5];
-		_unit addMagazineCargoGlobal ["ClaymoreDirectionalMine_Remote_Mag",5];
-		_unit addMagazineCargoGlobal ["SatchelCharge_Remote_Mag", 2];
-		_unit addMagazineCargoGlobal ["HandGrenade", 20];
-		_unit addMagazineCargoGlobal ["SmokeShell", 20];
-		_unit addMagazineCargoGlobal ["SmokeShellGreen", 20];
-		_unit addMagazineCargoGlobal ["3Rnd_HE_Grenade_shell", 20];
-		_unit addMagazineCargoGlobal ["NLAW_F", 2];
-		_unit addMagazineCargoGlobal ["Titan_AT", 2];
-		_unit addMagazineCargoGlobal ["Titan_AA", 2];	
-	};
 //--- Trucks
-if ((typeOf _unit == "B_Truck_01_covered_F") || (typeOf _unit == "B_Truck_01_transport_F") || (typeOf _unit == "B_Truck_01_ammo_F") || (typeOf _unit == "B_Truck_01_Repair_F")) then 
+if (typeOf _unit == "B_Truck_01_ammo_F") then 
 	{
 		// fill vehicle with our junk
 
