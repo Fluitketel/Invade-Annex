@@ -79,211 +79,36 @@ _enemiesArray = _enemiesArray + campArray;
 
 //////////////////////////////////////////////////////// MORTAR START ////////////////////////////////////////////////////////			
 	//-- define vars for mortars	
-		CreatedMortar1 = false;
-		createdmortar2 = false;
-		_randmort = random 10;
-		_ExtOrCenterChance = random 10;
-		if(DEBUG) then
-			{
-				if ( _randmort <= PARAMS_MortarChance) then	
-				{
-				diag_log format [" ==== CREATING MORTARS ==== _randmort = %1 PARAMS_MortarChance = %2",_randmort,PARAMS_MortarChance];
-				};
-				if ( _randmort > PARAMS_MortarChance) then	
-				{
-				diag_log format ["==== NOT CREATING MORTARS ==== _randmort = %1 PARAMS_MortarChance = %2 ",_randmort,PARAMS_MortarChance];
-				};
-				
-			};
+	Mortars = [];
+	_randmort = random 10;
+	Createmortars = false;
+	if (random 10 <= PARAMS_MortarChance) then {
+		Createmortars = true;
+	};
+	_interior = false;
+	if (random 10 <= PARAMS_INOUTMortarChance) then {
+		_interior = true;
+	};
 
-	// mortar team one
-		if ( _randmort <= PARAMS_MortarChance) then	
-		{
-			_x = 0;
-			for "_x" from 1 to 1 do 
-			{
-			
-				
-				if (DEBUG) then 
-					{
-						diag_log format ["_ExtOrCenterChance = %1",_ExtOrCenterChance];
-					};
-				if (_ExtOrCenterChance <= PARAMS_INOUTMortarChance) then
-				{
-					if(DEBUG) then 
-					{
-					diag_log "========creating mortars INSIDE AO Mortar1===========";
-					};
-					_randomPos = [getMarkerPos currentAO, 100,5] call aw_fnc_randomPos;
-				}
-				else
-				{
-					if(DEBUG) then {diag_log "==========creating mortars OUTSIDE AO Mortar1=========";};
-					_randomPos = [getMarkerPos currentAO, 1000,5] call aw_fnc_randomPosbl1p;
-				};
-				
-				// Only create if a valid position was found
-					if (DEBUG) then 
-					{
-					diag_log format ["Mortar1 _randomPos = %1",_randomPos];
-					};
-				if ((count _randomPos) == 3) then 
-				{
-					CreatedMortar1 = true;
-					_spawnGroup = createGroup EAST;
-					_spawnGroupMortarGunner = createGroup EAST;
-					
-					if (_ExtOrCenterChance >= PARAMS_INOUTMortarChance) then
-					{
-						"O_SoldierU_SL_F" createUnit [_randomPos, _spawnGroup];
-						"O_soldierU_AA_F" createUnit [_randomPos, _spawnGroup];
-						"O_soldierU_AR_F" createUnit [_randomPos, _spawnGroup];
-						"O_soldierU_AR_F" createUnit [_randomPos, _spawnGroup];
-						"O_SoldierU_GL_F" createUnit [_randomPos, _spawnGroup];
-
-						[_spawnGroup, _randomPos,100] call aw_fnc_spawn2_perimeterPatrol;
-						
-						sleep 1;
-					};
-					
-					
-					"O_support_Mort_F" createUnit [_randomPos, _spawnGroupMortarGunner];
-				
-					mortar1 = "O_Mortar_01_F" createVehicle _randomPos;
-					//mortar1 setVehicleAmmo 1;
-					mortar1 addEventHandler["Fired",{if (!isPlayer (gunner mortar1)) then { mortar1 setVehicleAmmo 1; };}];
-					mortar1 addEventHandler["GetIn",{if (isPlayer (gunner mortar1)) then { mortar1 setVehicleAmmo 0; };}];
-					
-					
-					_spawnGroupMortarGunner addvehicle mortar1;
-					
-					
-					
-					((units _spawnGroupMortarGunner) select 0) assignAsGunner mortar1;
-					((units _spawnGroupMortarGunner) select 0) moveInGunner mortar1;
-					[(units _spawnGroupMortarGunner)] call aw_setGroupSkill;
-					sleep 1;
-
-					if(DEBUG) then
-					{
-						_name = format ["%1%2",name (leader _spawnGroupMortarGunner),_x];
-						createMarker [_name,getPos (leader _spawnGroupMortarGunner)];
-						_name setMarkerType "o_unknown";
-						_name setMarkerText format ["Mortar1 %1",_x];;
-						_name setMarkerColor "ColorRed";
-						[_spawnGroupMortarGunner,_name] spawn
-						{
-							private["_group","_marker"];
-							_group = _this select 0;
-							_marker = _this select 1;
-
-							while{count (units _group) > 0} do
-							{
-								_marker setMarkerPos (getPos (leader _group));
-								sleep 1;
-							};
-							deleteMarker _marker;
-						};
-					};
-					_enemiesArray = _enemiesArray + [_spawnGroup];
-					_enemiesArray = _enemiesArray + [_spawnGroupMortarGunner];
-				}else {CreatedMortar1 = false;};
-			};
-		
-		// mortar team Two	
-			if (CreatedMortar1) then 
-			{
-					_x = 0;
-					for "_x" from 1 to 1 do {
-						
-						if (DEBUG) then 
-							{
-								diag_log format ["_ExtOrCenterChance = %1",_ExtOrCenterChance];
-							};
-						if (_ExtOrCenterChance <= PARAMS_INOUTMortarChance) then
-						{
-							if(DEBUG) then 
-							{
-							diag_log "==========creating mortars INSIDE AO Mortar2===========";
-							};
-							_randomPos = [getMarkerPos currentAO, 100,5] call aw_fnc_randomPos;
-						}
-						else
-						{
-							if(DEBUG) then 
-							{
-							diag_log "==========creating mortars OUTSIDE AO Mortar2==========";
-							};
-							_randomPos = [getMarkerPos currentAO, 1000,5] call aw_fnc_randomPosbl1p;
-						};
-						
-						
-						// Only create if a valid position was found
-							if (DEBUG) then 
-							{
-							diag_log format ["Mortar2 _randomPos = %1",_randomPos];
-							};
-						if ((count _randomPos) == 3) then 
-						{
-						
-							createdmortar2 = true;
-							_spawnGroup = createGroup EAST;
-							_spawnGroupMortarGunner = createGroup EAST;
-							
-							if (_ExtOrCenterChance >= PARAMS_INOUTMortarChance) then
-							{
-								"O_SoldierU_SL_F" createUnit [_randomPos, _spawnGroup];
-								"O_soldierU_AA_F" createUnit [_randomPos, _spawnGroup];
-								"O_soldierU_AR_F" createUnit [_randomPos, _spawnGroup];
-								"O_soldierU_AR_F" createUnit [_randomPos, _spawnGroup];
-								"O_SoldierU_GL_F" createUnit [_randomPos, _spawnGroup];
-
-								[_spawnGroup, _randomPos,100] call aw_fnc_spawn2_perimeterPatrol;
-								
-								sleep 1;
-							};
-							
-							"O_support_Mort_F" createUnit [_randomPos, _spawnGroupMortarGunner];
-						
-							mortar2 = "O_Mortar_01_F" createVehicle _randomPos;
-							//mortar2 setVehicleAmmo 1;
-							mortar2 addEventHandler["Fired",{if (!isPlayer (gunner mortar2)) then { mortar2 setVehicleAmmo 1; };}];
-							mortar2 addEventHandler["GetIn",{if (isPlayer (gunner mortar2)) then { mortar2 setVehicleAmmo 0; };}];
-							
-							_spawnGroupMortarGunner addvehicle mortar2;
-							
-							
-							((units _spawnGroupMortarGunner) select 0) assignAsGunner mortar2;
-							((units _spawnGroupMortarGunner) select 0) moveInGunner mortar2;
-							[(units _spawnGroupMortarGunner)] call aw_setGroupSkill;
-							sleep 1;
-							
-
-							if(DEBUG) then
-							{
-								_name = format ["%1%2",name (leader _spawnGroupMortarGunner),_x];
-								createMarker [_name,getPos (leader _spawnGroupMortarGunner)];
-								_name setMarkerType "o_unknown";
-								_name setMarkerText format ["Mortar 2 %1",_x];;
-								_name setMarkerColor "ColorRed";
-								[_spawnGroupMortarGunner,_name] spawn
-								{
-									private["_group","_marker"];
-									_group = _this select 0;
-									_marker = _this select 1;
-
-									while{count (units _group) > 0} do
-									{
-										_marker setMarkerPos (getPos (leader _group));
-										sleep 1;
-									};
-									deleteMarker _marker;
-								};
-							};
-							_enemiesArray = _enemiesArray + [_spawnGroup];
-							_enemiesArray = _enemiesArray + [_spawnGroupMortarGunner];
-						}else {createdmortar2 = false;};
-					};
+	if(DEBUG) then {
+		if (Createmortars) then	{
+			diag_log format ["==== CREATING MORTARS ==== _randmort = %1 PARAMS_MortarChance = %2",_randmort,PARAMS_MortarChance];
+		} else {
+			diag_log format ["==== NOT CREATING MORTARS ==== _randmort = %1 PARAMS_MortarChance = %2 ",_randmort,PARAMS_MortarChance];
+		};
+	};
+	
+	if (Createmortars) then {
+		_amountofmortars = 1 + round (random 1);
+		_radius = 700;
+		if (_interior) then {
+			if(DEBUG) then { diag_log "========creating mortars INSIDE AO ===========";};
+			_radius = 70;
+		} else {
+			if(DEBUG) then { diag_log "========creating mortars OUTSIDE AO ===========";};
+		};
+		_camplocations = [1, getMarkerPos currentAO, _radius, _amountofmortars] call random_mortar_camps;
+	};
 			
 		// Spotters
 				_x = 0;
@@ -307,16 +132,11 @@ _enemiesArray = _enemiesArray + campArray;
 						//[_spawnGroupSP, getMarkerPos currentAO,350] call aw_fnc_spawn2_randomPatrol;
 						[_spawnGroupSP, getMarkerPos currentAO,375] call aw_fnc_spawn2_perimeterPatrol;
 						
-						// run mortar spotter if both created
-						if ((createdmortar2) && (CreatedMortar1))  then 
-							{
-								[(leader _spawnGroupSP), [mortar1,mortar2]] execVM "core\mortar_spotter.sqf";
-							};
-						// run mortar spotter if on first is created (second will not create if first is not present)
-						if ((CreatedMortar1) && (!createdmortar2)) then 
-							{
-								[(leader _spawnGroupSP), [mortar1]] execVM "core\mortar_spotter.sqf";
-							};
+						// run mortar spotter if mortars are present
+						if (count Mortars > 0) then 
+						{
+							[(leader _spawnGroupSP), Mortars] execVM "core\mortar_spotter.sqf";
+						};
 						[(units _spawnGroupSP)] call aw_setGroupSkill;
 						sleep 1;
 						if(DEBUG) then
@@ -693,19 +513,11 @@ _enemiesArray = _enemiesArray + campArray;
 										"O_recon_F" createUnit [_randomPos, _spawnGroupSPX];
 									};
 
-									// run mortar spotter if both mortars created
-									if ((_randmort <= PARAMS_MortarChance) && (CreatedMortar1) && (createdmortar2)) then 
-										{
-											sleep 0.5;
-											[(leader _spawnGroupSPX), [mortar1,mortar2]] execVM "core\mortar_spotter.sqf";
-										};
-									// run mortar spotter if only first mortar created  (second will not create if first is not present) 
-									if ((_randmort <= PARAMS_MortarChance) && (CreatedMortar1) && (!createdmortar2)) then 
-										{
-											sleep 0.5;
-											[(leader _spawnGroupSPX), [mortar1]] execVM "core\mortar_spotter.sqf";
-										};
-										
+									// run mortar spotter if both mortars are present
+									if (count Mortars > 0) then 
+									{
+										[(leader _spawnGroupSPX), Mortars] execVM "core\mortar_spotter.sqf";
+									};	
 								};
 							if (_randSquadMort > 6) then 
 								{

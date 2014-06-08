@@ -45,7 +45,7 @@ while { { alive _x; }count _mortars > 0 } do
 		};
 		};
 		
-		if (side _x in _sideToAttack && { alive _x && _spotter knowsAbout _x > 2 } ) then {
+		if (side _x in _sideToAttack && { alive _x && _spotter knowsAbout _x > 2.5 } ) then {
 			_targetpos = getPos _x;
 			sleep 10;
 			if (alive _spotter) then {
