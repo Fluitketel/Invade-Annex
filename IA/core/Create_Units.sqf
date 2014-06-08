@@ -75,8 +75,6 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 };
 //////////////////////////////////////////////////////// ROADBLOCKS END ////////////////////////////////////////////////////////
 
-_enemiesArray = _enemiesArray + campArray;
-
 //////////////////////////////////////////////////////// MORTAR START ////////////////////////////////////////////////////////			
 	//-- define vars for mortars	
 	Mortars = [];
@@ -108,68 +106,66 @@ _enemiesArray = _enemiesArray + campArray;
 			if(DEBUG) then { diag_log "========creating mortars OUTSIDE AO ===========";};
 		};
 		_camplocations = [1, getMarkerPos currentAO, _radius, _amountofmortars] call random_mortar_camps;
+		_enemiesArray = _enemiesArray + campArray;
 	};
 			
-		// Spotters
-				_x = 0;
-				_rand = [2,3,4,5] call BIS_fnc_selectRandom;
-				if (DEBUG) then {diag_log format ["=====Creating %1 MORTSPOT=====",_rand];};
-				for "_x" from 1 to _rand do 
+	// Spotters
+	_x = 0;
+	_rand = [2,3,4,5] call BIS_fnc_selectRandom;
+	if (DEBUG) then {diag_log format ["=====Creating %1 MORTSPOT=====",_rand];};
+	for "_x" from 1 to _rand do 
+	{
+		_randomPos = [getMarkerPos currentAO, 350,2] call aw_fnc_randomPos;
+		if ((count _randomPos) == 3) then 
+		{
+			_spawnGroupSP = createGroup EAST;
+			
+			"O_officer_F" createUnit [_randomPos, _spawnGroupSP];
+			// wait untill alive
+			//waitUntil {alive (leader _spawnGroupSP)};
+			
+			(leader _spawnGroupSP) addWeapon "Rangefinder";
+			(leader _spawnGroupSP) selectWeapon "Rangefinder";
+
+			//[_spawnGroupSP, getMarkerPos currentAO,350] call aw_fnc_spawn2_randomPatrol;
+			[_spawnGroupSP, getMarkerPos currentAO,375] call aw_fnc_spawn2_perimeterPatrol;
+			
+			// run mortar spotter if mortars are present
+			if (count Mortars > 0) then 
+			{
+				[(leader _spawnGroupSP), Mortars] execVM "core\mortar_spotter.sqf";
+			};
+			[(units _spawnGroupSP)] call aw_setGroupSkill;
+			sleep 1;
+			if(DEBUG) then
+			{
+				_name = format ["%1%2",name (leader _spawnGroupSP),_x];
+				createMarker [_name,getPos (leader _spawnGroupSP)];
+				_name setMarkerType "o_unknown";
+				_name setMarkerText format ["M Spotters %1",_x];
+				_name setMarkerColor "ColorRed";
+				[_spawnGroupSP,_name] spawn
 				{
-					
-					_randomPos = [getMarkerPos currentAO, 350,2] call aw_fnc_randomPos;
-					if ((count _randomPos) == 3) then 
-					{
-						_spawnGroupSP = createGroup EAST;
-						
-						"O_officer_F" createUnit [_randomPos, _spawnGroupSP];
-						// wait untill alive
-						//waitUntil {alive (leader _spawnGroupSP)};
-						
-						(leader _spawnGroupSP) addWeapon "Rangefinder";
-						(leader _spawnGroupSP) selectWeapon "Rangefinder";
+					private["_group","_marker"];
+					_group = _this select 0;
+					_marker = _this select 1;
 
-						//[_spawnGroupSP, getMarkerPos currentAO,350] call aw_fnc_spawn2_randomPatrol;
-						[_spawnGroupSP, getMarkerPos currentAO,375] call aw_fnc_spawn2_perimeterPatrol;
-						
-						// run mortar spotter if mortars are present
-						if (count Mortars > 0) then 
-						{
-							[(leader _spawnGroupSP), Mortars] execVM "core\mortar_spotter.sqf";
-						};
-						[(units _spawnGroupSP)] call aw_setGroupSkill;
+					while{count (units _group) > 0} do
+					{
+						_marker setMarkerPos (getPos (leader _group));
 						sleep 1;
-						if(DEBUG) then
-						{
-							_name = format ["%1%2",name (leader _spawnGroupSP),_x];
-							createMarker [_name,getPos (leader _spawnGroupSP)];
-							_name setMarkerType "o_unknown";
-							_name setMarkerText format ["M Spotters %1",_x];
-							_name setMarkerColor "ColorRed";
-							[_spawnGroupSP,_name] spawn
-							{
-								private["_group","_marker"];
-								_group = _this select 0;
-								_marker = _this select 1;
-
-								while{count (units _group) > 0} do
-								{
-									_marker setMarkerPos (getPos (leader _group));
-									sleep 1;
-								};
-								deleteMarker _marker;
-							};
-						};
-
-						_enemiesArray = _enemiesArray + [_spawnGroupSP];
-					}
-					else
-					{
-						diag_log "DID NOT CREATE SPOTTERS FAILED ON RAND POS";
 					};
+					deleteMarker _marker;
 				};
 			};
+
+			_enemiesArray = _enemiesArray + [_spawnGroupSP];
+		}
+		else
+		{
+			diag_log "DID NOT CREATE SPOTTERS FAILED ON RAND POS";
 		};
+	};
 //////////////////////////////////////////////////////// MORTAR END ////////////////////////////////////////////////////////		
 			
 //////////////////////////////////////////////////////// SQPAT START ////////////////////////////////////////////////////////
