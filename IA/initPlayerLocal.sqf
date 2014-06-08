@@ -1,6 +1,8 @@
     diag_log "========================== I AM IN THE RPT START FROM initPlayerLocal.sqf ======================"; //--- THIS SCRIPT IS AUTO RAN BY BIS ON PAYER JOINING
 	if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked from the intiPlayerLocal.sqf I am not a true client";};
 
+//--- Wait for player to initialize
+	waitUntil {!isNull player}; 
 	
 //--- Lets remove everything
 	removeAllWeapons player;
@@ -10,9 +12,6 @@
 	removeHeadgear player;
 	player unassignItem "NVGoggles";
 	player removeItem "NVGoggles";
-	
-//--- Wait for player to initialize
-	waitUntil {!isNull player}; 
 	
 //--- BL1P check for acre mod on Client
 	acre_enabled	= isClass(configFile/"CfgPatches"/"acre_main");
