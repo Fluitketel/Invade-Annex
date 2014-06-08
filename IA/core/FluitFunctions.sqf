@@ -977,6 +977,7 @@ mortar_camp_big = {
 	_dir 				= _this select 1; // Camp direction
 	_amountofmortars 	= if (count _this > 2) then {_this select 2} else { 2 };
 	_spawnvehicle 		= if (count _this > 3) then {_this select 3} else { true };
+	_spawnunits 		= if (count _this > 4) then {_this select 4} else { true };
 	
 	if (_amountofmortars < 1) then { _amountofmortars = 1; };
 	if (_amountofmortars > 6) then { _amountofmortars = 6; };
@@ -986,6 +987,10 @@ mortar_camp_big = {
 		// Return false if the camp fails to create
 		false;
 	};
+	
+	_mortargroup = createGroup east;
+	_mortargroup call CampCleanup;
+	_mortargroup setFormDir _dir;
 	
 	_center = "Box_East_AmmoVeh_F" createVehicle _pos;
 	_center call CampCleanup;
@@ -1069,15 +1074,27 @@ mortar_camp_big = {
 		};
 	};
 	
-	_mortargroup = createGroup east;
-	_mortargroup call CampCleanup;
-	_mortargroup setFormDir _dir;
+	if (_spawnunits) then {
+		_mortardefgroup = createGroup east;
+		_mortardefgroup call CampCleanup;
+		_mortardefgroup setFormDir _dir;
+		"O_SoldierU_SL_F" createUnit [_pos, _mortardefgroup];
+		"O_soldierU_AA_F" createUnit [_pos, _mortardefgroup];
+		"O_soldierU_AR_F" createUnit [_pos, _mortardefgroup];
+		"O_soldierU_AR_F" createUnit [_pos, _mortardefgroup];
+		"O_SoldierU_GL_F" createUnit [_pos, _mortardefgroup];
+		if !(isNil "aw_fnc_spawn2_perimeterPatrol") then {
+			[_mortardefgroup, _pos, 50] call aw_fnc_spawn2_perimeterPatrol;
+		};
+	};
+	
 	_newdir = _dir;
 	for "_c" from 1 to _amountofmortars do {
 		_newdir = _newdir + (360 / _amountofmortars);
 		_newpos = [_center, 1, _newdir] call BIS_fnc_relPos;
 		_mortar = "O_Mortar_01_F" createVehicle _newpos;
 		_mortar call AddMortars;
+		_mortar call CampCleanup;
 		_mortar setDir _newdir;
 		_mortar addEventHandler["Fired",{if (!isPlayer (gunner _mortar)) then { _mortar setVehicleAmmo 1; };}];
 		_mortar addEventHandler["GetIn",{if (isPlayer (gunner _mortar)) then { _mortar setVehicleAmmo 0; };}];
@@ -1095,7 +1112,7 @@ mortar_camp_small = {
 	_amountofmortars 	= if (count _this > 2) then {_this select 2} else { 2 };
 	
 	if (_amountofmortars < 1) then { _amountofmortars = 1; };
-	if (_amountofmortars > 6) then { _amountofmortars = 6; };
+	if (_amountofmortars > 4) then { _amountofmortars = 4; };
 	
 	_flatPos = _pos isFlatEmpty [4, 0, 0.2, 4, 0, false];
 	if (count _flatPos == 0) exitWith {
@@ -1124,6 +1141,7 @@ mortar_camp_small = {
 		_newpos = [_pos, 1, _newdir] call BIS_fnc_relPos;
 		_mortar = "O_Mortar_01_F" createVehicle _newpos;
 		_mortar call AddMortars;
+		_mortar call CampCleanup;
 		_mortar setDir _newdir;
 		_mortar addEventHandler["Fired",{if (!isPlayer (gunner _mortar)) then { _mortar setVehicleAmmo 1; };}];
 		_mortar addEventHandler["GetIn",{if (isPlayer (gunner _mortar)) then { _mortar setVehicleAmmo 0; };}];

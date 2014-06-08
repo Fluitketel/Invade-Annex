@@ -97,7 +97,6 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 	};
 	
 	if (Createmortars) then {
-		_amountofmortars = 1 + round (random 1);
 		_radius = 700;
 		if (_interior) then {
 			if(DEBUG) then { diag_log "========creating mortars INSIDE AO ===========";};
@@ -105,7 +104,7 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 		} else {
 			if(DEBUG) then { diag_log "========creating mortars OUTSIDE AO ===========";};
 		};
-		_camplocations = [1, getMarkerPos currentAO, _radius, _amountofmortars] call random_mortar_camps;
+		_camplocations = [1, getMarkerPos currentAO, _radius, ceil (random 3)] call random_mortar_camps;
 		_enemiesArray = _enemiesArray + campArray;
 	};
 			
