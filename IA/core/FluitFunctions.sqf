@@ -1050,27 +1050,24 @@ mortar_camp_big = {
 		_prop setDir (_dir + 200);
 	} else {
 		if (_spawnvehicle) then {
-			_vehiclegroup = createGroup east;
-			_vehiclegroup call CampCleanup;
-			_vehiclegroup setFormDir (_dir + 20);
-			_newpos = [_center, 10, (_dir + 90)] call BIS_fnc_relPos;
-			_vehicle = "O_MRAP_02_HMG_F" createVehicle _newpos;
-			_vehicle call CampCleanup;
-			_vehicle setDir (_dir + 20);
-			
-			_soldier = _vehiclegroup createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
-			waitUntil {alive _soldier};
-			_soldier setDir _dir;
-			_soldier assignAsDriver _vehicle;
-			_soldier moveInDriver _vehicle; 
-			
-			_soldier = _vehiclegroup createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
-			waitUntil {alive _soldier};
-			_soldier setDir _dir;
-			_soldier assignAsGunner _vehicle;
-			_soldier moveInGunner _vehicle;
-			
-			_vehicle setDamage 0;
+			_mortargungroup = createGroup east;
+			_mortargungroup call CampCleanup;
+			_mortargungroup setFormDir _dir + 90;
+			_newpos = [_center, 10, (_dir + 100)] call BIS_fnc_relPos;
+			_gun1 = objNull;
+			if (random 1 < 0.3) then {
+				_gun1 = "O_GMG_01_high_F" createVehicle _newpos;
+			} else {
+				_gun1 = "O_HMG_01_high_F" createVehicle _newpos;
+			};
+			waitUntil {alive _gun1};
+			_gun1 call CampCleanup;
+			_gun1 setDir _dir;
+			_gunner1 = _mortargungroup createUnit ["O_Soldier_F", _newpos, [], 0, "NONE"];
+			waitUntil {alive _gunner1};
+			_gunner1 assignAsGunner _gun1;
+			_gunner1 moveInGunner _gun1;
+			_gunner1 setDir (_dir + 90);
 		};
 	};
 	

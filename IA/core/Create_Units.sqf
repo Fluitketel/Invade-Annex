@@ -97,10 +97,10 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 	};
 	
 	if (Createmortars) then {
-		_radius = 700;
+		_radius = 1000;
 		if (_interior) then {
 			if(DEBUG) then { diag_log "========creating mortars INSIDE AO ===========";};
-			_radius = 70;
+			_radius = 20 + round (random 40);
 		} else {
 			if(DEBUG) then { diag_log "========creating mortars OUTSIDE AO ===========";};
 		};
