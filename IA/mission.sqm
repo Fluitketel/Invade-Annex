@@ -92,7 +92,7 @@ class Mission
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co27 [dR] I&A HCVBL61.3.4 Altis";
+		briefingName="co27 [dR] I&A HCVBL61.3.5 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;
