@@ -94,7 +94,7 @@ while { { alive _x; }count _mortars > 0 } do
 		
 		// Fire flares at night!
 		if (_nighttime && (_knowsabout < 3 || DEBUG)) then {
-			if(DEBUG) then { diag_log format ["%1 firing flare", _x]; };
+			if(DEBUG) then { diag_log "firing flare at beginning of fire mission"; };
 			_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
 			_newpos set [2, 50];
 			_flare = "Flare_82mm_AMOS_White" createVehicle _newpos;
@@ -132,7 +132,7 @@ while { { alive _x; }count _mortars > 0 } do
 		
 		// Fire flares at night!
 		if (_nighttime && (_knowsabout < 3.5 || DEBUG)) then {
-			if(DEBUG) then { diag_log format ["%1 firing flare", _x]; };
+			if(DEBUG) then { diag_log "firing flare at end of fire mission"; };
 			_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
 			_newpos set [2, 50];
 			_flare = "Flare_82mm_AMOS_White" createVehicle _newpos;
