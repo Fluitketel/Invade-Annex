@@ -148,7 +148,10 @@ vas_magazines = [
 "3Rnd_UGL_FlareGreen_F",
 "3Rnd_UGL_FlareRed_F",
 "3Rnd_UGL_FlareWhite_F",
-"3Rnd_UGL_FlareYellow_F",
+"UGL_FlareCIR_F",
+"UGL_FlareGreen_F",
+"UGL_FlareRed_F",
+"UGL_FlareWhite_F",
 
 "APERSBoundingMine_Range_Mag",
 "APERSMine_Range_Mag",
