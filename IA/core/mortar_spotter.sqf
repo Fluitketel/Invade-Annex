@@ -43,7 +43,7 @@ while { { alive _x; }count _mortars > 0 } do
 		
 		if (side _x in _sideToAttack && { alive _x && _spotter knowsAbout _x > 2.5 } ) then {
 			_targetpos = getPos _x;
-			_targetpos set [3, (knowsAbout _x)]; // Add knowsabout to target position
+			_targetpos set [3, (_spotter knowsAbout _x)]; // Add knowsabout to target position
 			sleep 10 + (random 5); // Time to transmit fire mission to mortar crew
 			if (alive _spotter) then {
 				_targets set [count _targets, _targetpos];

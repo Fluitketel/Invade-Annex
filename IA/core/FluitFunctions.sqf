@@ -440,6 +440,7 @@ random_camps = {
 					diag_log "Camp creation failed. Trying different location.";
 					_created = true;
 				};
+				sleep 0.05;
 			};
 		} else {
 			if (_triesroad < 1) exitWith {
