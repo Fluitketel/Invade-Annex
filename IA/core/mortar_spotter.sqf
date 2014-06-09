@@ -86,7 +86,7 @@ while { { alive _x; }count _mortars > 0 } do
 						_x addMagazine "8Rnd_82mm_Mo_shells"; // Add HE shell to magazines if out of ammo
 					};
 					//_x commandArtilleryFire [_newpos, (magazines _x) select 0, 1];
-					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells" select 0, 1]; // Stops unit from firing smoke?
+					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", 1]; // Stops unit from firing smoke?
 					_x addMagazine "8Rnd_82mm_Mo_shells";
 					if(DEBUG) then {
 						diag_log format ["%1- %3 - fireing at = %2",_spotter, _newpos,_typeOFunit];
