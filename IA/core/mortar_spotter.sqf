@@ -86,7 +86,7 @@ while { { alive _x; }count _mortars > 0 } do
 		};
 		
 		if(DEBUG) then {
-			diag_log format ["%1 - %3 - _ChosentargetPos is = %2, _knowsabout = %4",_spotter, _ChosentargetPos, _typeOFunit, _knowsabout];
+			diag_log format ["%1 - %3 - _ChosentargetPos is = %2, _knowsabout = %4, nighttime = %5",_spotter, _ChosentargetPos, _typeOFunit, _knowsabout, _nighttime];
 		};
 		
 		// Fire flares at night!
