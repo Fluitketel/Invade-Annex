@@ -60,11 +60,19 @@ while { { alive _x; }count _mortars > 0 } do
 		_salvos				= 1;
 		_spread				= 30;
 		
+		if (_knowsabout >= 2.7) then { 
+			_salvos = 2; 
+			_spread = 25; 
+		};
 		if (_knowsabout >= 3) then { 
 			_salvos = 3; 
 			_spread = 20; 
 		};
 		if (_knowsabout >= 3.5) then { 
+			_salvos = 4; 
+			_spread = 15; 
+		};
+		if (_knowsabout >= 4) then { 
 			_salvos = 5; 
 			_spread = 10; 
 		};
@@ -86,7 +94,7 @@ while { { alive _x; }count _mortars > 0 } do
 						_x addMagazine "8Rnd_82mm_Mo_shells"; // Add HE shell to magazines if out of ammo
 					};
 					//_x commandArtilleryFire [_newpos, (magazines _x) select 0, 1];
-					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", 1]; // Stops unit from firing smoke?
+					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", _s]; // Stops unit from firing smoke?
 					_x addMagazine "8Rnd_82mm_Mo_shells";
 					if(DEBUG) then {
 						diag_log format ["%1- %3 - fireing at = %2",_spotter, _newpos,_typeOFunit];

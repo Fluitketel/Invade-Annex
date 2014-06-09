@@ -928,12 +928,12 @@ random_mortar_camps = {
 			_triescamp = _triescamp - 1;
 			_variableradius = 100 + (_radius / 10);
 			_position = [_location, (_radius + round (random _variableradius)), random 360] call BIS_fnc_relPos;
-			if (_debug) then {
+			/* if (_debug) then {
 				_marker = createMarker [format ["%1-%2-%3",_y, _triescamp, random 99999],_position];
 				_marker setMarkerType "hd_dot_noShadow";
 				//_marker setMarkerText format ["%1",_marker];
 				_marker setMarkerColor "ColorBlue";
-			};
+			}; */
 			_allowed = true;
 			{
 				if ((_position distance _x) < _spacing) exitWith {
