@@ -97,7 +97,7 @@ while { { alive _x; }count _mortars > 0 } do
 			if(DEBUG) then { diag_log "firing flare at beginning of fire mission"; };
 			_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
 			_newpos set [2, 50];
-			_flare = "Flare_82mm_AMOS_White" createVehicle _newpos;
+			_flare = "F_40mm_Yellow" createVehicle _newpos;
 		};
 		
 		// Fire salvo's
@@ -112,12 +112,7 @@ while { { alive _x; }count _mortars > 0 } do
 					_x setVehicleAmmo 1;
 					_rounds = round (random _s);
 					if (_rounds < 1) then {_rounds = 1; };
-					if(DEBUG) then {
-						_newpos set [2, -500];
-						_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_Flare_white", _rounds];
-					} else {
-						_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", _rounds];
-					};
+					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", _rounds];
 					_x addMagazine "8Rnd_82mm_Mo_shells";
 					if(DEBUG) then {
 						diag_log format ["%1- %3 - fireing at = %2",_spotter, _newpos,_typeOFunit];
@@ -135,7 +130,7 @@ while { { alive _x; }count _mortars > 0 } do
 			if(DEBUG) then { diag_log "firing flare at end of fire mission"; };
 			_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
 			_newpos set [2, 50];
-			_flare = "Flare_82mm_AMOS_White" createVehicle _newpos;
+			_flare = "F_40mm_Yellow" createVehicle _newpos;
 		};
 		sleep ((random 30) + 45); // Time in between each fire mission
 		MortarsFiring = false;
