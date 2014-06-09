@@ -97,6 +97,7 @@ while { { alive _x; }count _mortars > 0 } do
 			{
 				if (alive _x) then {
 					_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
+					_newpos set [2, -100];
 					_x setVehicleAmmo 1;
 					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_Flare_white", 1];
 					if(DEBUG) then {
