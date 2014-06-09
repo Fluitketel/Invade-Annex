@@ -66,7 +66,7 @@ while { { alive _x; }count _mortars > 0 } do
 		_spread				= 30;
 		_nighttime 			= false;
 		
-		if (daytime > 19.5 && daytime < 4.5) then { _nighttime = true; };
+		if (daytime > 19.5 || daytime < 4.5) then { _nighttime = true; };
 		if (DEBUG) then {
 			diag_log format ["daytime = %1",daytime];
 		};
