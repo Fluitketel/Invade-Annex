@@ -972,11 +972,11 @@ random_mortar_camps = {
 };
 
 mortar_camp_big = {
-	private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier", "_center", "_amountofmortars"];
+	private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier", "_center", "_amountofmortars", "_spawnstatic", "_spawnunits"];
 	_pos 				= _this select 0; // Camp position
 	_dir 				= _this select 1; // Camp direction
 	_amountofmortars 	= if (count _this > 2) then {_this select 2} else { 2 };
-	_spawnvehicle 		= if (count _this > 3) then {_this select 3} else { true };
+	_spawnstatic 		= if (count _this > 3) then {_this select 3} else { true };
 	_spawnunits 		= if (count _this > 4) then {_this select 4} else { true };
 	
 	if (_amountofmortars < 1) then { _amountofmortars = 1; };
@@ -997,12 +997,12 @@ mortar_camp_big = {
 	_center setDir _dir;
 	
 	_newpos = [_center, 8, _dir] call BIS_fnc_relPos;
-	_prop = (["Land_Cargo_House_V1_F", "Land_Cargo_House_V2_F", "Land_Cargo_House_V3_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
+	_prop = (["Land_i_Stone_Shed_V1_F", "Land_Cargo_House_V1_F", "Land_Cargo_House_V2_F", "Land_Cargo_House_V3_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
 	_prop call CampCleanup;
 	_prop setDir _dir;
 	
 	_newpos = [_prop, 3, (_dir + 270)] call BIS_fnc_relPos;
-	_prop = "Land_FieldToilet_F" createVehicle _newpos;
+	_prop = (["Land_FieldToilet_F", "Land_LampShabby_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
 	_prop call CampCleanup;
 	_prop setDir _dir;
 	
@@ -1015,15 +1015,16 @@ mortar_camp_big = {
 	_prop call CampCleanup;
 	_prop setDir _dir;
 	
-	_newpos = [_center, 8, (_dir + 270)] call BIS_fnc_relPos;
+	_wall = ["Land_Mound01_8m_F", "Land_HBarrier_5_F"] call BIS_fnc_selectRandom;
+	_newpos = [_center, 10, (_dir + 270)] call BIS_fnc_relPos;
 	_newpos = [_newpos, 4, _dir] call BIS_fnc_relPos;
-	_prop = "Land_HBarrier_5_F" createVehicle _newpos;
+	_prop = _wall createVehicle _newpos;
 	_prop call CampCleanup;
 	_prop setDir (_dir + 270);
 	
-	_newpos = [_center, 8, (_dir + 270)] call BIS_fnc_relPos;
+	_newpos = [_center, 10, (_dir + 270)] call BIS_fnc_relPos;
 	_newpos = [_newpos, 2, (_dir + 180)] call BIS_fnc_relPos;
-	_prop = "Land_HBarrier_5_F" createVehicle _newpos;
+	_prop = _wall createVehicle _newpos;
 	_prop call CampCleanup;
 	_prop setDir (_dir + 270);
 	
@@ -1049,7 +1050,7 @@ mortar_camp_big = {
 		_prop call CampCleanup;
 		_prop setDir (_dir + 200);
 	} else {
-		if (_spawnvehicle) then {
+		if (_spawnstatic) then {
 			_mortargungroup = createGroup east;
 			_mortargungroup call CampCleanup;
 			_mortargungroup setFormDir _dir + 90;
@@ -1075,11 +1076,12 @@ mortar_camp_big = {
 		_mortardefgroup = createGroup east;
 		_mortardefgroup call CampCleanup;
 		_mortardefgroup setFormDir _dir;
-		"O_SoldierU_SL_F" createUnit [_pos, _mortardefgroup];
-		"O_soldierU_AA_F" createUnit [_pos, _mortardefgroup];
-		"O_soldierU_AR_F" createUnit [_pos, _mortardefgroup];
-		"O_soldierU_AR_F" createUnit [_pos, _mortardefgroup];
-		"O_SoldierU_GL_F" createUnit [_pos, _mortardefgroup];
+		_newpos = [_center, 10, (_dir + 45)] call BIS_fnc_relPos;
+		"O_SoldierU_SL_F" createUnit [_newpos, _mortardefgroup];
+		"O_soldierU_AA_F" createUnit [_newpos, _mortardefgroup];
+		"O_soldierU_AR_F" createUnit [_newpos, _mortardefgroup];
+		"O_soldierU_AR_F" createUnit [_newpos, _mortardefgroup];
+		"O_SoldierU_GL_F" createUnit [_newpos, _mortardefgroup];
 		if !(isNil "aw_fnc_spawn2_perimeterPatrol") then {
 			[_mortardefgroup, _pos, 50] call aw_fnc_spawn2_perimeterPatrol;
 		};
