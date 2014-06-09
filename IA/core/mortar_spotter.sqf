@@ -137,6 +137,22 @@ while { { alive _x; }count _mortars > 0 } do
 				sleep (10 + (random 10)); // Time in between salvo's
 			};
 		};
+		
+		// Fire flares at night!
+		if (_nighttime && (_knowsabout < 3 || DEBUG)) then {
+			{
+				if (alive _x) then {
+					_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
+					_newpos set [2, -200];
+					_x setVehicleAmmo 1;
+					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_Flare_white", 1];
+					if(DEBUG) then {
+						diag_log format ["%1 firing flare", _x];
+					};
+					sleep (random 1);
+				};
+			}forEach _mortars;
+		};
 		sleep ((random 30) + 45); // Time in between each fire mission
 		MortarsFiring = false;
 		publicVariable "MortarsFiring";
