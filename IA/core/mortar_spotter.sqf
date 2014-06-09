@@ -64,6 +64,9 @@ while { { alive _x; }count _mortars > 0 } do
 		_knowsabout 		= _target select 3;
 		_salvos				= 1;
 		_spread				= 30;
+		_nighttime 			= false;
+		
+		if (daytime > 19.5 && daytime < 4.5) then { _nighttime = true; };
 		
 		if (_knowsabout >= 2.7) then { 
 			_salvos = 2; 
@@ -86,6 +89,21 @@ while { { alive _x; }count _mortars > 0 } do
 			diag_log format ["%1 - %3 - _ChosentargetPos is = %2, _knowsabout = %4",_spotter, _ChosentargetPos, _typeOFunit, _knowsabout];
 		};
 		
+		// Fire flares at night!
+		if (_nighttime && (_knowsabout < 3 || DEBUG)) {
+			{
+				if (alive _x) then {
+					_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
+					_x setVehicleAmmo 1;
+					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_Flare_white", 1];
+					if(DEBUG) then {
+						diag_log format ["%1 firing flare", _x];
+					};
+					sleep (random 1);
+				};
+			}forEach _mortars;
+		};
+		
 		// Fire salvo's
 		for "_s" from 1 to _salvos do {
 			if(DEBUG) then {
@@ -95,16 +113,15 @@ while { { alive _x; }count _mortars > 0 } do
 			{
 				if (alive _x) then {
 					_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
-					if !("8Rnd_82mm_Mo_shells" in (magazines _x)) then {
-						_x addMagazine "8Rnd_82mm_Mo_shells"; // Add HE shell to magazines if out of ammo
-					};
-					//_x commandArtilleryFire [_newpos, (magazines _x) select 0, 1];
-					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", _s]; // Stops unit from firing smoke?
+					_x setVehicleAmmo 1;
+					_rounds = round (random _s);
+					if (_rounds < 1) then {_rounds = 1; };
+					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", _rounds];
 					_x addMagazine "8Rnd_82mm_Mo_shells";
 					if(DEBUG) then {
 						diag_log format ["%1- %3 - fireing at = %2",_spotter, _newpos,_typeOFunit];
 					};
-					sleep (random 2); // Time in between each shell
+					sleep (random 1); // Time in between each shell
 				};
 			}forEach _mortars;
 			if (_s < _salvos) then {
