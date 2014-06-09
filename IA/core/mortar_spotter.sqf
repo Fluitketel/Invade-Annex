@@ -10,6 +10,9 @@ _mortars = [_this, 1, [], [[]] ] call BIS_fnc_param;
 
 _typeOFunit = typeOf _spotter;
 
+MortarsFiring = false;
+publicVariable "MortarsFiring";
+
 if (DEBUG) then 
 {
 	diag_log format ["========%1 is a MORTAR SPOTTER==========",_spotter];
@@ -45,7 +48,7 @@ while { { alive _x; }count _mortars > 0 } do
 			_targetpos = getPos _x;
 			_targetpos set [3, (_spotter knowsAbout _x)]; // Add knowsabout to target position
 			sleep 10 + (random 5); // Time to transmit fire mission to mortar crew
-			if (alive _spotter) then {
+			if (alive _spotter && !MortarsFiring) then {
 				_targets set [count _targets, _targetpos];
 			};
 		};
@@ -54,6 +57,8 @@ while { { alive _x; }count _mortars > 0 } do
 	if (count _targets > 0) then 
 	{	
 		// Start fire mission
+		MortarsFiring = true;
+		publicVariable "MortarsFiring";
 		_target 			= _targets call BIS_fnc_selectRandom;
 		_ChosentargetPos 	= [_target select 0, _target select 1, _target select 2];
 		_knowsabout 		= _target select 3;
@@ -107,6 +112,8 @@ while { { alive _x; }count _mortars > 0 } do
 			};
 		};
 		sleep ((random 30) + 45); // Time in between each fire mission
+		MortarsFiring = false;
+		publicVariable "MortarsFiring";
 	}	else {
 		sleep 10; // Time in between checks for mortar targets
 	};
