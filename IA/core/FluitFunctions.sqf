@@ -1470,4 +1470,39 @@ fluit_sortBy = {
 	_sortedArray
 };
 
+FireFlares = {
+	_pos 	= _this select 0;
+	_amount = if (count _this > 1) then {_this select 1} else { 12 };
+	_color	= if (count _this > 2) then {_this select 2} else { "white" };
+	
+	_x = -10 + (random 20);
+	_y = -10 + (random 20);
+	
+	for "_c" from 1 to _amount do {
+		_newpos = [_pos, (10 + (random 60)), (random 360)] call BIS_fnc_relPos;
+		_newpos set [2, 140 + (round (random 30))];
+		_flare = objNull;
+		switch (_color) do { 
+			case "yellow": { 
+				_flare = "F_40mm_Yellow" createVehicle _newpos; 
+			};  
+			case "green": { 
+				_flare = "F_40mm_Green" createVehicle _newpos; 
+			};  
+			case "red": { 
+				_flare = "F_40mm_Red" createVehicle _newpos; 
+			};  
+			case "lsd": { 
+				_flare = (["F_40mm_White","F_40mm_Yellow","F_40mm_Green","F_40mm_Red"] call BIS_fnc_selectRandom) createVehicle _newpos; 
+			};  
+			default { 
+				_flare = "F_40mm_White" createVehicle _newpos; 
+			}; 
+		}; 
+		waitUntil {alive _flare};
+		_flare setVelocity [_x, _y, 0];
+		sleep (0.2 + (random 1));
+	};
+};
+
 fluitfunctions = true; // waitUntil {!isNil "fluitfunctions"}; to check if functions are loaded
