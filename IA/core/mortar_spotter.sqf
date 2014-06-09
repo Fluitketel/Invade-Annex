@@ -94,18 +94,10 @@ while { { alive _x; }count _mortars > 0 } do
 		
 		// Fire flares at night!
 		if (_nighttime && (_knowsabout < 3 || DEBUG)) then {
-			{
-				if (alive _x) then {
-					_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
-					_newpos set [2, -500];
-					_x setVehicleAmmo 1;
-					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_Flare_white", 1];
-					if(DEBUG) then {
-						diag_log format ["%1 firing flare", _x];
-					};
-					sleep (random 1);
-				};
-			}forEach _mortars;
+			if(DEBUG) then { diag_log format ["%1 firing flare", _x]; };
+			_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
+			_newpos set [2, 50];
+			_flare = "Flare_82mm_AMOS_White" createVehicle _newpos;
 		};
 		
 		// Fire salvo's
@@ -139,19 +131,11 @@ while { { alive _x; }count _mortars > 0 } do
 		};
 		
 		// Fire flares at night!
-		if (_nighttime && (_knowsabout < 3 || DEBUG)) then {
-			{
-				if (alive _x) then {
-					_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
-					_newpos set [2, -500];
-					_x setVehicleAmmo 1;
-					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_Flare_white", 1];
-					if(DEBUG) then {
-						diag_log format ["%1 firing flare", _x];
-					};
-					sleep (random 1);
-				};
-			}forEach _mortars;
+		if (_nighttime && (_knowsabout < 3.5 || DEBUG)) then {
+			if(DEBUG) then { diag_log format ["%1 firing flare", _x]; };
+			_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
+			_newpos set [2, 50];
+			_flare = "Flare_82mm_AMOS_White" createVehicle _newpos;
 		};
 		sleep ((random 30) + 45); // Time in between each fire mission
 		MortarsFiring = false;
