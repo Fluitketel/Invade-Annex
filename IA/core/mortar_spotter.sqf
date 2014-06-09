@@ -90,7 +90,7 @@ while { { alive _x; }count _mortars > 0 } do
 		};
 		
 		// Fire flares at night!
-		if (_nighttime && (_knowsabout < 3 || DEBUG)) {
+		if (_nighttime && (_knowsabout < 3 || DEBUG)) then {
 			{
 				if (alive _x) then {
 					_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
