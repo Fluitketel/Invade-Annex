@@ -120,7 +120,12 @@ while { { alive _x; }count _mortars > 0 } do
 					_x setVehicleAmmo 1;
 					_rounds = round (random _s);
 					if (_rounds < 1) then {_rounds = 1; };
-					_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", _rounds];
+					if(DEBUG) then {
+						_newpos set [2, -100];
+						_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_Flare_white", _rounds];
+					} else {
+						_x commandArtilleryFire [_newpos, "8Rnd_82mm_Mo_shells", _rounds];
+					};
 					_x addMagazine "8Rnd_82mm_Mo_shells";
 					if(DEBUG) then {
 						diag_log format ["%1- %3 - fireing at = %2",_spotter, _newpos,_typeOFunit];
