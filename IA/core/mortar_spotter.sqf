@@ -123,9 +123,9 @@ while { { alive _x; }count _mortars > 0 } do
 				sleep (10 + (random 10)); // Time in between salvo's
 			};
 		};
-		
 		// Fire flares at night!
 		if (_nighttime && (_knowsabout < 3.5 || DEBUG)) then {
+			sleep 10;
 			if(DEBUG) then {diag_log "firing flare after fire mission";};
 			[_ChosentargetPos, 12, "white"] spawn FireFlares;
 		};
