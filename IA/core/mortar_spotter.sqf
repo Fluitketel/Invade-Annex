@@ -96,6 +96,7 @@ while { { alive _x; }count _mortars > 0 } do
 		if (_nighttime && (_knowsabout < 3 || DEBUG)) then {
 			if(DEBUG) then {diag_log "firing flare before fire mission";};
 			[_ChosentargetPos, 6, "white"] spawn FireFlares;
+			sleep 10;
 		};
 		
 		// Fire salvo's
