@@ -100,11 +100,11 @@ while { { alive _x; }count _mortars > 0 } do
 		};
 		
 		// Fire salvo's
+		sleep (5 + (random (_salvos * 3))); // Simulate time to arm and align mortars for fire mission
 		for "_s" from 1 to _salvos do {
 			if(DEBUG) then {
 				diag_log format ["Mortars firing salvo %1 of %2",_s, _salvos];
 			};
-			sleep (5 + (random (_salvos * 3))); // Simulate time to arm and align mortars for fire mission
 			{
 				if (alive _x) then {
 					_newpos = [_ChosentargetPos, _spread, random 360] call BIS_fnc_relPos;
@@ -120,12 +120,12 @@ while { { alive _x; }count _mortars > 0 } do
 				};
 			}forEach _mortars;
 			if (_s < _salvos) then {
-				sleep (10 + (random 10)); // Time in between salvo's
+				sleep (5 + (random 10)); // Time in between salvo's
 			};
 		};
 		// Fire flares at night!
 		if (_nighttime && (_knowsabout < 3.5 || DEBUG)) then {
-			sleep 10;
+			sleep 20;
 			if(DEBUG) then {diag_log "firing flare after fire mission";};
 			[_ChosentargetPos, 12, "white"] spawn FireFlares;
 		};
