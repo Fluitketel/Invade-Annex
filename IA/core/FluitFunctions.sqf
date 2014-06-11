@@ -442,7 +442,6 @@ random_camps = {
 				};
 				sleep 0.05;
 			};
-		} else {
 			if (_triesroad < 1) exitWith {
 				_giveup = true;
 				diag_log "Could not create all camps...";
