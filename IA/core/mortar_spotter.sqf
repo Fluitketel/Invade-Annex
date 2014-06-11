@@ -95,7 +95,7 @@ while { { alive _x; }count _mortars > 0 } do
 		// Fire flares at night!
 		if (_nighttime && (_knowsabout < 3 || DEBUG)) then {
 			if(DEBUG) then {diag_log "firing flare before fire mission";};
-			[_ChosentargetPos, 6, "white"] spawn FireFlares;
+			[_ChosentargetPos, 4, "white"] spawn FlareClusters;
 			sleep 10;
 		};
 		
@@ -127,7 +127,7 @@ while { { alive _x; }count _mortars > 0 } do
 		if (_nighttime && (_knowsabout < 3.5 || DEBUG)) then {
 			sleep 20;
 			if(DEBUG) then {diag_log "firing flare after fire mission";};
-			[_ChosentargetPos, 12, "white"] spawn FireFlares;
+			[_ChosentargetPos, 8, "white"] spawn FlareClusters;
 		};
 		sleep ((random 30) + 45); // Time in between each fire mission
 		MortarsFiring = false;

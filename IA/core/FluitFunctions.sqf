@@ -1475,8 +1475,8 @@ FireFlares = {
 	_amount = if (count _this > 1) then {_this select 1} else { 12 };
 	_color	= if (count _this > 2) then {_this select 2} else { "white" };
 	
-	_x = -10 + (random 20);
-	_y = -10 + (random 20);
+	_xdir = -10 + (random 20);
+	_ydir = -10 + (random 20);
 	
 	for "_c" from 1 to _amount do {
 		_newpos = [_pos, (10 + (random 60)), (random 360)] call BIS_fnc_relPos;
@@ -1500,9 +1500,64 @@ FireFlares = {
 			}; 
 		}; 
 		waitUntil {alive _flare};
-		_flare setVelocity [_x, _y, 0];
+		_flare setVelocity [_xdir, _ydir, 0];
 		sleep (0.2 + (random 1));
 	};
+};
+
+FlareClusters = {
+	private ["_pos", "_amount", "_color", "_newpos"];
+	_pos 	= _this select 0;
+	_amount = if (count _this > 1) then {_this select 1} else { 12 };
+	_color	= if (count _this > 2) then {_this select 2} else { "white" };
+	
+	for "_c" from 1 to _amount do {
+		_newpos = [_pos, (10 + (random 60)), (random 360)] call BIS_fnc_relPos;
+		[_newpos, _color] spawn FlareCluster;
+		sleep (0.2 + (random 1));
+	};
+};
+
+FlareCluster = {
+	private ["_pos", "_clustersize", "_color", "_cluster", "_flare", "_type", "_speed"];
+	_pos 	= _this select 0;
+	_color	= if (count _this > 1) then {_this select 1} else { "white" };
+	
+	_pos set [2, 140 + (round (random 30))]; 	// Set flare height
+	_clustersize = 6 + (round (random 4));		// Set amount of flares in cluster
+	_cluster = [];
+	for "_p" from 1 to _clustersize do
+	{
+		_flare = objNull;
+		_type = "F_40mm_White";
+		switch (_color) do { 
+			case "yellow": { 
+				_type = "F_40mm_Yellow"; 
+			};  
+			case "green": { 
+				_type = "F_40mm_Green";					
+			};  
+			case "red": { 
+				_type = "F_40mm_Green";
+			};  
+			case "lsd": { 
+				_type = ["F_40mm_White","F_40mm_Yellow","F_40mm_Green","F_40mm_Red"] call BIS_fnc_selectRandom; 
+			};   
+		};
+		_flare = _type createVehicle _pos;
+		waitUntil {alive _flare}; 
+		_flare setVelocity [10, 0.01, 0];
+		_cluster = _cluster + [_flare];
+	};
+	sleep 7 + (random 10);
+	// Burst open
+	{
+		_speed	= 50 + (random 200);
+		_xdir 	= ((random  (_speed * 2)) - _speed);
+		_ydir 	= ((random  (_speed * 2)) - _speed);
+		_zdir 	= (((random (_speed * 2)) - _speed) / 2);
+		_x setVelocity [_xdir, _ydir, _zdir];
+	} forEach _cluster;
 };
 
 fluitfunctions = true; // waitUntil {!isNil "fluitfunctions"}; to check if functions are loaded

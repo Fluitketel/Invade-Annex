@@ -315,7 +315,7 @@ class Daytime
 		title = "Enable Debug Mode";
 		values[] = {1,0};
 		texts[] = {"Enable","Disable"};
-		default = 1;
+		default = 0;
 	};
 	
 	class DebugMode2
