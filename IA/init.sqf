@@ -296,10 +296,11 @@ enableSaving [false, false];
 
 
 
-//--- Fluit Geforce	and fluit functions																//--- simulates gforce on players not wearing correct pilot clothes in planes
-	_fluitFunctions = [] execVM "core\FluitFunctions.sqf"; 
+//--- Fluit's functions!!
+	_fluitFunctions = [] execVM "core\Fluit\FluitInit.sqf"; 
 	waitUntil {scriptDone _fluitFunctions};
 	
+	//--- simulates gforce on players not wearing correct pilot clothes in planes
 	[] spawn handle_gforce;
 
 //--- stop shooting at base
