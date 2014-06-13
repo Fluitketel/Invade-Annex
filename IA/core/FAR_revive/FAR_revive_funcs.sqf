@@ -168,12 +168,12 @@ FAR_Player_Unconscious =
 			while { !isNull _unit && {alive _unit} && {_unit getVariable "FAR_isUnconscious" == 1} && {(FAR_BleedOut <= 0 || time < _bleedOut)} } do
 			{
 				hintSilent format["Bleedout in %1 seconds\n\n%2", round (_bleedOut - time)];
-				_time = (round (_bleedOut - time));
+				//_time = (round (_bleedOut - time)); // Fluit: doesn't do anything?
 				sleep 0.5;
 			};
 			
 			// Player bled out
-			if (FAR_BleedOut > 0 && {time > _bleedOut}) then
+			if (FAR_BleedOut > 0 && {time >= _bleedOut}) then
 			{
 				
 				//--- bl1p was here re enable all
