@@ -46,7 +46,7 @@ bl1p_fnc_defend =
 			
 			_TimeMessage = format
 				[
-					"%1 Activated you have 5 mins to prepare... Good Luck", currentAO
+					"%1 Activated you have a few mins to prepare... Good Luck", currentAO
 				];
 			hqSideChat = _TimeMessage; publicVariable "hqSideChat"; [WEST,"HQ"] sideChat hqSideChat;
 				if (DEBUG) then 
@@ -55,7 +55,7 @@ bl1p_fnc_defend =
 					}
 					else
 					{
-					sleep 300;
+					sleep 150;
 					};
 				
 			_AttackAmount = [];
@@ -197,7 +197,7 @@ bl1p_fnc_defend =
 				
 				//--- end checks
 				if (count list _dt2 < 1) then {_defend = false ;AttackWon = false;};
-				if ((ELAPSED_TIME >= 3600) && (count list _dt2 >= 1))  then {_defend = false ;AttackWon = true;ELAPSED = true; publicvariable "ELAPSED";};
+				if ((ELAPSED_TIME >= 7200) && (count list _dt2 >= 1))  then {_defend = false ;AttackWon = true;ELAPSED = true; publicvariable "ELAPSED";};
 				if ((_waveRuns > _waves) && (count list _dt2 >= 1)) then {_defend = false ;AttackWon = true;};
 					if (DEBUG) then
 						{

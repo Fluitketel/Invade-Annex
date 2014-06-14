@@ -9,10 +9,10 @@ if (!isDedicated) then
 };
 
 
-//--- Needs testing to see if this locks view distance to 2k on server and clients
+//--- set object , view , terrain
 setViewDistance 2000;
 setObjectViewDistance 2000;
-
+setTerrainGrid 3.125;
 
 #define WELCOME_MESSAGE	"Welcome to Invade & Annex ~ALTIS~\n" +\
                         "Edited By [dR]Hellstorm77\n\n" +\
@@ -291,10 +291,7 @@ enableSaving [false, false];
 //--- bl1p onplayer connected thingy
 //onPlayerConnected {diag_log [_id, _uid, _name]};
 //onPlayerConnected "[_id, _name] execVM ""PlayerConnected.sqf""";
-
 //["PlayerConnectEH", "onPlayerConnected", { diag_log format ["playerconnect: %1 %2", _id, _name]; }] call BIS_fnc_addStackedEventHandler;
-
-
 
 //--- Fluit's functions!!
 	_fluitFunctions = [] execVM "core\Fluit\FluitInit.sqf"; 
@@ -353,8 +350,8 @@ if(DEBUG) then
 
 
 // Check if player is a dR member or friend ran by player and server
-_handle3 = execVM "core\dR_N_Friends.sqf";
-waitUntil{scriptDone _handle3};
+	_handle3 = execVM "core\dR_N_Friends.sqf";
+	waitUntil{scriptDone _handle3};
 
 // weather script
 //	execVM "misc\randomWeather.sqf";
@@ -396,7 +393,7 @@ if (DR_IsClient) exitwith
 
 /* ============================================================ */
 /* ============================================================ */
-/* ============ SERVER_AND_HEADLESS_INITIALISATION ============ */
+/* ============ SERVER INITIALISATION ============ */
 /* ============================================================ */
 /* ============================================================ */
 
@@ -404,14 +401,14 @@ if (DR_IsClient) exitwith
 
 if(DEBUG) then
 		{
-			diag_log "I am in the SERVER and HEADLESS section of the init.sqf";
+			diag_log "I am in the SERVER init.sqf";
 		};
 		
 //--- bl1p read the defend function
 		execVm "core\bl1p_fnc_defend.sqf";
 		
 // Body removal script by celery
-[300,900,900,900] execVM "scripts\bodyRemoval.sqf";
+	[300,900,900,900] execVM "scripts\bodyRemoval.sqf";
 
 
 	//Init UPSMON script 
@@ -426,8 +423,7 @@ if (PARAMS_AISUPPRESSION == 1) then
 	};
 
 //--- bl1p server only	
-if (!DR_IsHeadless) then
-{	
+	
 	//Set a few blank variables for event handlers and solid vars for SM
 		debugMode = true; publicVariable "debugMode";
 		eastSide = createCenter EAST;
@@ -444,12 +440,13 @@ if (!DR_IsHeadless) then
 		NUKEYES = false;publicVariable "NUKEYES";
 		LASTNUKE = 0; publicVariable "LASTNUKE";
 		LASTDEFEND = 0; publicVariable "LASTDEFEND";
+	
 	//////////////////////////
 	//--- bl1p run remloc TEST
 	// execVM "core\BL1P_FUNC_REMLOC.sqf";
 	
 	//--- bl1p stats set variables
-	 execVM "core\stats.sqf";
+		execVM "core\stats.sqf";
 	
 	//Run a few miscellaneous server-side scripts
 		_null = [] execVM "misc\clearBodies.sqf";
@@ -497,49 +494,31 @@ if (!DR_IsHeadless) then
 		}; 
 	};
 
-};
 
-//--- bl1p moved ao unit creation into seperate script check for headless
-//--- bl1p is headless param on and are you the headless reading this 
-if ((PARAMS_HEADLESS == 1) && (DR_IsHeadless)) then
-	{
-		_handle2 = execVM "core\Create_Units.sqf";
-		waitUntil{scriptDone _handle2};
-	};
-	
-if ((PARAMS_HEADLESS == 0) && (!DR_IsHeadless)) then
-	{
-		_handle2 = execVM "core\Create_Units.sqf";
-		waitUntil{scriptDone _handle2};
-	};
+
+//--- bl1p moved ao unit creation into seperate script
+
+	_handle2 = execVM "core\Create_Units.sqf";
+	waitUntil{scriptDone _handle2};
+
 
 // create some random aa opsitions
-	
-	if ((PARAMS_HEADLESS == 1) && (DR_IsHeadless)) then
-	{
-		_null = [] execVM "core\AAPosCreation.sqf";
-		
-	};
-	if ((PARAMS_HEADLESS == 0) && (!DR_IsHeadless)) then
-	{
-		_null = [] execVM "core\AAPosCreation.sqf";
-	};
+
+	_null = [] execVM "core\AAPosCreation.sqf";
+
 	
 
-//--- bl1p server only	
-if (!DR_IsHeadless) then
-{	
+
 	_firstTarget = true;
 	_lastTarget = "Nothing";
-};
+
 
 while {count _targets > PARAMS_AOENDCOUNT} do
 {
 	sleep 10;
 	
 	//--- bl1p server only	
-	if (!DR_IsHeadless) then
-	{	
+
 		//Set new current target and calculate targets left
 		if (_isPerpetual) then
 		{
@@ -590,25 +569,18 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		dt setTriggerActivation ["EAST", "PRESENT", false];
 		dt setTriggerStatements ["this","",""];
 		publicvariable "dt";
-	};
+
 	
 	upsmon_enabled = true; publicVariable "upsmon_enabled";
 	call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 	
-	//--- bl1p Spawn AI on headless or server
-	if ((PARAMS_HEADLESS == 1) && (DR_IsHeadless)) then 
-		{
-			_enemiesArray = [currentAO] call AW_fnc_spawnUnits;
-		};
-		
-	if ((PARAMS_HEADLESS == 0) && (!DR_IsHeadless)) then 
-		{
-			_enemiesArray = [currentAO] call AW_fnc_spawnUnits;
-		};
+	//--- bl1p Spawn AI on Server
+
+	_enemiesArray = [currentAO] call AW_fnc_spawnUnits;
+
 	
 	//--- bl1p server only	
-	if (!DR_IsHeadless) then
-	{	
+	
 		if (DEBUG) then {diag_log "MAKING A TOWER ON SERVER";};
 		//Spawn radiotower
 		_position = [[[getMarkerPos currentAO, PARAMS_AOSize],dt],["water","out"]] call BIS_fnc_randomPos;
@@ -624,9 +596,16 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 			_flatPos = _position isFlatEmpty[3, 1, 0.7, 20, 0, false];
 			sleep 1;
 		};
-
-		radioTower = "Land_TTowerBig_2_F" createVehicle _flatPos;
-
+		
+		// --- make the tower a lighthouse at night
+		if (daytime > 19.5 || daytime < 4.5) then 
+		{
+			//nighttime
+			radioTower = "Land_LightHouse_F" createVehicle _flatPos;
+		}else{
+			//daytime
+			radioTower = "Land_TTowerBig_2_F" createVehicle _flatPos;
+		};
 			waitUntil {sleep 0.5; alive radioTower};
 			radioTower setVectorUp [0,0,1];
 			radioTowerAlive = true;
@@ -651,25 +630,19 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 			]; 
 			
 		publicVariable "radioTower";
-	};
+
 	
-	//--- bl1p radio tower check for headless
+	//--- bl1p radio tower check 
 	if (DEBUG) then {diag_log format ["Waiting for Radio tower and radioTowerAlive = %1",radioTowerAlive];};
 	waitUntil {sleep 0.5; radioTowerAlive};
 		//--- bl1p spawn tower defenders
-		if ((PARAMS_HEADLESS == 1) && (DR_IsHeadless)) then 
-			{
-				_enemiesArray2 = [radioTower] call BL_fnc_towerDefence;
-			};
-		if ((PARAMS_HEADLESS == 0) && (!DR_IsHeadless)) then 
-			{
-				_enemiesArray2 = [radioTower] call BL_fnc_towerDefence;
-			};
+		
+		_enemiesArray2 = [radioTower] call BL_fnc_towerDefence;
+
 	if (DEBUG) then {diag_log format ["Radio tower should be up now radioTowerAlive = %1",radioTowerAlive];};
 	
 	//--- bl1p server only	
-	if (!DR_IsHeadless) then
-	{	
+	
 		if (DEBUG) then 
 			{
 			diag_log format ["=========AOAICREATIONMAINDONE = %1 ==========",AOAICREATIONMAINDONE];
@@ -700,23 +673,15 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		GlobalHint = _targetStartText; publicVariable "GlobalHint"; hint parseText GlobalHint;
 		showNotification = ["NewMain", currentAO]; publicVariable "showNotification";
 		showNotification = ["NewSub", "Destroy the enemy radio tower."]; publicVariable "showNotification";
-	};	
+
 	
 	
-	//----bl1p create reinforments on headless if true else on server
-	if ((PARAMS_HEADLESS == 1) && (DR_IsHeadless)) then 
-		{
-			if (PARAMS_HeavyReinforcement > 0) then { _null = [] execVM "Reinforcement\AOHeavyReinforce.sqf"; };
-			if (PARAMS_AOReinforcement > 0) then { _null = [] execVM "Reinforcement\AOReinforcement.sqf"; };
-			if (PARAMS_ConvoyChance > 0) then { _null = [] execVM "Reinforcement\AOConvoy.sqf"; };
-		};
-		
-	if ((PARAMS_HEADLESS == 0) && (!DR_IsHeadless)) then 
-		{
-			if (PARAMS_HeavyReinforcement > 0) then { _null = [] execVM "Reinforcement\AOHeavyReinforce.sqf"; };
-			if (PARAMS_AOReinforcement  > 0) then { _null = [] execVM "Reinforcement\AOReinforcement.sqf"; };
-			if (PARAMS_ConvoyChance > 0) then { _null = [] execVM "Reinforcement\AOConvoy.sqf"; };
-		};
+	//----bl1p create reinforments on Server
+
+		if (PARAMS_HeavyReinforcement > 0) then { _null = [] execVM "Reinforcement\AOHeavyReinforce.sqf"; };
+		if (PARAMS_AOReinforcement  > 0) then { _null = [] execVM "Reinforcement\AOReinforcement.sqf"; };
+		if (PARAMS_ConvoyChance > 0) then { _null = [] execVM "Reinforcement\AOConvoy.sqf"; };
+
 	
 	/* =============================================== */
 	/* ========= WAIT FOR TARGET COMPLETION ========== */
@@ -729,25 +694,24 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 				diag_log "waitUntil {sleep 0.5; !alive radioTower};";
 			};
 
-		//---bl1p headless and server wait
+		//---bl1p Server wait
 		waitUntil {sleep 5; count list dt > PARAMS_EnemyLeftThreshhold};
 		waitUntil {sleep 0.5; !alive radioTower};
 		
-			//--- bl1p server only	
-			if (!DR_IsHeadless) then
-				{
-					radioTowerAlive = false;
-					publicVariable "radioTowerAlive";
+		//--- bl1p server only	
+
+			radioTowerAlive = false;
+			publicVariable "radioTowerAlive";
+		
+			"radioMarker" setMarkerPos [0,0,0];
+			_radioTowerDownText =
+				"<t align='center' size='2.2'>Radio Tower</t><br/><t size='1.5' color='#08b000' align='center'>DESTROYED</t><br/>____________________<br/>The enemy radio tower has been destroyed!<br/><br/><t size='1.2' color='#08b000' align='center'> The enemy cannot call in anymore support now!</t><br/><br/> Leaders can now use UAVs!";
+			GlobalHint = _radioTowerDownText; publicVariable "GlobalHint"; hint parseText GlobalHint;
+			showNotification = ["CompletedSub", "Enemy radio tower destroyed."]; publicVariable "showNotification";
+			showNotification = ["Reward", "Personal UAVs now available."]; publicVariable "showNotification";
+
 				
-					"radioMarker" setMarkerPos [0,0,0];
-					_radioTowerDownText =
-						"<t align='center' size='2.2'>Radio Tower</t><br/><t size='1.5' color='#08b000' align='center'>DESTROYED</t><br/>____________________<br/>The enemy radio tower has been destroyed!<br/><br/><t size='1.2' color='#08b000' align='center'> The enemy cannot call in anymore support now!</t><br/><br/> Leaders can now use UAVs!";
-					GlobalHint = _radioTowerDownText; publicVariable "GlobalHint"; hint parseText GlobalHint;
-					showNotification = ["CompletedSub", "Enemy radio tower destroyed."]; publicVariable "showNotification";
-					showNotification = ["Reward", "Personal UAVs now available."]; publicVariable "showNotification";
-				};
-				
-		//---bl1p headless and server wait
+		//---bl1p Server wait
 		waitUntil {sleep 5; count list dt < PARAMS_EnemyLeftThreshhold};
 	
 		//--- bl1p unlock assets
@@ -755,8 +719,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		publicvariable "UnlockAssets";
 	
 	//---bl1p server only		
-	if (!DR_IsHeadless) then
-	{
+
 		if (_isPerpetual) then
 		{
 			_lastTarget = currentAO;
@@ -792,12 +755,12 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		"aoCircle" SetMarkerAlpha 0;
 		AOAICREATIONMAINDONE = false;publicVariable "AOAICREATIONMAINDONE";
 	
-		//Delete detection trigger and markers on server and headless
+		//Delete detection trigger and markers on Server
 			deleteVehicle dt;
 			sleep 1;
-	};
+
 	
-	//--- bl1p headless and server clean up units left over before next AO call
+	//--- bl1p Server clean up units left over before next AO call
 		if(DEBUG) then
 				{
 					diag_log "===============STARTING CLEAN UP=====================";
@@ -896,7 +859,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		while {count _Eastgroups > 0} do
 		{
 			_finalArraysdebugcount = _finalArraysdebugcount + 1;
-			if (_finalArraysdebugcount > 24) exitwith {diag_log format ["_finalArraysdebugcount =%1 exiting loop ",_finalArraysdebugcount];};
+			if (_finalArraysdebugcount > 10) exitwith {diag_log format ["_finalArraysdebugcount =%1 exiting loop ",_finalArraysdebugcount];};
 			//second check of groups after cleaning
 				_Eastgroups=[];
 				{
@@ -1106,8 +1069,7 @@ if(DEBUG) then
 			};
 			
 //--- bl1p server only	
-if (!DR_IsHeadless) then
-	{	
+
 		//Set completion text
 		_missionCompleteText = "<t align='center' size='2.0'>Congratulations!</t><br/>
 		<t size='1.2' align='center'>You've successfully completed BL1Ps edit of Ahoy World Invade &amp; Annex!</t><br/>
@@ -1129,4 +1091,3 @@ if (!DR_IsHeadless) then
 
 		//End mission
 		endMission "END1";
-	};

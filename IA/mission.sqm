@@ -241,7 +241,7 @@ class Mission
 				};
 				class Item8
 				{
-					position[]={14616.711,17.91,16761.643};
+					position[]={14616.607,17.91,16761.68};
 					azimut=-226.545;
 					special="NONE";
 					id=8;
@@ -813,7 +813,7 @@ class Mission
 		};
 		class Item20
 		{
-			position[]={14646.046,17.91,16771.969};
+			position[]={14639.026,17.91,16764.18};
 			azimut=-49.2994;
 			id=50;
 			side="EMPTY";
@@ -1240,7 +1240,7 @@ class Mission
 		};
 		class Item60
 		{
-			position[]={14633.449,17.91,16759.18};
+			position[]={14621.432,17.91,16745.719};
 			azimut=131.42799;
 			id=90;
 			side="EMPTY";
@@ -1251,7 +1251,7 @@ class Mission
 		};
 		class Item61
 		{
-			position[]={14658.874,17.91,16783.801};
+			position[]={14655.574,17.91,16780.986};
 			azimut=133.095;
 			id=91;
 			side="EMPTY";
@@ -1939,7 +1939,7 @@ class Mission
 		};
 		class Item126
 		{
-			position[]={14620.818,17.91,16745.145};
+			position[]={14572.536,17.91,16817.629};
 			azimut=131.42799;
 			id=156;
 			side="EMPTY";
@@ -2225,7 +2225,7 @@ class Mission
 			azimut=-809.46503;
 			id=183;
 			side="EMPTY";
-			vehicle="B_Truck_01_medical_F";
+			vehicle="B_Truck_01_fuel_F";
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_2";

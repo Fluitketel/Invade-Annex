@@ -106,63 +106,62 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 		};
 		_camplocations = [1, getMarkerPos currentAO, _radius, ceil (random 3)] call random_mortar_camps;
 		_enemiesArray = _enemiesArray + campArray;
-	};
-			
-	// Spotters
-	_x = 0;
-	_rand = [2,3,4,5] call BIS_fnc_selectRandom;
-	if (DEBUG) then {diag_log format ["=====Creating %1 MORTSPOT=====",_rand];};
-	for "_x" from 1 to _rand do 
-	{
-		_randomPos = [getMarkerPos currentAO, 350,2] call aw_fnc_randomPos;
-		if ((count _randomPos) == 3) then 
+	
+		sleep 0.5;	
+		// Spotters
+		_x = 0;
+		_rand = [2,3,4,5] call BIS_fnc_selectRandom;
+		if (DEBUG) then {diag_log format ["=====Creating %1 MORTSPOT=====",_rand];};
+		for "_x" from 1 to _rand do 
 		{
-			_spawnGroupSP = createGroup EAST;
-			
-			"O_officer_F" createUnit [_randomPos, _spawnGroupSP];
-			// wait untill alive
-			//waitUntil {alive (leader _spawnGroupSP)};
-			
-			(leader _spawnGroupSP) addWeapon "Rangefinder";
-			(leader _spawnGroupSP) selectWeapon "Rangefinder";
+			_randomPos = [getMarkerPos currentAO, 350,2] call aw_fnc_randomPos;
+			if ((count _randomPos) == 3) then 
+			{
+				_spawnGroupSP = createGroup EAST;
+				
+				"O_officer_F" createUnit [_randomPos, _spawnGroupSP];
+				
+				(leader _spawnGroupSP) addWeapon "Rangefinder";
+				//(leader _spawnGroupSP) selectWeapon "Rangefinder";
 
-			//[_spawnGroupSP, getMarkerPos currentAO,350] call aw_fnc_spawn2_randomPatrol;
-			[_spawnGroupSP, getMarkerPos currentAO,375] call aw_fnc_spawn2_perimeterPatrol;
-			
-			// run mortar spotter if mortars are present
-			if (count Mortars > 0) then 
-			{
-				[(leader _spawnGroupSP), Mortars] execVM "core\mortar_spotter.sqf";
-			};
-			[(units _spawnGroupSP)] call aw_setGroupSkill;
-			sleep 1;
-			if(DEBUG) then
-			{
-				_name = format ["%1%2",name (leader _spawnGroupSP),_x];
-				createMarker [_name,getPos (leader _spawnGroupSP)];
-				_name setMarkerType "o_unknown";
-				_name setMarkerText format ["M Spotters %1",_x];
-				_name setMarkerColor "ColorRed";
-				[_spawnGroupSP,_name] spawn
+				//[_spawnGroupSP, getMarkerPos currentAO,350] call aw_fnc_spawn2_randomPatrol;
+				[_spawnGroupSP, getMarkerPos currentAO,375] call aw_fnc_spawn2_perimeterPatrol;
+				
+				// run mortar spotter if mortars are present
+				if (count Mortars > 0) then 
 				{
-					private["_group","_marker"];
-					_group = _this select 0;
-					_marker = _this select 1;
-
-					while{count (units _group) > 0} do
-					{
-						_marker setMarkerPos (getPos (leader _group));
-						sleep 1;
-					};
-					deleteMarker _marker;
+					[(leader _spawnGroupSP), Mortars] execVM "core\mortar_spotter.sqf";
 				};
-			};
+				[(units _spawnGroupSP)] call aw_setGroupSkill;
+				sleep 1;
+				if(DEBUG) then
+				{
+					_name = format ["%1%2",name (leader _spawnGroupSP),_x];
+					createMarker [_name,getPos (leader _spawnGroupSP)];
+					_name setMarkerType "o_unknown";
+					_name setMarkerText format ["M Spotters %1",_x];
+					_name setMarkerColor "ColorRed";
+					[_spawnGroupSP,_name] spawn
+					{
+						private["_group","_marker"];
+						_group = _this select 0;
+						_marker = _this select 1;
 
-			_enemiesArray = _enemiesArray + [_spawnGroupSP];
-		}
-		else
-		{
-			diag_log "DID NOT CREATE SPOTTERS FAILED ON RAND POS";
+						while{count (units _group) > 0} do
+						{
+							_marker setMarkerPos (getPos (leader _group));
+							sleep 1;
+						};
+						deleteMarker _marker;
+					};
+				};
+
+				_enemiesArray = _enemiesArray + [_spawnGroupSP];
+			}
+			else
+			{
+				diag_log "DID NOT CREATE SPOTTERS FAILED ON RAND POS";
+			};
 		};
 	};
 //////////////////////////////////////////////////////// MORTAR END ////////////////////////////////////////////////////////		
@@ -197,10 +196,8 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 							[_randomPos,_spawnGroup] call GurillaSquad;
 						};
 					
+					nul=[(leader _spawnGroup), "aoCircle","RANDOM"] execVm "scripts\UPSMON.sqf";
 					
-					// wait untill alive
-					//waitUntil {alive (leader _spawnGroup)};
-							nul=[(leader _spawnGroup), "aoCircle","RANDOM"] execVm "scripts\UPSMON.sqf";
 					sleep 0.5;
 					[(leader _spawnGroup)] execVM "core\spotter.sqf";
 					sleep 0.5;
@@ -266,9 +263,6 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 							[_randomPos,_spawnGroup] call GurillaSquad;
 						};
 					
-					//
-					// wait untill alive
-					//waitUntil {alive (leader _spawnGroup)};
 					sleep 0.5;
 					[_spawnGroup, getMarkerPos currentAO,75] call aw_fnc_spawn2_perimeterPatrol;
 					sleep 0.5;
@@ -359,8 +353,7 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 							_HotelName setMarkerShape "ELLIPSE";
 							_HotelName setMarkerSize [100, 100];
 							_HotelName setMarkerAlpha 0;
-							// wait untill alive
-							//waitUntil {alive (leader _spawnGroup)};
+							
 							nul=[(leader _spawnGroup), "HOTEL", "RANDOMA", "NOSHARE"] execVm "scripts\UPSMON.sqf";
 							
 					
@@ -395,17 +388,14 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 					{
 					//--- bl1p normal none hotel
 						_HousesPercent = random 10;
-						// wait untill alive
-						//waitUntil {alive (leader _spawnGroup)};
+						
 						if ((Houses) && (_HousesPercent <= PARAMS_HousesPercent)) then 
 						{
 						if (DEBUG) then {diag_log format ["_HousesPercent = %1 PARAMS_HousesPercent = %2 :: Houses = %3",_HousesPercent,PARAMS_HousesPercent,Houses];};
 						if (DEBUG) then {diag_log "=====Creating MIDPAT UPSMON NOT HOTEL=====";};
 						
 							nul=[(leader _spawnGroup), "aoCircle", "RANDOMDN"] execVm "scripts\UPSMON.sqf";
-							//_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-							//_upsZoneMid setTriggerArea [100, 100, 0, false];
-							//[(leader _spawnGroup), _upsZoneMid, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
+							
 						}
 						else
 						{
@@ -539,15 +529,15 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 										"O_recon_F" createUnit [_randomPos, _spawnGroupSPX];
 									};
 								};
-							// wait untill alive
-							//waitUntil {alive (leader _spawnGroupSPX)};
-							sleep 0.5;
-							//[_spawnGroupSPX, getMarkerPos currentAO,700] call aw_fnc_spawn2_perimeterPatrol;
-							_upsZoneExt = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-							_upsZoneExt setTriggerArea [1000, 1000, 0, false];
+							
 							sleep 0.5;
 							
-							[(leader _spawnGroupSPX), _upsZoneExt] execVM "UPS_BL1P.sqf";
+							_upsZoneExt = createTrigger ["EmptyDetector", getMarkerPos currentAO];
+							_upsZoneExt setTriggerArea [1000, 1000, 0, false];
+							
+							sleep 0.5;
+							
+							[(leader _spawnGroupSPX), _upsZoneExt] execVM "UPS_EXT.sqf";
 							
 							sleep 0.5;
 							[(units _spawnGroupSPX)] call aw_setGroupSkill;

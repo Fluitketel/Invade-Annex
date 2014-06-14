@@ -47,7 +47,7 @@ while { { alive _x; }count _mortars > 0 } do
 		if (side _x in _sideToAttack && { alive _x && _spotter knowsAbout _x > 2.5 } ) then {
 			_targetpos = getPos _x;
 			_targetpos set [3, (_spotter knowsAbout _x)]; // Add knowsabout to target position
-			sleep 10 + (random 5); // Time to transmit fire mission to mortar crew
+			sleep 5 + (random 10); // Time to transmit fire mission to mortar crew
 			if (alive _spotter && !MortarsFiring) then {
 				_targets set [count _targets, _targetpos];
 			};
@@ -95,7 +95,7 @@ while { { alive _x; }count _mortars > 0 } do
 		// Fire flares at night!
 		if (_nighttime && (_knowsabout < 3 || DEBUG)) then {
 			if(DEBUG) then {diag_log "firing flare before fire mission";};
-			[_ChosentargetPos, 4, "white"] spawn FlareClusters;
+			[_ChosentargetPos, 6, "white"] spawn FlareClusters;
 			sleep 10;
 		};
 		

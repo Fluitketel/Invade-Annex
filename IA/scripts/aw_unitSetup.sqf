@@ -3,9 +3,9 @@ _unit = _this select 0;
 if(isNull _unit) exitWith {};
 
 //--- clear all cargo all vehicles
-//clearitemcargo _unit; 
-//clearWeaponCargoGlobal _unit; 
-//clearMagazineCargoGlobal _unit;
+clearitemcargo _unit; 
+clearWeaponCargoGlobal _unit; 
+clearMagazineCargoGlobal _unit;
 
 //--- Mowhawk
 if(typeOf _unit == "I_Heli_Transport_02_F") then 
@@ -33,25 +33,7 @@ if((_unit isKindOf "Ship") OR (_unit isKindOf "Wheeled_APC_F")) then {[_unit] ex
 //--- Trucks
 if (typeOf _unit == "B_Truck_01_ammo_F") then 
 	{
-		// fill vehicle with our junk
-
-		_unit addItemCargoGlobal ["FirstAidKit", 50];
-		_unit addMagazineCargoGlobal ["30Rnd_556x45_Stanag", 100];
-		_unit addMagazineCargoGlobal ["200Rnd_65x39_cased_Box_Tracer", 20];
-		_unit addMagazineCargoGlobal ["30Rnd_65x39_caseless_mag", 100];
-		_unit addMagazineCargoGlobal ["30Rnd_65x39_caseless_mag_Tracer",100];
-		_unit addMagazineCargoGlobal ["100Rnd_65x39_caseless_mag_Tracer",50];
-		_unit addMagazineCargoGlobal ["ATMine_Range_Mag",10];
-		_unit addMagazineCargoGlobal ["APERSBoundingMine_Range_Mag",10];
-		_unit addMagazineCargoGlobal ["ClaymoreDirectionalMine_Remote_Mag",10];
-		_unit addMagazineCargoGlobal ["SatchelCharge_Remote_Mag", 8];
-		_unit addMagazineCargoGlobal ["HandGrenade", 40];
-		_unit addMagazineCargoGlobal ["SmokeShell", 40];
-		_unit addMagazineCargoGlobal ["SmokeShellGreen", 40];
-		_unit addMagazineCargoGlobal ["3Rnd_HE_Grenade_shell", 40];
-		_unit addMagazineCargoGlobal ["NLAW_F", 12];
-		_unit addMagazineCargoGlobal ["Titan_AT", 12];
-		_unit addMagazineCargoGlobal ["Titan_AA", 12];	
+		      _unit addAction ["<t color='#40ff00'>Ammo Box</t>", "VAS\open.sqf",[], 0, false, false, "", "vehicle _this == _this && _target distance _this < 10"];
 	};
 	
 	

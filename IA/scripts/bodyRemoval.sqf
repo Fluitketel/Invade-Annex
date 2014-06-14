@@ -22,12 +22,8 @@
 	[60] execVM "cly_bodyRemoval.sqf";
 	This makes bodies disappear in 60 seconds, leaving everything else untouched.
 */
-//---bl1p if headless param on then kick server
-if ((PARAMS_HEADLESS == 1) && (isServer)) exitwith {diag_log format ["PARAMS_HEADLESS = %1 I was kicked from the CLY remove script",PARAMS_HEADLESS];};
 
-//---bl1p if headless param off then kick everything but server
-if ((PARAMS_HEADLESS == 0) && (!isServer)) exitWith {diag_log format ["PARAMS_HEADLESS = %1 I was kicked from the CLY remove script",PARAMS_HEADLESS];};
-
+if (!isServer) exitWith {diag_log "I was kicked from the CLY remove script";};
 If (DEBUG) then {diag_log "I am in the cly_removal script";};
 
 _manDelay = [_this, 0, -1, [0]] call BIS_fnc_param;

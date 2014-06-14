@@ -28,14 +28,12 @@
 //
 // =========================================================================================================
 
-
-if (hasInterFace) exitWith {Diag_log "I was kicked from the UPS_BL1P.sqf I am a client";};
+if (hasInterFace) exitWith {Diag_log "I was kicked from the UPS.sqf I am a client";};
 
 if(DEBUG) then
 						{
-							Diag_log FORMAT ["======%1 is UPS_BL1P====",_this select 0];
+							Diag_log FORMAT ["======%1 is UPS====",_this select 0];
 						};
-	
 	
 // how far opfors should move away if they're under attack
 // set this to 200-300, when using the script in open areas (rural surroundings)
@@ -94,8 +92,6 @@ if (isNil("KRON_UPS_INIT")) then {
 	KRON_deleteDead = {private["_u","_s"];_u=_this select 0; _s= _this select 1; _u removeAllEventHandlers "killed"; sleep _s; deletevehicle _u};
 	KRON_KnownEnemy=[objNull,objNull,objNull]; // enemy information is shared between different groups
 	
-if (PARAMS_DebugMode2 == 1) then {KRON_UPS_Debug = 1;publicVariable "KRON_UPS_Debug";};
-
 	if (isNil("KRON_UPS_Debug")) then {KRON_UPS_Debug=0};
 	//KRON_HQ="Logic" createVehicle [0,0];
 	KRON_UPS_Instances=0;
@@ -250,15 +246,12 @@ if (_rangeX==0) exitWith {
 };
 _mindist=(_rangeX^2+_rangeY^2)/4;
 
-//--- bl1p set default speed and mode
 // remember the original mode & speed
 //_orgMode = behaviour _npc;
 //_orgSpeed = speedmode _npc;
 _orgMode = "SAFE";
 _orgSpeed = "LIMITED";
 _speedmode = _orgSpeed;
-
-if (DEBUG) then {diag_log format ["UPS +++++_orgMode = %1 :: _orgSpeed = %2 _speedmode = %3++++++",_orgMode,_orgSpeed,_speedmode];};
 
 // set first target to current position (so we'll generate a new one right away)
 _currPos = getpos _npc;
@@ -324,19 +317,11 @@ if ((_initpos!="ORIGINAL") && ((!_isman) || (count _members)>1)) then {_initpos=
 // set behaviour modes (or not)
 _noslow = if ("NOSLOW" in _UCthis) then {"NOSLOW"} else {"SLOW"};
 if (_noslow!="NOSLOW") then {
-	_npc setbehaviour "SAFE"; 
-	_npc setSpeedMode "LIMITED";
-	_speedmode = "LIMITED";
+	_npc setbehaviour "safe"; 
+	_npc setSpeedMode "limited";
+	_speedmode = "limited";
 }; 
-//--- bl1p
-if (_noslow=="NOSLOW") then 
-	{
-		_npc setbehaviour "SAFE"; 
-		_npc setSpeedMode "FULL";
-		_npc setFormation "LINE";	
-		_speedmode = "FULL";		
-	}; 
-	
+
 // make start position random 
 if (_initpos!="ORIGINAL") then {
 	// find a random position (try a max of 20 positions)
@@ -576,33 +561,43 @@ while {_loop} do {
 	// current position
 	_currPos = getpos _npc; _currX = _currPos select 0; _currY = _currPos select 1;
 	if (_track=="TRACK") then { _trackername setmarkerpos _currPos; };
+	//diag_log format ["_enemies = %1",_enemies];
 	
+		if (count _enemies < 1) then 
+			{
+				{
+					//player sidechat format["%1,%2: %3",_npc,_x,(side _x) getFriend (side _npc)];
+					if (((side _x) getFriend (side _npc))<.6) then {
+						_enemies=_enemies+[_x];
+					} else {
+						_friends=_friends+[_x];
+					};
+				}forEach allUnits-_members;
+			};
+			
 	// if the AI is a civilian we don't have to bother checking for enemy encounters
-	if ((_issoldier) && ((count _enemies)>0) && !(_exit)) then {
-
-		if (_shareinfo=="SHARE") then {
+	if ((_issoldier) && ((count _enemies)>0) && !(_exit)) then 
+	{
+		if (_shareinfo=="SHARE") then 
+		{
 			_others=_friends-_members-[player];
 			{
-				//--- bl1p
-				if ((!(isNull _x) && (_npc distance _x<SHAREDIST)) && (behaviour _x in ["AWARE","COMBAT"])) exitWith {
-				//--- original
-				//if ((!(isNull _x) && (_npc distance _x<SHAREDIST)) && ((damage _x>.5) || (behaviour _x in ["AWARE","COMBAT"]))) exitWith {
-
-					_npc setBehaviour "aware"; 
-					//_gothit=true; 
+				if ((!(isNull _x) && (_npc distance _x<SHAREDIST)) && (damage _x>.5)) exitWith 
+				{
+					//diag_log format ["_npc = %1 inside exitiwith",_npc];
+					_gothit=true;
 					if ((_hitPos select 0)==0) then {_hitPos = getPos _x};
-					if (_npc knowsabout _x>3) then {
-						//if (alive _x) then {_npc reveal (KRON_KnownEnemy select _sharedenemy)}; 
-						 if (alive _x) then {_npc reveal [(KRON_KnownEnemy select _sharedenemy), 1.5]};
+					if (_npc knowsabout _x>3) then 
+					{
+						//diag_log format ["_npc = %1 inside knowsabout > 3",_npc];
+						_npc setBehaviour "aware"; 
+						if (alive _x) then {_npc reveal (KRON_KnownEnemy select _sharedenemy)}; 
 					};
-					//if (_npc knowsabout _x<1) then {KRON_KnownEnemy=[objNull,objNull,objNull];};
 				};
 			}forEach _others;
 		};
 		sleep .01;
-		
-		//if (DEBUG) then {diag_log format["+++%1++++ :: WAS TOLD ABOUT KRON_KnownEnemy = %2 ++++",_grpidx,KRON_KnownEnemy];};	
-
+			
 		// did the group spot an enemy?
 		_lastknown=_opfknowval;
 		_opfknowval=0; 
@@ -613,40 +608,51 @@ while {_loop} do {
 				KRON_KnownEnemy set [_sharedenemy,_x]; 
 				_opfknowval=_opfknowval+_knows; 
 				_maxknowledge=_knows;
+				//diag_log format ["_npc = %1 inside KNOWS SHARE KRON_KnownEnemy = %2",_npc,KRON_KnownEnemy];
 			};
-			if (!alive _x) then {_enemies=_enemies-[_x]};
+			if (!alive _x) then {KRON_KnownEnemy set [_sharedenemy,objNull];};
+			//--- bl1p re add a dead enemy
+			if (!alive _x) then {_enemies=_enemies-[_x];};
+			if (isNull _x ) then 
+			{
+				_enemies=_enemies-[_x];
+				
+				{
+					//player sidechat format["%1,%2: %3",_npc,_x,(side _x) getFriend (side _npc)];
+					if (((side _x) getFriend (side _npc))<.6) then {
+						_enemies=_enemies+[_x];
+					} else {
+						_friends=_friends+[_x];
+					};
+				}forEach allUnits-_members;
+			};
+			
+			
 			if (_maxknowledge==4) exitWith {};
-
 		}forEach _enemies;
-
-		//if (DEBUG) then {diag_log format["+++%1++++ :: I KNOW ABOUT KRON_KnownEnemy = %2 ++++",_grpidx,KRON_KnownEnemy];};
-		//if (DEBUG) then {diag_log format["+++%1++++ :: _maxknowledge = %2 ++++",_grpidx,_maxknowledge];};
 		sleep .01;
 		
 		_pursue=false;
 		_accuracy=100;
 		// opfor spotted an enemy or got shot, so start pursuit
-
 		if (_opfknowval>_lastknown || _gothit) then {
 			_npc setbehaviour "combat";
 			_pursue=true;
 			// make the exactness of the target dependent on the knowledge about the shooter
 			_accuracy=21-(_maxknowledge*5);
+			//diag_log format ["_npc = %1 inside PERSUE KRON_KnownEnemy = %2",_npc,KRON_KnownEnemy];
 		};
-		//if (DEBUG) then {diag_log format["+++%1++++ :: _opfknowval = %2 :: _lastknown = %3 ++++",_grpidx,_opfknowval,_lastknown];};
-		//if (DEBUG) then {diag_log format["+++%1++++ :: _accuracy = %3 :: _pursue = %2 ++++",_grpidx,_pursue,_accuracy];};
-		//if (DEBUG) then {diag_log format["+++%1++++ :: _gothit = %2 ++++",_grpidx,_gothit];};
 		
-		if (isNull (KRON_KnownEnemy select _sharedenemy)) then {
+		if (isNull (KRON_KnownEnemy select _sharedenemy)) then 
+		{
 			_pursue=false;
+			//diag_log format ["_npc = %1 inside PERSUE FALSE KRON_KnownEnemy = %2 _pursue = %3",_npc,KRON_KnownEnemy,_pursue];
 		};
 
 		// don't react to new fatalities if less than 60 seconds have passed since the last one
 		if ((_react<60) && (_fightmode!="walk")) then {_pursue=false};
 
 		if (_pursue) then	{
-
-
 			// get position of spotted unit in player group, and watch that spot
 			_offsx=_accuracy/2-random _accuracy; _offsY=_accuracy/2-random _accuracy;
 			_targetPos = getpos (KRON_KnownEnemy select _sharedenemy);
@@ -690,17 +696,13 @@ while {_loop} do {
 			_attackPos = _targetPos;
 			// for now we're stepping a bit to the side
 			_targetPos = _avoidPos;
-			
-			//--- bl1p
-			if (_nofollow=="NOFOLLOW") then {
-				_avoidPos = [_avoidPos,_centerpos,_rangeX+500,_rangeY+500,_areadir] call KRON_stayInside;
-				_flankPos = [_flankPos,_centerpos,_rangeX+500,_rangeY+500,_areadir] call KRON_stayInside;
-				_attackPos = [_attackPos,_centerpos,_rangeX+500,_rangeY+500,_areadir] call KRON_stayInside;
-				_targetPos = [_targetPos,_centerpos,_rangeX+500,_rangeY+500,_areadir] call KRON_stayInside;
-				if (DEBUG) then {diag_log format["+++%1++++ _centerpos = %2 _rangeX = %3 _rangeY = %4 _areadir = %5++++",_grpidx,_centerpos,_rangeX,_rangeY,_areadir];};
-			};
-			
 
+			if (_nofollow=="NOFOLLOW") then {
+				_avoidPos = [_avoidPos,_centerpos,_rangeX,_rangeY,_areadir] call KRON_stayInside;
+				_flankPos = [_flankPos,_centerpos,_rangeX,_rangeY,_areadir] call KRON_stayInside;
+				_attackPos = [_attackPos,_centerpos,_rangeX,_rangeY,_areadir] call KRON_stayInside;
+				_targetPos = [_targetPos,_centerpos,_rangeX,_rangeY,_areadir] call KRON_stayInside;
+			};
 			
 			_react=0;
 			_fightmode="fight";
@@ -820,7 +822,6 @@ while {_loop} do {
 		// tell unit about new target position
 		if (_fightmode!="walk") then {
 			// reset patrol speed after following enemy for a while
-//if (DEBUG) then {diag_log format["+++%5+++_timeontarget = %1 ALERTTIME = %2 _speedmode = %3 _orgMode = %4+++++",_timeontarget,ALERTTIME,_speedmode,_orgMode,_grpidx];};
 			if (_timeontarget>ALERTTIME) then {
 				_fightmode="walk";
 				_speedmode = _orgSpeed;
@@ -828,8 +829,6 @@ while {_loop} do {
 					_x setSpeedMode _speedmode;
 					_x setBehaviour _orgMode;
 				}forEach _members;
-//if (DEBUG) then {diag_log format["+++%5+++ENTERD THE RESET _timeontarget = %1 ALERTTIME = %2 _speedmode = %3 _orgMode = %4+++++",_timeontarget,ALERTTIME,_speedmode,_orgMode,_grpidx];};
-
 			};
 			// use individual doMoves if pursuing enemy, 
 			// as otherwise the group breaks up too much

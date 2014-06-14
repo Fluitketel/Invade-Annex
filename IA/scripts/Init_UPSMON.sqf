@@ -21,7 +21,7 @@ UPSMON_Debug = 0;
 R_WHO_IS_CIV_KILLER_INFO = 0;
 
 // if you are spotted by AI group, how close the other AI group have to be to You , to be informed about your present position. over this, will lose target
-UPSMON_sharedist = 800; // org value 800 => increased for ArmA3 map sizes for less predictable missions..
+UPSMON_sharedist = 500; // org value 800 => increased for ArmA3 map sizes for less predictable missions..
 
 // If enabled AI communication between them with radio defined sharedist distance, 0/2 
 // (must be set to 2 in order to use reinforcement !R)
