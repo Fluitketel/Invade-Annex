@@ -46,9 +46,10 @@ disableSerialization;
 					};
 				if(gunner _vehicle == _x) then
 					{
-						_wepdir =  (vehicle player) weaponDirection _weap;
+						/*_wepdir =  (vehicle player) weaponDirection _weap;
 						_Azimuth = round  (((_wepdir select 0) ) atan2 ((_wepdir select 1) ) + 360) % 360;
-						_name = format ["%1<img size='0.8' color='#CCFF66' shadow='1' image='a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa'/> <t size='0.85' color='#FFFFFF' shadow='1'>%2</t> <t size='0.80' color='#FFFFFF'>Heading:<t/> <t size='0.80' color='#ff0000'>%3</t><br/>", _name, (name _x), _Azimuth];//--- bl1p edit removed the target
+						_name = format ["%1<img size='0.8' color='#CCFF66' shadow='1' image='a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa'/> <t size='0.85' color='#FFFFFF' shadow='1'>%2</t> <t size='0.80' color='#FFFFFF'>Heading:<t/> <t size='0.80' color='#ff0000'>%3</t><br/>", _name, (name _x), _Azimuth];*///--- bl1p edit removed the target
+						_name = format ["%1<img size='0.8' color='#CCFF66' shadow='1' image='a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa'/> <t size='0.85' color='#FFFFFF' shadow='1'>%2</t><br/>", _name, (name _x)];
 					};
             }
             else
