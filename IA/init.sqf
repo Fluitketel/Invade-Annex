@@ -597,15 +597,9 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 			sleep 1;
 		};
 		
-		// --- make the tower a lighthouse at night
-		if (daytime > 19.5 || daytime < 4.5) then 
-		{
-			//nighttime
-			radioTower = "Land_LightHouse_F" createVehicle _flatPos;
-		}else{
-			//daytime
-			radioTower = "Land_TTowerBig_2_F" createVehicle _flatPos;
-		};
+		// --- make the tower NOT a light houise because fluit said thats stupid !!!
+		radioTower = "Land_TTowerBig_2_F" createVehicle _flatPos;
+		
 			waitUntil {sleep 0.5; alive radioTower};
 			radioTower setVectorUp [0,0,1];
 			radioTowerAlive = true;
