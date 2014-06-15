@@ -122,6 +122,8 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 				"O_officer_F" createUnit [_randomPos, _spawnGroupSP];
 				
 				(leader _spawnGroupSP) addWeapon "Rangefinder";
+				(leader _spawnGroupSP) addItem "NVGoggles_OPFOR";
+				(leader _spawnGroupSP) assignItem "NVGoggles_OPFOR";
 				//(leader _spawnGroupSP) selectWeapon "Rangefinder";
 
 				//[_spawnGroupSP, getMarkerPos currentAO,350] call aw_fnc_spawn2_randomPatrol;
