@@ -76,7 +76,7 @@ _layer = 85125;
                 _forbidden = [_veh turretUnit [0]];
                 if(player in _forbidden) then {
                     systemChat "Copilot Seat Disabled";
-                    player action ["eject", _veh];
+                    player action ["getOut", _veh];
                 sleep 1;
 				};
             };
@@ -89,7 +89,7 @@ _layer = 85125;
                 if (player in _forbidden && !(_friend)) then 
 			   {
 					systemChat format ["Sorry %1 Only dR Members and Friends can pilot this craft",name player];
-                    player action ["eject", _veh];
+                    player action ["getOut", _veh];
 					_veh engineon false;
 					sleep 1;
 			   };
@@ -118,7 +118,7 @@ _layer = 85125;
                 if ((player in _forbidden && !(_friend)) || (player in _forbidden && !(_iampilot))) then 
 			   {
 					systemChat format ["Sorry %1 Only LvL 1 Plane Pilots in the vehicle",name player];
-                    player action ["eject", _veh];
+                    player action ["getOut", _veh];
 					_veh engineon false;
 					sleep 0.5;
 			   };
@@ -132,7 +132,7 @@ _layer = 85125;
                 if ((player in _forbidden && !(_friend)) || (player in _forbidden && !(_iampilotChop))) then 
 			   {
 					systemChat format ["Sorry %1 Only LvL 1 Chopper Pilots in the vehicle",name player];
-                    player action ["eject", _veh];
+                    player action ["getOut", _veh];
 					_veh engineon false;
 					sleep 1;
 			   };
@@ -158,7 +158,7 @@ _layer = 85125;
                 if ((player in _forbidden && !(_friend)) || (player in _forbidden && !(_iamcrewman))) then  
 				{
                     systemChat format ["Sorry %1 Only LvL 1 Crew in the vehicle",name player];
-                    player action ["eject", _veh];
+                    player action ["getOut", _veh];
 					_veh engineon false;
 					sleep 1;
 			    };
@@ -189,7 +189,7 @@ _layer = 85125;
 							_ticktock = _ticktock -1;
 							if (_ticktock < 3) then 
 							{
-								player action ["eject", _veh];
+								player action ["getOut", _veh];
 								//_veh engineon false;
 							};
 						};
