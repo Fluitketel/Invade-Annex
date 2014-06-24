@@ -10,7 +10,8 @@
 // Seconds until unconscious unit bleeds out and dies. Set to 0 to disable. can use a variable to create a paramater for the amount of bleedout.
 if (IsServer || IsDedicated) exitwith {diag_log "I was Kicked from the FAR_revive_Init.sqf"};
 
-FAR_BleedOut = 300;	
+//FAR_BleedOut = 300; // 5 min	
+FAR_BleedOut = 480; // 8 min	
 
 // Enable teamkill notifications
 FAR_EnableDeathMessages = true;

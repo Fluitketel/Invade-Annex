@@ -163,7 +163,15 @@ FAR_Player_Unconscious =
 	if (isPlayer _unit) then 
 
 		{
-			_bleedOut = time + FAR_BleedOut;
+			// Bleedout timer calculations                          
+			// example 2 revives: 480 - ((2/10) * 480) = 480 - (0.2 * 480) = 480 - 96  = 384 seconds
+			// example 4 revives: 480 - ((4/10) * 480) = 480 - (0.4 * 480) = 480 - 192 = 288 seconds
+			_unitrevives = 0;
+			if !(isNil { _unit getVariable "revives" } ) then { _unitrevives = _unit getVariable "revives"; };
+			_bleedOut = FAR_BleedOut - ((_unitrevives / 10) * FAR_BleedOut);
+			_bleedOut = round (_bleedOut + ((random 60) - 30); // randomize it!
+			if (_bleedOut < 20) then { _bleedOut = 20; };
+			_bleedOut = time + _bleedOut;
 			
 			while { !isNull _unit && {alive _unit} && {_unit getVariable "FAR_isUnconscious" == 1} && {(FAR_BleedOut <= 0 || time < _bleedOut)} } do
 			{
