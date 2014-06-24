@@ -177,7 +177,7 @@ FAR_Player_Unconscious =
 			_unitrevives = 0;
 			if !(isNil { _unit getVariable "revives" } ) then { _unitrevives = _unit getVariable "revives"; };
 			_bleedOut = FAR_BleedOut - ((_unitrevives / 10) * FAR_BleedOut);
-			_bleedOut = round (_bleedOut + ((random 60) - 30); // randomize it!
+			_bleedOut = round (_bleedOut + ((random 60) - 30)); // randomize it!
 			if (_bleedOut < 20) then { _bleedOut = 20; };
 			_bleedOut = time + _bleedOut;
 			
