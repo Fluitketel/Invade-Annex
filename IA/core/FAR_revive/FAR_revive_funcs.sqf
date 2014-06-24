@@ -41,6 +41,14 @@ FAR_HandleDamage_EH =
             
             _amountOfDamage = 0;
         } else {
+			// Death message if friendly fire
+			if (FAR_EnableDeathMessages && {!isNil "_killer"} && {isPlayer _killer} && {_killer != _unit}) then
+			{
+				FAR_deathMessage = [_unit, _killer];
+				publicVariable "FAR_deathMessage";
+				["FAR_deathMessage", [_unit, _killer]] call FAR_public_EH;
+				Totalfriendlyfire = Totalfriendlyfire + 1;publicvariable "Totalfriendlyfire";
+			};
             _amountOfDamage = 1;
         };
     };
