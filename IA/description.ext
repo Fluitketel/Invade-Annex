@@ -1,4 +1,4 @@
-//#include "scripts\unitCaching\description.ext"
+#include "scripts\unitCaching\description.ext"
 
 //--- com slot only 
 #include "core\Debriefing.hpp"
@@ -342,13 +342,26 @@ class Daytime
 		default = 120;
 	};
 	
-	class Space4
-		{
-			title = ""; 
-			values[]= {0}; 
-			texts[]= {" "}; 
-			default = 0;
-		};
+	class CacheAOUnits
+	{
+		title = "Use caching for AO enemies";
+		values[] = {1,0};
+		texts[] = {"Enable","Disable"};
+		default = 0;
+	};
+	
+	class CacheDynamicUnits
+	{
+		title = "Use caching for dynamic enemies";
+		values[] = {1,0};
+		texts[] = {"Enable","Disable"};
+		default = 1;
+	};
+	
+	class Space4 {title = ""; values[]= {0}; texts[]= {" "}; default = 0; };
+	class Space5 {title = ""; values[]= {0}; texts[]= {" "}; default = 0; };
+	class Space6 {title = ""; values[]= {0}; texts[]= {" "}; default = 0; };
+	class Space7 {title = ""; values[]= {0}; texts[]= {" "}; default = 0; };
 };
 
 //========================================================================== END PARAMS
