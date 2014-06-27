@@ -10,7 +10,7 @@ AW_fnc_spawnUnits =
 //===================================//
 //==========Start create untis=======//
 //===================================//
-
+		waitUntil {!isNil "fluitfunctions"};
 
 		if (DEBUG) then 
 		{
