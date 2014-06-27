@@ -129,6 +129,14 @@ class Daytime
 			texts[]= {" "}; 
 			default = 0;
 		};
+        
+    class DEP
+	{
+		title = "Dynamic enemy population";
+		values[] = {0, 50, 125, 200};
+		texts[] = {"Off", "Low", "Medium", "High"};
+		default = 125;
+	};
 	
 	//def 4
 	class SquadsPatrol
@@ -355,7 +363,7 @@ class Daytime
 		title = "Use caching for dynamic enemies";
 		values[] = {1,0};
 		texts[] = {"Enable","Disable"};
-		default = 1;
+		default = 0;
 	};
 	
 	class Space4 {title = ""; values[]= {0}; texts[]= {" "}; default = 0; };

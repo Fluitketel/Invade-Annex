@@ -659,4 +659,120 @@ FlareCluster = {
 	} forEach _cluster;
 };
 
+BuildingPositions = {
+	private ["_building", "_positions", "_i"];
+	_building = _this;
+	//_positions = [(position _building)];
+	_positions = [];
+	_i = 1;
+	while {_i > 0} do {
+	   _next = _building buildingPos _i;
+	   if (((_next select 0) == 0) && ((_next select 1) == 0) && ((_next select 2) == 0)) then {
+		  _i = 0;
+	   } else {
+		  _positions set [(count _positions), _next];
+		  _i = _i + 1;
+	   };
+	};
+	_positions;
+};
+
+DynamicEnemyPopulation = {
+	private ["_amount","_spacing","_positions","_groupsperlocation","_debug","_pos_index","_maxbuildingpos","_NME_pool","_houses","_validhouses","_valid","_house"];
+	_amount     = if (count _this > 0) then {_this select 0} else { 100 };
+	_spacing    = if (count _this > 1) then {_this select 1} else { 1000 };
+	_avoid      = if (count _this > 2) then {_this select 2} else { [] };
+    
+	_positions = [];
+	_groupsperlocation = 0;
+	_debug = DEBUG;
+	_pos_index = 0;
+	_maxbuildingpos = 0;
+	_NME_pool = ["I_soldier_F","I_Soldier_GL_F","I_Soldier_AR_F","I_Soldier_AT_F","I_Soldier_AA_F","I_Soldier_SL_F","I_Sniper_F"];
+    _totalAI = 0;
+    
+	diag_log "DEP Dynamic Enemy Population started...";
+	while {(count _positions) < _amount} do {
+		_validhouses = [];
+		_newpos = [] call BIS_fnc_randomPos;
+		_valid = true;
+        
+        // Check distance between avoid positions
+		{
+			if ((_newpos distance _x) < (_spacing * 2.5)) exitWith { _valid = false; };
+		} foreach _avoid;
+		
+        if (_valid) then {
+            // Check distance between other enemy positions
+            {
+                if ((_newpos distance _x) < _spacing) exitWith { _valid = false; };
+            } foreach _positions;
+        };
+		
+		if (_valid) then {
+			// Check if there are enough enterable houses
+			_houses = nearestObjects [_newpos, ["House"], (_spacing/2)];
+			{	
+				_house = _x;
+				_i = 0;
+				while {count ((_house buildingPos _i)-[0]) > 0} do {_i = _i + 1;};
+				_maxbuildingpos = _i - 1;
+				if (_maxbuildingpos > 1) then { _validhouses = _validhouses + [_house]; };			
+			} foreach _houses;
+			if ((count _validhouses) < 3) then { _valid = false; };
+		};
+		
+		// If all tests passed place AI in houses
+		if (_valid) then {
+			_positions = _positions + [_newpos];
+			_pos_index = _pos_index + 1;
+            _groupsperlocation = (ceil (random (count _validhouses)));
+            if (_groupsperlocation < 3 && (count _validhouses) > 5) then { _groupsperlocation = 3; };
+            if (_groupsperlocation > 6) then { _groupsperlocation = 6; };
+			for "_c" from 1 to _groupsperlocation do {
+				_house = _validhouses call BIS_fnc_selectRandom;
+				_validhouses = _validhouses - [_house];
+				
+				// Get positions in building
+				_buildpos = _house call BuildingPositions;
+				_enemyamount = round (random (count _buildpos));
+				if (_enemyamount > 4) then { _enemyamount = 4; };
+				if (_enemyamount < 1) then { _enemyamount = 1; };
+                _totalAI = _totalAI + _enemyamount;
+				_depgroup = createGroup resistance;
+				for "_c" from 1 to _enemyamount do {
+					_newbuildpos = _buildpos call BIS_fnc_selectRandom;
+					_buildpos = _buildpos - [_newbuildpos];					
+					_soldier = _NME_pool call BIS_fnc_selectRandom;
+					_soldier = _depgroup createUnit [_soldier, _newbuildpos, [], 0, "NONE"];
+					waitUntil {alive _soldier};
+					doStop _soldier;
+					_soldier setDir (random 360);
+					sleep 0.01;
+				};
+				
+				/* if (_debug) then {
+					_name = format ["DEP-%1-%2", _pos_index, _c];
+					_m = createMarker [_name, getPos _house];				
+					_m setMarkerType "mil_dot";
+					_m setMarkerText _name;
+					_m setMarkerColor "ColorRed";
+				}; */
+				sleep 0.03;
+			};
+            if (_debug) then {
+                _name = format ["DEP-%1", _pos_index];
+                _m = createMarker [_name, _newpos];				
+                _m setMarkerType "mil_dot";
+                _m setMarkerText _name;
+                _m setMarkerColor "ColorRed";
+            };
+			diag_log format ["DEP Current total AI created: %1", _totalAI];
+			//diag_log format ["DEP created position %1", _pos_index];
+			sleep 0.5;
+		};
+	};
+	diag_log "DEP Initialization completed";
+};
+
 diag_log " * Done initializing Fluit common functions!";
