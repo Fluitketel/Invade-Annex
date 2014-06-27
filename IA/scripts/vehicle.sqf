@@ -80,6 +80,11 @@ _type = typeOf _unit;
 _dead = false;
 _nodelay = false;
 
+waitUntil{!isNil "DEBUG"};
+if (DEBUG) then {
+	_delay = 10;
+};
+
 
 // Start monitoring the vehicle
 while {_run} do
@@ -118,6 +123,7 @@ while {_run} do
 		deleteVehicle _unit;
 		sleep 2;
 		_unit = _type createVehicle _position;
+		waitUntil{alive _unit};
 		_unit setPosASL [_position select 0,_position select 1,(_position select 2) + 0.2];
 		_unit setDir _dir;
 		if (["B_UAV", _type] call BIS_fnc_inString) then { createVehicleCrew _unit; };
@@ -128,7 +134,7 @@ while {_run} do
 			PublicVariable (format ["%1",_unitname]);
 		};
 		//processInitCommands;
-
+		
 		[[[_unit],"scripts\aw_unitSetup.sqf"],"BIS_fnc_execVM",nil,true] spawn BIS_fnc_MP;
 		
 

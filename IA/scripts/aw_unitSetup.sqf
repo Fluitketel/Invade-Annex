@@ -3,9 +3,10 @@ _unit = _this select 0;
 if(isNull _unit) exitWith {};
 
 //--- clear all cargo all vehicles
-clearitemcargo _unit; 
-clearWeaponCargoGlobal _unit; 
-clearMagazineCargoGlobal _unit;
+//clearitemcargo _unit; 
+//clearWeaponCargoGlobal _unit; 
+//clearMagazineCargoGlobal _unit;
+_unit execVM "scripts\ClearCargo.sqf";
 
 //--- Mowhawk
 if(typeOf _unit == "I_Heli_Transport_02_F") then 
