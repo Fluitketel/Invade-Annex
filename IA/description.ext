@@ -132,10 +132,10 @@ class Daytime
         
     class DEP
 	{
-		title = "Dynamic enemy population";
-		values[] = {0, 50, 125, 200};
+		title = "Dynamic Enemy Population";
+		values[] = {0, 50, 90, 130};
 		texts[] = {"Off", "Low", "Medium", "High"};
-		default = 125;
+		default = 90;
 	};
 	
 	//def 4

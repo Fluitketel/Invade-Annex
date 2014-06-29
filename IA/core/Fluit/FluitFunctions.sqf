@@ -688,24 +688,32 @@ DynamicEnemyPopulation = {
 	_debug = DEBUG;
 	_pos_index = 0;
 	_maxbuildingpos = 0;
-	_NME_pool = ["I_soldier_F","I_Soldier_GL_F","I_Soldier_AR_F","I_Soldier_AT_F","I_Soldier_AA_F","I_Soldier_SL_F","I_Sniper_F"];
+	//_NME_pool = ["I_soldier_F","I_Soldier_GL_F","I_Soldier_AR_F","I_Soldier_AT_F","I_Soldier_AA_F","I_Soldier_SL_F","I_Sniper_F"];
+	_NME_pool = ["I_G_Soldier_F","I_G_Soldier_GL_F","I_G_Soldier_AR_F","I_G_Soldier_LAT_F","I_G_medic_F","I_Soldier_AA_F","I_G_Soldier_SL_F","I_G_Soldier_M_F"];
     _totalAI = 0;
     
 	diag_log "DEP Dynamic Enemy Population started...";
 	while {(count _positions) < _amount} do {
 		_validhouses = [];
 		_newpos = [] call BIS_fnc_randomPos;
+        //diag_log format ["DEP - Checking position %1", _newpos];
 		_valid = true;
         
         // Check distance between avoid positions
 		{
-			if ((_newpos distance _x) < (_spacing * 2.5)) exitWith { _valid = false; };
+			if ((_newpos distance _x) < (_spacing * 2.5)) exitWith { 
+                //diag_log format ["DEP - Ignoring position, in areas to avoid. %1", _newpos];
+                _valid = false; 
+           };
 		} foreach _avoid;
 		
         if (_valid) then {
             // Check distance between other enemy positions
             {
-                if ((_newpos distance _x) < _spacing) exitWith { _valid = false; };
+                if ((_newpos distance _x) < _spacing) exitWith {
+                    //diag_log format ["DEP - Ignoring position, too close to other positions. %1", _newpos];
+                    _valid = false; 
+                };
             } foreach _positions;
         };
 		
@@ -719,16 +727,22 @@ DynamicEnemyPopulation = {
 				_maxbuildingpos = _i - 1;
 				if (_maxbuildingpos > 1) then { _validhouses = _validhouses + [_house]; };			
 			} foreach _houses;
-			if ((count _validhouses) < 3) then { _valid = false; };
+			if ((count _validhouses) < 3) then {
+                //diag_log format ["DEP - Ignoring position, not enough enterable houses. %1", _newpos];
+                _valid = false; 
+            };
 		};
 		
 		// If all tests passed place AI in houses
 		if (_valid) then {
 			_positions = _positions + [_newpos];
 			_pos_index = _pos_index + 1;
+            diag_log format ["DEP - Spawning AI at location %1 position %2", _pos_index, _newpos];
             _groupsperlocation = (ceil (random (count _validhouses)));
             if (_groupsperlocation < 3 && (count _validhouses) > 5) then { _groupsperlocation = 3; };
             if (_groupsperlocation > 6) then { _groupsperlocation = 6; };
+            //diag_log format ["DEP - Location %1 spawning %2 groups", _pos_index, _groupsperlocation];
+            _depgroup = createGroup resistance;
 			for "_c" from 1 to _groupsperlocation do {
 				_house = _validhouses call BIS_fnc_selectRandom;
 				_validhouses = _validhouses - [_house];
@@ -738,12 +752,13 @@ DynamicEnemyPopulation = {
 				_enemyamount = round (random (count _buildpos));
 				if (_enemyamount > 4) then { _enemyamount = 4; };
 				if (_enemyamount < 1) then { _enemyamount = 1; };
+                //diag_log format ["DEP - Location %1 spawning %2 enemies in group %3", _pos_index, _enemyamount, _c];
                 _totalAI = _totalAI + _enemyamount;
-				_depgroup = createGroup resistance;
-				for "_c" from 1 to _enemyamount do {
+				for "_e" from 1 to _enemyamount do {
 					_newbuildpos = _buildpos call BIS_fnc_selectRandom;
 					_buildpos = _buildpos - [_newbuildpos];					
 					_soldier = _NME_pool call BIS_fnc_selectRandom;
+                    //diag_log format ["DEP - Location %1 group %2 spawning enemy %3 of %4 at %5", _pos_index, _c, _e, _enemyamount, _newbuildpos];
 					_soldier = _depgroup createUnit [_soldier, _newbuildpos, [], 0, "NONE"];
 					waitUntil {alive _soldier};
 					doStop _soldier;
@@ -752,7 +767,7 @@ DynamicEnemyPopulation = {
 				};
 				
 				/* if (_debug) then {
-					_name = format ["DEP-%1-%2", _pos_index, _c];
+					_name = format ["DEP-%1-%2", _pos_index, _e];
 					_m = createMarker [_name, getPos _house];				
 					_m setMarkerType "mil_dot";
 					_m setMarkerText _name;
