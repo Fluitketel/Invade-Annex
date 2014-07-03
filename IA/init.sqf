@@ -404,8 +404,8 @@ if(DEBUG) then
 			diag_log "I am in the SERVER init.sqf";
 		};
 
-if (PARAMS_DEP > 0) then {        
-    _dep = [PARAMS_DEP, 500, [getMarkerPos "respawn_west"]] call DynamicEnemyPopulation;
+if (PARAMS_DEP == 1) then {        
+    _handle = [] execVM "DEP\DEP_server.sqf";
 };
 		
 //--- bl1p read the defend function

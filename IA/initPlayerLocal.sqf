@@ -33,3 +33,7 @@
 //--- bl1p ooo im tired // removed to see if flipped stops walking because of this script
 //	execVM "core\fatigueSystem\fatiguesystem.sqf";											//--- Alter amount of damage effects
 //	execVM "core\fatigueSystem\reducedfatigue.sqf";											//--- Alter amount of damage effects
+
+//if (PARAMS_DEP == 1) then {        
+    _handle = [] execVM "DEP\DEP_client.sqf";
+//};
