@@ -405,7 +405,7 @@ if(DEBUG) then
 		};
 
 if (PARAMS_DEP == 1) then {        
-    [] execVM "DEP\init.sqf";
+    [] execVM "Scripts\DEP\init.sqf";
     waitUntil{!isNil "dep_num_loc"};
     waitUntil{dep_num_loc > 0};
 };

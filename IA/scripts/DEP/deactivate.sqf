@@ -18,14 +18,21 @@ _location = dep_locations select _this;
     };
 } foreach (_location select 4);
 
-{
-    if (!isNull _x) then { 
-        deleteVehicle _x; 
-    };
-} foreach (_location select 8);
+if (!(_location select 7)) then {
+    // Clear all objects if location is not clear
+    {
+        if (!isNull _x) then {
+            if (_x isKindOf "Tank" || _x isKindOf "Car") then {
+                dep_total_veh = dep_total_veh - 1;
+            };
+            deleteVehicle _x; 
+        };
+    } foreach (_location select 8);
+};
 
 _location set [3, false];
 _location set [4, []];
 _location set [6, 0];
 _location set [8, []];
 dep_locations set [_this, _location];
+true;

@@ -9,61 +9,33 @@ diag_log "Initializing DEP . . .";
 dep_side        = east;         // Enemy side
 dep_despawn     = 5;            // Despawn location after x minutes inactivity
 dep_debug       = DEBUG;        // Enable debug
-dep_max_ai_loc  = 60;           // Maximum AI per location
-dep_max_ai_tot  = 200;          // Maximum AI in total
+dep_max_ai_loc  = 30;           // Maximum AI per location
+dep_max_ai_tot  = 256;          // Maximum AI in total
 dep_act_dist    = 800;          // Location activation distance
-dep_roadblocks  = 30;           // Number of roadblocks
-dep_safezone    = 1500;         // Respawn safe zone radius
+dep_roadblocks  = 50;           // Number of roadblocks
+dep_roadpop     = 250;          // Number of road population
+dep_safezone    = 1000;         // Respawn safe zone radius
+dep_max_veh     = 3;            // Max number of vehicles
 
 // PUBLIC VARIABLES
 dep_total_ai    = 0;
+dep_total_veh   = 0;
 dep_spawning    = false;
 dep_locations   = [];
 dep_num_loc     = 0;
-dep_act_bl      = [];           // Activation blacklist
+dep_act_bl      = [];
 
 // FUNCTIONS
-dep_fnc_buildingpositions = {
-	private ["_building", "_positions", "_i"];
-	_building = _this;
-	_positions = [];
-	_i = 1;
-	while {_i > 0} do {
-	   _next = _building buildingPos _i;
-	   if (((_next select 0) == 0) && ((_next select 1) == 0) && ((_next select 2) == 0)) then {
-		  _i = 0;
-	   } else {
-		  _positions set [(count _positions), _next];
-		  _i = _i + 1;
-	   };
-	};
-	_positions;
-};
+dep_fnc_enterablehouses     = compile preprocessFileLineNumbers "scripts\DEP\enterablehouses.sqf";
+dep_fnc_buildingpositions   = compile preprocessFileLineNumbers "scripts\DEP\buildingpositions.sqf";
+dep_fnc_roaddir             = compile preprocessFileLineNumbers "scripts\DEP\roaddir.sqf";
+dep_fnc_roadblock           = compile preprocessFileLineNumbers "scripts\DEP\roadblock.sqf";
+dep_fnc_activate            = compile preprocessFileLineNumbers "scripts\DEP\activate.sqf";
+dep_fnc_deactivate          = compile preprocessFileLineNumbers "scripts\DEP\deactivate.sqf";
 
-dep_fnc_roaddir = {
-	private ["_road","_roadsConnectedTo","_connectedRoad","_roaddir","_connected"];
-	_road = _this select 0;
-	_roadsConnectedTo = roadsConnectedTo _road;
-	_roaddir = 0;
-    _connected = count _roadsConnectedTo;
-    _connectedRoad = objNull;
-    if (_connected == 0) then {
-        _roaddir = direction _road;
-    } else {
-        if (_connected > 1) then {
-            _connectedRoad = _roadsConnectedTo select (round(random (_connected - 1)));
-        } else {
-            _connectedRoad = _roadsConnectedTo select 0;
-        };
-        _roaddir = [_road, _connectedRoad] call BIS_fnc_DirTo;;
-    };
-	_roaddir;
-};
-
-_scriptHandle = [] execVM "DEP\roadblock.sqf"; 
-waitUntil {scriptDone _scriptHandle};
 
 // Get city locations
+/*
 _locations = nearestLocations [[15000, 15000, 0], ["NameVillage","NameCity","NameCityCapital"], 25000];
 {
     if ( ((position _x) distance (getMarkerPos "respawn_west")) > dep_safezone) then {
@@ -77,74 +49,90 @@ _locations = nearestLocations [[15000, 15000, 0], ["NameVillage","NameCity","Nam
         _location set [6, 0];       // enemy amount
         _location set [7, false];   // location cleared
         _location set [8, []];      // objects to cleanup
-        _location set [9, []];      // possible direction of objects
+        _location set [9, 0];      // possible direction of objects
         dep_locations = dep_locations + [_location];
     };
 } forEach _locations;
+*/
 
-// Get local locations
-_locations = nearestLocations [[15000, 15000, 0], ["NameLocal"], 25000];
-{
-    if ( ((position _x) distance (getMarkerPos "respawn_west")) > dep_safezone) then {
-        _location = [];
-        _location set [0, (position _x)];
-        _location set [1, "local"];
-        _location set [2, 250];
-        _location set [3, false];   // location active
-        _location set [4, []];      // enemy groups
-        _location set [5, 0];       // time last active
-        _location set [6, 0];       // enemy amount
-        _location set [7, false];   // location cleared
-        _location set [8, []];      // objects to cleanup
-        _location set [9, []];      // possible direction of objects
-        dep_locations = dep_locations + [_location];
-    };
-} forEach _locations;
-
-// Get roadblock locations
-_timestart = time;
-_giveup = false;
+// Roadblocks
+_list = [15000, 15000, 0] nearRoads 25000;
 for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
     _valid = false;
     while {!_valid} do {
-        _pos = [] call BIS_fnc_randomPos;
-        _list = _pos nearRoads 300;
-        if ((count _list) > 0) then {
-            _road = _list call BIS_fnc_selectRandom;
-            if (((getPos _road) distance (getMarkerPos "respawn_west")) > dep_safezone) then {
-                _distance = true;
-                {
-                    _loc_pos    = _x select 0;
-                    _radius     = _x select 2;
-                    _spacing    = 500;
-                    if ((_x select 1) == "roadblock") then { _spacing = 1500; };
-                    if ((_pos distance _loc_pos) < (_spacing + _radius + 100)) exitWith { _distance = false; };
-                } foreach dep_locations;
-                if (_distance) then {
-                    _flatPos = _pos isFlatEmpty [12, 0, 0.3, 12, 0, false];
-                    if (count _flatPos == 3) then {
-                        _dir = [_road] call dep_fnc_roaddir;
-                        _location = [];
-                        _location set [0, (getPos _road)];  // position
-                        _location set [1, "roadblock"];     // location type
-                        _location set [2, 100];             // radius
-                        _location set [3, false];           // location active
-                        _location set [4, []];              // enemy groups
-                        _location set [5, 0];               // time last active
-                        _location set [6, 0];               // enemy amount
-                        _location set [7, false];           // location cleared
-                        _location set [8, []];              // objects to cleanup
-                        _location set [9, _dir];            // possible direction of objects
-                        dep_locations = dep_locations + [_location];
-                        _valid = true;
-                    };
+        _road = _list call BIS_fnc_selectRandom;
+        _pos = getPos _road;
+        if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
+            _distance = true;
+            {
+                _loc_pos    = _x select 0;
+                _radius     = _x select 2;
+                _spacing    = 500;
+                if ((_x select 1) == "roadblock") then { _spacing = 1500; };
+                if ((_pos distance _loc_pos) < (_spacing + _radius + 100)) exitWith { _distance = false; };
+            } foreach dep_locations;
+            if (_distance) then {
+                _flatPos = _pos isFlatEmpty [12, 0, 0.3, 12, 0, false];
+                if (count _flatPos == 3) then {
+                    _dir = [_road] call dep_fnc_roaddir;
+                    _location = [];
+                    _location set [0, _pos];            // position
+                    _location set [1, "roadblock"];     // location type
+                    _location set [2, 100];             // radius
+                    _location set [3, false];           // location active
+                    _location set [4, []];              // enemy groups
+                    _location set [5, 0];               // time last active
+                    _location set [6, 0];               // enemy amount
+                    _location set [7, false];           // location cleared
+                    _location set [8, []];              // objects to cleanup
+                    _location set [9, _dir];            // possible direction of objects
+                    dep_locations = dep_locations + [_location];
+                    _valid = true;
                 };
             };
         };
-        if ((time - _timestart) > 90) exitWith {_giveup = true; };
+        sleep 0.01;
     };
-    if (_giveup) exitWith {};
 };
+
+// Random road population
+for [{_x=1}, {_x<=dep_roadpop}, {_x=_x+1}] do {
+    _valid = false;
+    while {!_valid} do {
+        _road = _list call BIS_fnc_selectRandom;
+        _pos = getPos _road;
+        if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
+            _distance = true;
+            {
+                _loc_pos    = _x select 0;
+                _radius     = _x select 2;
+                _spacing    = 200;
+                if ((_pos distance _loc_pos) < (_spacing + _radius + 100)) exitWith { _distance = false; };
+            } foreach dep_locations;
+            if (_distance) then {
+                //_houses = nearestObjects [_pos, ["House"], 100];
+                _houses = [_pos, 100] call dep_fnc_enterablehouses;
+                if ((count _houses) > 1) then {
+                    _location = [];
+                    _location set [0, _pos];            // position
+                    _location set [1, "roadpop"];       // location type
+                    _location set [2, 100];             // radius
+                    _location set [3, false];           // location active
+                    _location set [4, []];              // enemy groups
+                    _location set [5, 0];               // time last active
+                    _location set [6, 0];               // enemy amount
+                    _location set [7, false];           // location cleared
+                    _location set [8, []];              // objects to cleanup
+                    _location set [9, 0];            // possible direction of objects
+                    dep_locations = dep_locations + [_location];
+                    _valid = true;
+                };
+            };
+        };
+        sleep 0.01;
+    };
+};
+_list = nil;
 
 // Place makers in debug mode
 if (dep_debug) then {
@@ -158,6 +146,7 @@ if (dep_debug) then {
             case "city":        { _m setMarkerColor "ColorRed";};
             case "local":       { _m setMarkerColor "ColorBlue";};
             case "roadblock":   { _m setMarkerColor "ColorGreen";};
+            case "roadpop":     { _m setMarkerColor "ColorYellow";};
         };
         _m setMarkerBrush "Solid";
         _m setMarkerAlpha 0.5;
@@ -207,8 +196,15 @@ while {true} do {
                 } foreach (units _grp);
             } foreach _groups;
             
-            if ((_alive / _enemies) < 0.1) then {
-                // If number of enemies alive below 10% concider this location clear.
+            if (_enemies > 0) then {
+                if ((_alive / _enemies) < 0.1) then {
+                    // If number of enemies alive below 10% concider this location clear.
+                    diag_log format ["Cleared location %1", _g];
+                    _clear = true;
+                    _location set [7, _clear];
+                    dep_locations set [_g, _location];
+                };
+            } else {
                 diag_log format ["Cleared location %1", _g];
                 _clear = true;
                 _location set [7, _clear];
@@ -237,8 +233,7 @@ while {true} do {
             // Players are close and location not clear, should enemies be spawned?
             if (!_active && dep_total_ai < dep_max_ai_tot) then {
                 // Location is not cleared and not active => spawn units
-                _handle = _g execVM "DEP\activate.sqf";
-                waitUntil {scriptDone _handle};
+                _handle = _g call dep_fnc_activate;
             };
             _time = time;
             _location set [5, _time];
@@ -249,8 +244,7 @@ while {true} do {
                 // Despawn after time limit
                 if ((_clear && (time - _time) > (60 * dep_despawn)) || (!_clear && (time - _time) > (60 * (dep_despawn / 2))) ) then {
                     // Deactivate the location
-                    _handle = _g execVM "DEP\deactivate.sqf";
-                    waitUntil {scriptDone _handle};
+                    _handle = _g call dep_fnc_deactivate;
                 };
             };
         };
