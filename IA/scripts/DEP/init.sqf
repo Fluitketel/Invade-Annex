@@ -2,37 +2,49 @@
     DYNAMIC ENEMY POPULATION by Fluit
     This script places enemies all across the map
   =======================================================================================*/
-private ["_locations","_pos"];
-diag_log "Initializing DEP . . .";
 
 // SETTINGS
-dep_side        = east;         // Enemy side
-dep_despawn     = 5;            // Despawn location after x minutes inactivity
-dep_debug       = DEBUG;        // Enable debug
-dep_max_ai_loc  = 30;           // Maximum AI per location
-dep_max_ai_tot  = 256;          // Maximum AI in total
-dep_act_dist    = 800;          // Location activation distance
-dep_roadblocks  = 50;           // Number of roadblocks
-dep_roadpop     = 250;          // Number of road population
-dep_safezone    = 1000;         // Respawn safe zone radius
-dep_max_veh     = 3;            // Max number of vehicles
+dep_side        = independent;          // Enemy side (east, west, independent)
+dep_despawn     = PARAMS_DEP_DESPAWN;   // Despawn location after x minutes inactivity
+dep_debug       = DEBUG;                // Enable debug
+dep_max_ai_loc  = PARAMS_DEP_AI_LOC;    // Maximum AI per location
+dep_max_ai_tot  = PARAMS_DEP_AI_TOT;    // Maximum AI in total
+dep_act_dist    = PARAMS_DEP_ACTDIST;   // Location activation distance
+dep_act_height  = 80;                   // Player must be below this height to activate location
+dep_act_speed   = 160;                  // Player must be below this speed to activate location
+dep_roadblocks  = PARAMS_DEP_ROADBLK;   // Number of roadblocks
+dep_aa_camps    = PARAMS_DEP_AA;        // Number of AA camps
+dep_roadpop     = PARAMS_DEP_ROADPOP;   // Number of road population
+dep_safezone    = 1000;                 // Respawn safe zone radius
+dep_max_veh     = PARAMS_DEP_MAX_VEH;   // Max number of vehicles
+dep_directory   = "scripts\DEP\";       // Script location
+
+// ***************************
+// DO NOT EDIT BELOW THIS LINE
+// ***************************
 
 // PUBLIC VARIABLES
 dep_total_ai    = 0;
 dep_total_veh   = 0;
 dep_spawning    = false;
 dep_locations   = [];
+dep_loc_cache   = [];
 dep_num_loc     = 0;
 dep_act_bl      = [];
 
 // FUNCTIONS
-dep_fnc_enterablehouses     = compile preprocessFileLineNumbers "scripts\DEP\enterablehouses.sqf";
-dep_fnc_buildingpositions   = compile preprocessFileLineNumbers "scripts\DEP\buildingpositions.sqf";
-dep_fnc_roaddir             = compile preprocessFileLineNumbers "scripts\DEP\roaddir.sqf";
-dep_fnc_roadblock           = compile preprocessFileLineNumbers "scripts\DEP\roadblock.sqf";
-dep_fnc_activate            = compile preprocessFileLineNumbers "scripts\DEP\activate.sqf";
-dep_fnc_deactivate          = compile preprocessFileLineNumbers "scripts\DEP\deactivate.sqf";
+dep_fnc_enterablehouses     = compile preprocessFileLineNumbers format ["%1enterablehouses.sqf", dep_directory];
+dep_fnc_buildingpositions   = compile preprocessFileLineNumbers format ["%1buildingpositions.sqf", dep_directory];
+dep_fnc_roaddir             = compile preprocessFileLineNumbers format ["%1roaddir.sqf", dep_directory];
+dep_fnc_roadblock           = compile preprocessFileLineNumbers format ["%1roadblock.sqf", dep_directory];
+dep_fnc_aacamp1             = compile preprocessFileLineNumbers format ["%1aacamp1.sqf", dep_directory];
+dep_fnc_aacamp2             = compile preprocessFileLineNumbers format ["%1aacamp2.sqf", dep_directory];
+dep_fnc_activate            = compile preprocessFileLineNumbers format ["%1activate.sqf", dep_directory];
+dep_fnc_activate_aacamp     = compile preprocessFileLineNumbers format ["%1activate_aacamp.sqf", dep_directory];
+dep_fnc_deactivate          = compile preprocessFileLineNumbers format ["%1deactivate.sqf", dep_directory];
 
+private ["_locations","_pos"];
+diag_log "Initializing DEP . . .";
 
 // Get city locations
 /*
@@ -110,7 +122,6 @@ for [{_x=1}, {_x<=dep_roadpop}, {_x=_x+1}] do {
                 if ((_pos distance _loc_pos) < (_spacing + _radius + 100)) exitWith { _distance = false; };
             } foreach dep_locations;
             if (_distance) then {
-                //_houses = nearestObjects [_pos, ["House"], 100];
                 _houses = [_pos, 100] call dep_fnc_enterablehouses;
                 if ((count _houses) > 1) then {
                     _location = [];
@@ -123,16 +134,54 @@ for [{_x=1}, {_x<=dep_roadpop}, {_x=_x+1}] do {
                     _location set [6, 0];               // enemy amount
                     _location set [7, false];           // location cleared
                     _location set [8, []];              // objects to cleanup
-                    _location set [9, 0];            // possible direction of objects
+                    _location set [9, 0];               // possible direction of objects
                     dep_locations = dep_locations + [_location];
                     _valid = true;
                 };
             };
         };
-        sleep 0.01;
+        sleep 0.005;
     };
 };
 _list = nil;
+
+// AA Camps
+_aacamps = [];
+for "_c" from 1 to dep_aa_camps do {
+    _valid = false;
+    while {!_valid} do {
+        _pos = [] call BIS_fnc_randomPos;
+        // Check if out of safe zone
+        if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
+            _flatPos = _pos isFlatEmpty [15, 0, 0.2, 12, 0, false];
+            // Check is position is flat and empty
+            if (count _flatPos == 3) then {
+                _distance = true;
+                {
+                    if ((_pos distance _x) < 2000) exitWith { _distance = false; };
+                } foreach _aacamps;
+                // Check distance between other AA camps
+                if (_distance) then {
+                    _valid = true;
+                    _aacamps = _aacamps + [_pos];
+                    _location = [];
+                    _location set [0, _pos];            // position
+                    _location set [1, "antiair"];       // location type
+                    _location set [2, 50];              // radius
+                    _location set [3, false];           // location active
+                    _location set [4, []];              // enemy groups
+                    _location set [5, 0];               // time last active
+                    _location set [6, 0];               // enemy amount
+                    _location set [7, false];           // location cleared
+                    _location set [8, []];              // objects to cleanup
+                    _location set [9, 0];               // possible direction of objects
+                    dep_locations = dep_locations + [_location];
+                };
+            };
+        };
+    };
+};
+_aacamps = nil;
 
 // Place makers in debug mode
 if (dep_debug) then {
@@ -144,7 +193,7 @@ if (dep_debug) then {
         _m setMarkerSize [_location select 2, _location select 2];
         switch (_location select 1) do {
             case "city":        { _m setMarkerColor "ColorRed";};
-            case "local":       { _m setMarkerColor "ColorBlue";};
+            case "antiair":     { _m setMarkerColor "ColorBlue";};
             case "roadblock":   { _m setMarkerColor "ColorGreen";};
             case "roadpop":     { _m setMarkerColor "ColorYellow";};
         };
@@ -222,8 +271,12 @@ while {true} do {
             {
                if ((side _x) == West && isPlayer _x) then
                {
-                    if (((getPos _x) select 2) <= 80 && (speed player) <= 120) then {
-                        if (((getPos _x) distance _pos) < (_radius + dep_act_dist)) exitWith { _close = true; };
+                    if (_type == "antiair") then {
+                        if (((getPos _x) distance _pos) < (_radius + (dep_act_dist * 3))) exitWith { _close = true; };
+                    } else {
+                        if (((getPos _x) select 2) <= dep_act_height && (speed player) <= dep_act_speed) then {
+                            if (((getPos _x) distance _pos) < (_radius + dep_act_dist)) exitWith { _close = true; };
+                        };
                     };
                };
             } forEach allUnits;
@@ -233,7 +286,11 @@ while {true} do {
             // Players are close and location not clear, should enemies be spawned?
             if (!_active && dep_total_ai < dep_max_ai_tot) then {
                 // Location is not cleared and not active => spawn units
-                _handle = _g call dep_fnc_activate;
+                if (_type == "antiair") then {
+                    _handle = _g call dep_fnc_activate_aacamp;
+                } else {
+                    _handle = _g call dep_fnc_activate;
+                };
             };
             _time = time;
             _location set [5, _time];

@@ -137,6 +137,62 @@ class Daytime
 		texts[] = {"Off", "On"};
 		default = 1;
 	};
+    class DEP_DESPAWN
+	{
+		title = "DEP Location deactivate minutes";
+		values[] = {2, 5, 10, 15, 20 , 30, 45, 60};
+		texts[] = {"2", "5", "10", "15", "20", "30", "45", "60"};
+		default = 10;
+	};
+    class DEP_AI_LOC
+	{
+		title = "DEP Max amount of AI per location";
+		values[] = {10, 20, 30, 40};
+		texts[] = {"10", "20", "30", "40"};
+		default = 20;
+	};
+    class DEP_AI_TOT
+	{
+		title = "DEP Total amount of AI";
+		values[] = {150, 200, 250, 300, 350, 400};
+		texts[] = {"150", "200", "250", "300", "350", "400"};
+		default = 300;
+	};
+    class DEP_ACTDIST
+	{
+		title = "DEP Location activation distance";
+		values[] = {800, 1000, 1200, 1500, 2000};
+		texts[] = {"800", "1000", "1200", "1500", "2000"};
+		default = 1200;
+	};
+    class DEP_ROADPOP
+	{
+		title = "DEP Enemy spawn positions";
+		values[] = {150, 200, 250, 300};
+		texts[] = {"150", "200", "250", "300"};
+		default = 250;
+	};
+    class DEP_ROADBLK
+	{
+		title = "DEP Enemy roadblocks";
+		values[] = {25, 50, 75};
+		texts[] = {"25", "50", "75"};
+		default = 50;
+	};
+    class DEP_AA
+	{
+		title = "DEP Enemy AA sites";
+		values[] = {20, 30, 40};
+		texts[] = {"20", "30", "40"};
+		default = 30;
+	};
+    class DEP_MAX_VEH
+	{
+		title = "DEP Maximum amount of vehicles";
+		values[] = {0, 1, 2, 3, 4};
+		texts[] = {"0", "1", "2", "3", "4"};
+		default = 3;
+	};
 	
 	//def 4
 	class SquadsPatrol

@@ -7,6 +7,7 @@ private ["_pos","_houses","_house","_maxbuildingpos","_validhouses","_size","_bu
 
 diag_log format ["Spawning location %1", _this];
 dep_spawning = true;
+
 _location = dep_locations select _this;
 _pos        = _location select 0;
 _size       = _location select 2;
@@ -16,6 +17,7 @@ _groups = [];
 _totalenemies = 0;
 _NME_pool = ["I_G_Soldier_F","I_G_Soldier_GL_F","I_G_Soldier_AR_F","I_G_Soldier_LAT_F","I_G_medic_F","I_Soldier_AA_F","I_G_Soldier_SL_F","I_G_Soldier_M_F"];
 _VEH_pool = ["O_MRAP_02_hmg_F","O_MRAP_02_gmg_F","O_APC_Tracked_02_cannon_F"];
+_rubble_pool = ["Land_Tyres_F","Land_GarbageBags_F","Land_JunkPile_F"];
 
 if ((_location select 1) == "roadblock") then {
     _result = [_pos, _location select 9] call dep_fnc_roadblock;
@@ -54,7 +56,7 @@ for "_c" from 1 to _groupsperlocation do {
             _soldier = (_this select 0) createUnit [(_this select 1), (_this select 2), [], 0, "NONE"];
             waitUntil{alive _soldier};
             _soldier removeEventHandler ["killed", 0];
-            _soldier addEventHandler ["killed", {(_this select 0) execVM "scripts\DEP\cleanup.sqf"}];
+            _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
             _soldier setDir (random 360);
         };
         waitUntil {scriptDone _spawnhandle};
@@ -83,7 +85,7 @@ for "_c" from 1 to _groupsperlocation do {
 // Spawn vehicle?
 _createveh = false;
 if !((_location select 1) in ["roadblock"]) then {
-    if ((random 1) <= 0.4) then {
+    if ((random 1) <= 0.3) then {
         _vehamount = 1 + (round (random 1));
         for "_c" from 1 to _vehamount do {
             if (dep_total_veh >= dep_max_veh) exitWith {};
@@ -101,15 +103,21 @@ if !((_location select 1) in ["roadblock"]) then {
                 _soldier = _depgroup createUnit ["I_G_Soldier_F", (getPos _road), [], 0, "NONE"];
                 _soldier assignAsDriver _veh;
                 _soldier moveInDriver _veh;
+                _soldier removeEventHandler ["killed", 0];
+                _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
                 _totalenemies = _totalenemies + 1;
                 _soldier = _depgroup createUnit ["I_G_Soldier_F", (getPos _road), [], 0, "NONE"];
                 _soldier assignAsGunner _veh;
                 _soldier moveInGunner _veh;
+                _soldier removeEventHandler ["killed", 0];
+                _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
                 _totalenemies = _totalenemies + 1;
                 if (_veh isKindOf "Tank") then {
                     _soldier = _depgroup createUnit ["I_G_Soldier_SL_F", (getPos _road), [], 0, "NONE"];
                     _soldier assignAsCommander _veh;
                     _soldier moveInCommander _veh;
+                    _soldier removeEventHandler ["killed", 0];
+                    _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
                     _totalenemies = _totalenemies + 1;
                 };
                 sleep 1;
@@ -134,12 +142,20 @@ if !((_location select 1) in ["roadblock"]) then {
 };
 if !(_createveh) then {
     if ((_location select 1) in ["roadpop"]) then {
-        if ((random 1) <= 0.2) then {
-            _list = _pos nearRoads 50;
-            if (count _list > 0) then {
-                _road = _list call BIS_fnc_selectRandom;
-                _minepos = getPos _road;
-                _mine = createMine ["ATMine", _minepos, [], 2];
+        _list = _pos nearRoads 50;
+        if (count _list > 0) then {
+            _road = _list call BIS_fnc_selectRandom;
+            _dir = [_road] call dep_fnc_roaddir;
+            if ((random 1) <= 0.5) then {
+                // Create rubble
+                _rubblepos = [_road, 3, _dir + 90] call BIS_fnc_relPos;
+                _rubble = (_rubble_pool call BIS_fnc_selectRandom) createVehicle _rubblepos;
+                _objects = _objects + [_rubble];
+            };
+            if ((random 1) <= 0.2) then {
+                // Create mine
+                _minepos = [_road, 1, _dir + 270] call BIS_fnc_relPos;
+                _mine = createMine ["ATMine", _minepos, [], 0];
                 _objects = _objects + [_mine];
                 dep_side revealMine _mine;
                 if (dep_debug) then {
