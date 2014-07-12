@@ -10,8 +10,8 @@ if (!isDedicated) then
 
 
 //--- set object , view , terrain
-setViewDistance 2000;
-setObjectViewDistance 2000;
+setViewDistance 1000;
+setObjectViewDistance 1500;
 setTerrainGrid 3.125;
 
 #define WELCOME_MESSAGE	"Welcome to Invade & Annex ~ALTIS~\n" +\

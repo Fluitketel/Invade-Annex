@@ -16,16 +16,16 @@ _s_car_text ctrlSetText format["%1", tawvd_car];
 _s_air_text ctrlSetText format["%1", tawvd_air];
 
 //On foot slider
-_s_foot sliderSetRange [100,2000];
+_s_foot sliderSetRange [100,1000];
 _s_foot slidersetSpeed [100,100,100];
 _s_foot sliderSetPosition tawvd_foot;
 
 //In land vehicle slider
-_s_car sliderSetRange [100,2000];
+_s_car sliderSetRange [100,1000];
 _s_car slidersetSpeed [100,100,100];
 _s_car sliderSetPosition tawvd_car;
 
 //In air vehicle slider
-_s_air sliderSetRange [100,5000];
+_s_air sliderSetRange [100,1000];
 _s_air slidersetSpeed [100,100,100];
 _s_air sliderSetPosition tawvd_air;
