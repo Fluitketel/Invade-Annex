@@ -149,7 +149,7 @@ class Daytime
 		title = "DEP Max amount of AI per location";
 		values[] = {10, 20, 30, 40};
 		texts[] = {"10", "20", "30", "40"};
-		default = 20;
+		default = 10;
 	};
     class DEP_AI_TOT
 	{
@@ -163,7 +163,7 @@ class Daytime
 		title = "DEP Location activation distance";
 		values[] = {800, 1000, 1200, 1500, 2000};
 		texts[] = {"800", "1000", "1200", "1500", "2000"};
-		default = 1200;
+		default = 1000;
 	};
     class DEP_ROADPOP
 	{
