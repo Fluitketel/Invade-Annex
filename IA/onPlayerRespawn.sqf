@@ -3,6 +3,15 @@
     
 	_unit = _this select 0;
 	_corpse = _this select 1;
+	
+//--- Lets remove everything
+	removeAllWeapons player;
+	removeAllItems player;
+	removeBackpack player;
+	removeVest player;
+	removeHeadgear player;
+	player unassignItem "NVGoggles";
+	player removeItem "NVGoggles";
 
 //--- BL1P Reset player slot on join to counter the effects of diconnect while in revive bleedout.
 	_unit setcaptive false; 

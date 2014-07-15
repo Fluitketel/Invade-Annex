@@ -6,14 +6,11 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 	while {true} do
 	{
 		// Pilots and crew
-		// todo make it so they can carry submachine guns not side arms
+		// todo make it so they can carry submachine guns not just side arms
 		
 		if 
 		(
-			(!(primaryWeapon player == "") && (typeOf player == "B_Helipilot_F")) || 
-			(!(primaryWeapon player == "") && (typeOf player == "B_Pilot_F")) || 
-			(!(primaryWeapon player == "") && (typeOf player == "B_helicrew_F")) ||
-			(!(primaryWeapon player == "") && (typeOf player == "B_soldier_repair_F"))
+			(!(primaryWeapon player == "") && (typeOf player == "B_Pilot_F"))
 		) 
 		then
 		{
@@ -25,6 +22,38 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 			player globalChat "Pilots and Crew may use side arms only. Primary weapon removed.";		
 		};
 
+		
+		//Recon EBR
+		if 
+		(
+			(player hasWeapon "srifle_EBR_F") || 
+			(player hasWeapon "srifle_EBR_ACO_F") || 
+			(player hasWeapon "srifle_EBR_MRCO_pointer_F") || 
+			(player hasWeapon "srifle_EBR_SOS_F") || 
+			(player hasWeapon "srifle_EBR_ARCO_pointer_F") || 
+			(player hasWeapon "srifle_EBR_ARCO_pointer_snds_F") || 
+			(player hasWeapon "srifle_EBR_DMS_F") || 
+			(player hasWeapon "srifle_EBR_Hamr_pointer_F") || 
+			(player hasWeapon "srifle_EBR_DMS_pointer_snds_F")
+		) 
+		then
+		{
+			if (typeOf player != "B_recon_M_F") then
+				{
+					player removeWeapon "srifle_EBR_F";
+					player removeWeapon "srifle_EBR_ACO_F";
+					player removeWeapon "srifle_EBR_MRCO_pointer_F";
+					player removeWeapon "srifle_EBR_SOS_F";
+					player removeWeapon "srifle_EBR_ARCO_pointer_F";
+					player removeWeapon "srifle_EBR_ARCO_pointer_snds_F"; 
+					player removeWeapon "srifle_EBR_DMS_F";
+					player removeWeapon "srifle_EBR_Hamr_pointer_F"; 
+					player removeWeapon "srifle_EBR_DMS_pointer_snds_F";
+					player globalChat "Only Recon Marksmen are trained to use the EBR. Weapon removed.";
+				};
+			
+		};
+		
 		//MG
 		if 
 		(
@@ -249,7 +278,29 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 				
 			};
 		};
-
+		
+		// UAV backpack
+		if (backpack player == "B_UAV_01_backpack_F") then 
+		{
+			if (typeOf player != "B_soldier_UAV_F") then
+				{
+					removeBackpack player;
+					player globalChat "You are not a UAV operator";
+				};
+		};
+		
+		//Uav terminal
+		if (("B_UavTerminal" in Items player ) || ("B_UavTerminal" in assignedItems player)) then
+        {
+           if (typeOf player != "B_soldier_UAV_F") then
+            {
+                player unassignItem "B_UavTerminal";
+                player removeItem "B_UavTerminal";
+                player removeweapon "B_UavTerminal";
+                player globalChat "Only UAV Operators can use the Terminal. Item Removed.";
+            };    
+        };
+		
 		sleep 2;
 	} foreach allUnits;
 };

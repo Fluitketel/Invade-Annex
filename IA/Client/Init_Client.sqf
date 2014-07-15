@@ -16,12 +16,28 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 			{
 				diag_log "I am in the Init_client.sqf";
 			};
-		
 	
+
+	// move map to player pos disabled by larrow
+	h = [] spawn 
+	{
+		disableSerialization;
+		while {true} do {
+			waitUntil { visibleMap };
+			_display = uiNamespace getVariable "RSCDiary";
+			_ctrl = _display displayCtrl 1202;
+			_ctrl ctrlEnable false;
+			_ctrl ctrlsettextcolor [0,0,0,0];
+			_ctrl ctrlSetTooltip "";
+			_ctrl ctrlCommit 0;
+			waitUntil { !visibleMap };
+		};
+	};  
+	
+	//--- bl1p remove shift click
 	if (!DEBUG) then 
 	{
-		//--- bl1p remove shift click
-		onMapSingleClick "_shift";		//--- disable shift click on map for player
+		onMapSingleClick "_shift";
 	};
 	
 	// vehicle crew display
@@ -111,7 +127,7 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 		"aoMarker_2" SetMarkerAlpha 0;
 	};
 	
-	
+/*	
 	//bl1p uav action
 	_type = typeOf player;
 	if (_type == "B_Soldier_SL_F" || _type == "B_Soldier_TL_F" || _type == "B_officer_F") then 
@@ -128,7 +144,7 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 				true
 			];
 		};
-
+*/
 	
 _spawnBuildings = nearestObjects [(getMarkerPos "respawn_west"), ["building"], 1000];
 
@@ -137,6 +153,7 @@ _spawnBuildings = nearestObjects [(getMarkerPos "respawn_west"), ["building"], 1
 		_x enableSimulation false;
 	} forEach _spawnBuildings;
 
+/*
 while {true} do
 {
 	
@@ -160,5 +177,6 @@ while {true} do
 		};
 sleep 1;
 };
+*/
 
 CTI_Init_Client = true;

@@ -36,7 +36,7 @@ VVS_Support = [];
 */
 
 VVS_R_Car = ["B_G_Offroad_01_F","B_G_Offroad_01_armed_F","B_G_Van_01_transport_F"];
-VVS_R_Air = [];
+VVS_R_Air = ["B_Plane_CAS_01_F"];
 VVS_R_Ship = [];
 VVS_R_Armored = ["B_MBT_01_arty_F","B_MBT_01_mlrs_F"];
 VVS_R_Submarine = [];

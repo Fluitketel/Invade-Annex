@@ -124,7 +124,7 @@ class Daytime
 
 	class Space1
 		{
-			title = "                                                                    ENEMY SETTINGS"; 
+			title = "                                                                   DYNAMIC ENEMY POPULATION"; 
 			values[]= {0}; 
 			texts[]= {" "}; 
 			default = 0;
@@ -193,6 +193,14 @@ class Daytime
 		texts[] = {"0", "1", "2", "3", "4"};
 		default = 3;
 	};
+	
+	class Space1b
+		{
+			title = "                                                                   AO ENEMY SETTINGS"; 
+			values[]= {0}; 
+			texts[]= {" "}; 
+			default = 0;
+		};
 	
 	//def 4
 	class SquadsPatrol
@@ -531,8 +539,8 @@ class CfgSounds
 };
 
 /* Adds screen when loading. */
-author = Rarek [AW] Edit By Fluit & BL1P [dR];
-onLoadName = "[dR] Invade & Annex";
+author = Rarek [AW] Edited By BL1P, Fluit & Flipped;
+onLoadName = "[dR] I&A SDO";
 
 //__EXEC(_loadscreenpicture = ["core\signs\dr.paa","core\signs\Falcons.paa","core\signs\logo.jpg"]); 
 //loadScreen = __EVAL(_loadscreenpicture select round random (count _loadscreenpicture - 1)); // LoadingPicture
@@ -540,7 +548,7 @@ onLoadName = "[dR] Invade & Annex";
 loadScreen = "core\signs\Image01.paa";
 overviewPicture = "core\signs\Image01.paa";
 
-OnLoadMission = "Invade and Annex join us on TS3 at Voice.dedicatedrejects.com.";
+OnLoadMission = "Invade and Annex Search and Destroy Operations.         join us on TS3 at Voice.dedicatedrejects.com.";
 onLoadMissionTime = true;
 
 disabledAI = 1;

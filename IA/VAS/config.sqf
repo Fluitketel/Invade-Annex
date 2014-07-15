@@ -59,7 +59,7 @@ vas_weapons = [
 "arifle_TRG21_GL_F",
 
 "LMG_Mk200_F",
-
+"srifle_EBR_F",
 
 "arifle_SDAR_F",
 "SMG_01_F",
@@ -174,7 +174,7 @@ vas_items = [
 "FirstAidKit",
 "Medikit",
 "ToolKit",
-//"B_UavTerminal",
+"B_UavTerminal",
 
 //--- uniforms
 "U_B_CombatUniform_mcam",
@@ -320,7 +320,7 @@ vas_items = [
 //Want to limit backpacks? Place the classnames in the array!
 vas_backpacks = [
 "B_Parachute",
-//"B_UAV_01_backpack_F",
+"B_UAV_01_backpack_F",
 "B_AssaultPack_blk_DiverExp",
 "B_AssaultPack_cbr",
 "B_AssaultPack_Kerry",
