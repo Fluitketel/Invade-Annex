@@ -1,4 +1,11 @@
 private ["_location","_pos","_return"];
+
+_cache = dep_loc_cache select _this;
+if ((count _cache) > 0) exitWith {
+    _result = _this call dep_fnc_restore;
+    true;
+};
+
 dep_spawning = true;
 _location = dep_locations select _this;
 _pos = _location select 0;

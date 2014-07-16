@@ -3,6 +3,12 @@
 // 
 // This file spawns units at a given location.
 
+_cache = dep_loc_cache select _this;
+if ((count _cache) > 0) exitWith {
+    _result = _this call dep_fnc_restore;
+    true;
+};
+
 private ["_pos","_houses","_house","_maxbuildingpos","_validhouses","_size","_buildpos","_enemyamount","_groups","_location","_num_houses","_num_buildpos","_totalenemies","_depgroup"];
 
 diag_log format ["Spawning location %1", _this];
@@ -120,22 +126,7 @@ if !((_location select 1) in ["roadblock"]) then {
                     _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
                     _totalenemies = _totalenemies + 1;
                 };
-                sleep 1;
-                _list = _pos nearRoads 1000;
-                for "_y" from 0 to 8 do {
-                    _road = _list call BIS_fnc_selectRandom;
-                    _list = _list - [_road];
-                    _wp = _depgroup addWaypoint [(getPos _road), _y];
-                    _wp setWaypointBehaviour "SAFE";
-                    _wp setWaypointSpeed "LIMITED";
-                    _wp setWaypointFormation "COLUMN";
-                    _wp setWaypointTimeOut [0,5,10];
-                    if (_y < 8) then {
-                        _wp setWaypointType "MOVE";
-                    } else {
-                        _wp setWaypointType "CYCLE";
-                    };
-                };
+                _return = [_pos, _depgroup] call dep_fnc_vehiclepatrol;
             };
         };
     };
@@ -158,11 +149,6 @@ if !(_createveh) then {
                 _mine = createMine ["ATMine", _minepos, [], 0];
                 _objects = _objects + [_mine];
                 dep_side revealMine _mine;
-                if (dep_debug) then {
-                    _m = createMarker [format ["mine_%1", _minepos], _minepos];				
-					_m setMarkerType "Minefield";
-					_m setMarkerColor "ColorEAST";
-                };
             };
         };
     };

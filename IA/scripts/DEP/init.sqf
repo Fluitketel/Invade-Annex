@@ -15,7 +15,7 @@ dep_act_speed   = 160;                  // Player must be below this speed to ac
 dep_roadblocks  = PARAMS_DEP_ROADBLK;   // Number of roadblocks
 dep_aa_camps    = PARAMS_DEP_AA;        // Number of AA camps
 dep_roadpop     = PARAMS_DEP_ROADPOP;   // Number of road population
-dep_safezone    = 1500;                 // Respawn safe zone radius
+dep_safezone    = 1000;                 // Respawn safe zone radius
 dep_max_veh     = PARAMS_DEP_MAX_VEH;   // Max number of vehicles
 dep_directory   = "scripts\DEP\";       // Script location
 
@@ -33,39 +33,23 @@ dep_num_loc     = 0;
 dep_act_bl      = [];
 
 // FUNCTIONS
-dep_fnc_enterablehouses     = compile preprocessFileLineNumbers format ["%1enterablehouses.sqf", dep_directory];
-dep_fnc_buildingpositions   = compile preprocessFileLineNumbers format ["%1buildingpositions.sqf", dep_directory];
-dep_fnc_roaddir             = compile preprocessFileLineNumbers format ["%1roaddir.sqf", dep_directory];
-dep_fnc_roadblock           = compile preprocessFileLineNumbers format ["%1roadblock.sqf", dep_directory];
-dep_fnc_aacamp1             = compile preprocessFileLineNumbers format ["%1aacamp1.sqf", dep_directory];
-dep_fnc_aacamp2             = compile preprocessFileLineNumbers format ["%1aacamp2.sqf", dep_directory];
-dep_fnc_activate            = compile preprocessFileLineNumbers format ["%1activate.sqf", dep_directory];
-dep_fnc_activate_aacamp     = compile preprocessFileLineNumbers format ["%1activate_aacamp.sqf", dep_directory];
-dep_fnc_deactivate          = compile preprocessFileLineNumbers format ["%1deactivate.sqf", dep_directory];
+dep_fnc_vehiclepatrol       = compile preprocessFileLineNumbers format ["%1vehiclepatrol.sqf",      dep_directory];
+dep_fnc_housepatrol         = compile preprocessFileLineNumbers format ["%1housepatrol.sqf",        dep_directory];
+dep_fnc_enterablehouses     = compile preprocessFileLineNumbers format ["%1enterablehouses.sqf",    dep_directory];
+dep_fnc_findnearhouses      = compile preprocessFileLineNumbers format ["%1findnearhouses.sqf",     dep_directory];
+dep_fnc_buildingpositions   = compile preprocessFileLineNumbers format ["%1buildingpositions.sqf",  dep_directory];
+dep_fnc_roaddir             = compile preprocessFileLineNumbers format ["%1roaddir.sqf",            dep_directory];
+dep_fnc_roadblock           = compile preprocessFileLineNumbers format ["%1roadblock.sqf",          dep_directory];
+dep_fnc_aacamp1             = compile preprocessFileLineNumbers format ["%1aacamp1.sqf",            dep_directory];
+dep_fnc_aacamp2             = compile preprocessFileLineNumbers format ["%1aacamp2.sqf",            dep_directory];
+dep_fnc_restore             = compile preprocessFileLineNumbers format ["%1restore.sqf",            dep_directory];
+dep_fnc_activate            = compile preprocessFileLineNumbers format ["%1activate.sqf",           dep_directory];
+dep_fnc_activate_aacamp     = compile preprocessFileLineNumbers format ["%1activate_aacamp.sqf",    dep_directory];
+dep_fnc_deactivate          = compile preprocessFileLineNumbers format ["%1deactivate.sqf",         dep_directory];
+dep_fnc_garrison            = compile preprocessFileLineNumbers format ["%1garrison.sqf",           dep_directory];
 
 private ["_locations","_pos"];
 diag_log "Initializing DEP . . .";
-
-// Get city locations
-/*
-_locations = nearestLocations [[15000, 15000, 0], ["NameVillage","NameCity","NameCityCapital"], 25000];
-{
-    if ( ((position _x) distance (getMarkerPos "respawn_west")) > dep_safezone) then {
-        _location = [];
-        _location set [0, (position _x)];
-        _location set [1, "city"];
-        _location set [2, 400];
-        _location set [3, false];   // location active
-        _location set [4, []];      // enemy groups
-        _location set [5, 0];       // time last active
-        _location set [6, 0];       // enemy amount
-        _location set [7, false];   // location cleared
-        _location set [8, []];      // objects to cleanup
-        _location set [9, 0];      // possible direction of objects
-        dep_locations = dep_locations + [_location];
-    };
-} forEach _locations;
-*/
 
 // Roadblocks
 _list = [15000, 15000, 0] nearRoads 25000;
@@ -99,6 +83,7 @@ for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
                     _location set [8, []];              // objects to cleanup
                     _location set [9, _dir];            // possible direction of objects
                     dep_locations = dep_locations + [_location];
+                    dep_loc_cache = dep_loc_cache + [[]];
                     _valid = true;
                 };
             };
@@ -136,6 +121,7 @@ for [{_x=1}, {_x<=dep_roadpop}, {_x=_x+1}] do {
                     _location set [8, []];              // objects to cleanup
                     _location set [9, 0];               // possible direction of objects
                     dep_locations = dep_locations + [_location];
+                    dep_loc_cache = dep_loc_cache + [[]];
                     _valid = true;
                 };
             };
@@ -176,6 +162,7 @@ for "_c" from 1 to dep_aa_camps do {
                     _location set [8, []];              // objects to cleanup
                     _location set [9, 0];               // possible direction of objects
                     dep_locations = dep_locations + [_location];
+                    dep_loc_cache = dep_loc_cache + [[]];
                 };
             };
         };
@@ -206,7 +193,7 @@ if (dep_debug) then {
 dep_num_loc = (count dep_locations);
 diag_log format ["DEP ready with %1 locations", dep_num_loc];
 while {true} do {
-    if (dep_spawning) exitWith {};
+    waitUntil{!dep_spawning};
     dep_total_ai = 0;
     for "_g" from 0 to (dep_num_loc - 1) do {
         _location = dep_locations select _g;
@@ -268,6 +255,10 @@ while {true} do {
         
         // Check if at least 1 player is close
         if (!_blacklist) then {
+            _units = playableUnits;
+            if ((count _units) == 0) then { 
+                _units = allUnits;
+            };
             {
                if ((side _x) == West && isPlayer _x) then
                {
@@ -279,7 +270,7 @@ while {true} do {
                         };
                     };
                };
-            } forEach allUnits;
+            } forEach _units;
         };
         
         if (_close && !_clear) then {
