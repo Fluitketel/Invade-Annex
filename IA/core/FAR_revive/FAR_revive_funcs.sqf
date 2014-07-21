@@ -20,7 +20,7 @@ FAR_Player_Actions =
 ////////////////////////////////////////////////
 FAR_HandleDamage_EH =
 {
-    private ["_unit", "_killer", "_amountOfDamage", "_isUnconscious", "_maxrevives"];
+    private ["_unit", "_killer", "_amountOfDamage", "_isUnconscious", "_maxrevives", "_uncon"];
 	
     _unit = _this select 0;
     _amountOfDamage = _this select 2;
@@ -30,15 +30,16 @@ FAR_HandleDamage_EH =
     
     if (alive _unit && {_amountOfDamage >= 1} && {_isUnconscious == 0}) then
     {
+        _uncon = false;
+        if (_unit getVariable "revives" < _maxrevives) then { _uncon = true; };
+        if (_uncon && ((random 1) <= 0.1)) then { _uncon = false; };
+        
         // Fluit: Only go uncon if revive times not exceeded
-        if (_unit getVariable "revives" < _maxrevives) then {
+        if (_uncon) then {
             //sleep 2;
             _unit setDamage 0;//--- bl1p alter to make uncon damaged make uncon unit bloody (doesnt always work well)
             _unit allowDamage false;
-
-
             [_unit, _killer] spawn FAR_Player_Unconscious;
-            
             _amountOfDamage = 0;
         } else {
 			// Death message if friendly fire
