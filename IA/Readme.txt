@@ -6,7 +6,6 @@ Dedicated Rejects http://www.dedicatedrejects.com
 Credits :
 AhoyWorld for the original Invade and Anex mission files
 UPS scripts = http://kronzky.info/ups/
-UPSMON scripts = http://forums.bistudio.com/showthread.php?147808-UPSMON-for-arma3
 VAS scripts = http://www.armaholic.com/page.php?id=19134
 VVS scripts = http://forums.bistudio.com/showthread.php?166602-Virtual-Vehicle-Spawner-(VVS)
 Celery for clean up scripts removedeadody.sqf

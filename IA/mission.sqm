@@ -62,7 +62,8 @@ class Mission
 		"a3_characters_f_gamma",
 		"a3_characters_f_beta",
 		"a3_characters_f",
-		"A3_Modules_F"
+		"A3_Modules_F",
+		"task_force_radio_items"
 	};
 	addOnsAuto[]=
 	{
@@ -90,12 +91,13 @@ class Mission
 		"A3_Boat_F_Boat_Transport_01",
 		"A3_Air_F_Beta_Heli_Transport_02",
 		"A3_Soft_F_Quadbike",
+		"task_force_radio_items",
 		"a3_map_altis"
 	};
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co31 [dR] I&A SDO V62.1 Altis";
+		briefingName="co31 [dR] I&A SDO TFA V62.7 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;
@@ -625,7 +627,7 @@ class Mission
 	};
 	class Vehicles
 	{
-		items=181;
+		items=182;
 		class Item0
 		{
 			position[]={15246.208,-0.0082027912,14204.392};
@@ -2577,6 +2579,14 @@ class Mission
 			skill=0.60000002;
 			text="car_3_1";
 			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+		};
+		class Item181
+		{
+			position[]={8429.3633,111.38176,25115.717};
+			id=214;
+			side="EMPTY";
+			vehicle="TF_NATO_Radio_Crate";
+			skill=0.60000002;
 		};
 	};
 	class Markers

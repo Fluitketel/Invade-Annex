@@ -288,10 +288,6 @@ enableSaving [false, false];
 /* ========================================================== */
 /* ========================================================== */
 
-//--- bl1p onplayer connected thingy
-//onPlayerConnected {diag_log [_id, _uid, _name]};
-//onPlayerConnected "[_id, _name] execVM ""PlayerConnected.sqf""";
-//["PlayerConnectEH", "onPlayerConnected", { diag_log format ["playerconnect: %1 %2", _id, _name]; }] call BIS_fnc_addStackedEventHandler;
 
 //--- Fluit's functions!!
 	_fluitFunctions = [] execVM "core\Fluit\FluitInit.sqf"; 
@@ -306,23 +302,6 @@ if (PARAMS_SpawnProtection == 1) then { _null = [] execVM "scripts\grenadeStop.s
 //--- players names on map
 if (PARAMS_PlayerMarkers == 1) then { _null = [] execVM "misc\playerMarkers.sqf"; };
 
-//Set time of day
-//	if (PARAMS_TimeOfDay == 25) then 
-//		{
-//			_randTime = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23] call BIS_fnc_selectRandom; 
-//			skipTime _randTime;
-//			if(DEBUG) then
-//			{
-//			diag_log format ["_randTime = %1",_randTime]
-//			};
-//		}
-//	else
-//	{
-//		skipTime PARAMS_TimeOfDay;
-//	};
-
-
-// report weather if debug
 // removed because of none sync
 if(DEBUG) then
 		{
@@ -350,14 +329,8 @@ if(DEBUG) then
 
 
 // Check if player is a dR member or friend ran by player and server
-	_handle3 = execVM "core\dR_N_Friends.sqf";
-	waitUntil{scriptDone _handle3};
-
-// weather script
-//	execVM "misc\randomWeather.sqf";
-
-//--- score loop thing
-//	execVM "core\scoreloop.sqf";
+//	_handle3 = execVM "core\dR_N_Friends.sqf";
+//	waitUntil{scriptDone _handle3};
 
 // group manager
 	0 = [] execVM 'DOM_squad\group_manager.sqf';
@@ -396,14 +369,14 @@ if (DR_IsClient) exitwith
 /* ============ SERVER INITIALISATION ============ */
 /* ============================================================ */
 /* ============================================================ */
-
-
-
 if(DEBUG) then
 		{
 			diag_log "I am in the SERVER init.sqf";
 		};
 
+//--- bl1p stats set variables
+		execVM "core\stats.sqf";
+		
 if (PARAMS_DEP == 1) then {        
     [] execVM "Scripts\DEP\init.sqf";
     waitUntil{!isNil "dep_num_loc"};
@@ -417,12 +390,11 @@ if (PARAMS_DEP == 1) then {
 	[300,900,900,900] execVM "scripts\bodyRemoval.sqf";
 
 
-	//Init UPSMON script 
-		//call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
+//--- Init UPSMON script 
+	//call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 
 
 //--- bl1p supresion thing
-
 if (PARAMS_AISUPPRESSION == 1) then
 	{
 		null = [3] execvm "tpwcas\tpwcas_script_init.sqf";
@@ -448,11 +420,6 @@ if (PARAMS_AISUPPRESSION == 1) then
 		LASTDEFEND = 0; publicVariable "LASTDEFEND";
 	
 	//////////////////////////
-	//--- bl1p run remloc TEST
-	// execVM "core\BL1P_FUNC_REMLOC.sqf";
-	
-	//--- bl1p stats set variables
-		execVM "core\stats.sqf";
 	
 	//Run a few miscellaneous server-side scripts
 		_null = [] execVM "misc\clearBodies.sqf";
@@ -501,19 +468,12 @@ if (PARAMS_AISUPPRESSION == 1) then
 	};
 
 
-
 //--- bl1p moved ao unit creation into seperate script
-
 	_handle2 = execVM "core\Create_Units.sqf";
 	waitUntil{scriptDone _handle2};
 
-
 // create some random aa opsitions
-
 	_null = [] execVM "core\AAPosCreation.sqf";
-
-	
-
 
 	_firstTarget = true;
 	_lastTarget = "Nothing";
@@ -580,8 +540,8 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		publicvariable "dt";
 
 	
-	upsmon_enabled = true; publicVariable "upsmon_enabled";
-	call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
+	//upsmon_enabled = true; publicVariable "upsmon_enabled";
+	//call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 	
 	//--- bl1p Spawn AI on Server
 
@@ -658,7 +618,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		//Set target start text
 		_targetStartText = format
 		[
-			"<t align='center' size='2.2'>New Target</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/>Get yourselves over to %1 and take 'em all down!<br/><br/><t size='1.5' align='center' color='#FFCF11'>Take down that radio tower so the enemy cannot call in reinforcements!</t>",
+			"<t align='center' size='2.2'>New Target</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/>Get yourselves over to %1 and take 'em all down!<br/><br/><t size='1.5' align='center' color='#FFCF11'>Take down that radio tower so the enemy can not call in reinforcements!</t>",
 			currentAO
 		];
 
@@ -708,10 +668,9 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		
 			"radioMarker" setMarkerPos [0,0,0];
 			_radioTowerDownText =
-				"<t align='center' size='2.2'>Radio Tower</t><br/><t size='1.5' color='#08b000' align='center'>DESTROYED</t><br/>____________________<br/>The enemy radio tower has been destroyed!<br/><br/><t size='1.2' color='#08b000' align='center'> The enemy cannot call in anymore support now!</t><br/><br/> Leaders can now use UAVs!";
+				"<t align='center' size='2.2'>Radio Tower</t><br/><t size='1.5' color='#08b000' align='center'>DESTROYED</t><br/>____________________<br/>The enemy radio tower has been destroyed!<br/><br/><t size='1.2' color='#08b000' align='center'> The enemy can not call in reinforcements now!</t><br/><br/>";
 			GlobalHint = _radioTowerDownText; publicVariable "GlobalHint"; hint parseText GlobalHint;
 			showNotification = ["CompletedSub", "Enemy radio tower destroyed."]; publicVariable "showNotification";
-			showNotification = ["Reward", "Personal UAVs now available."]; publicVariable "showNotification";
 
 				
 		//---bl1p Server wait
@@ -769,7 +728,7 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 					diag_log "===============STARTING CLEAN UP=====================";
 				};
 		
-		upsmon_enabled = false; publicVariable "upsmon_enabled"; // Disable UPSMON
+		//upsmon_enabled = false; publicVariable "upsmon_enabled"; // Disable UPSMON
 		
 		//FIRST check of groups Before cleaning
 		_Eastgroups=[];

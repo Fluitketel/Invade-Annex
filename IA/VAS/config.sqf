@@ -54,9 +54,9 @@ vas_weapons = [
 "arifle_MX_SW_Black_F",
 "arifle_MXM_F",
 "arifle_MXM_Black_F",
-"arifle_TRG20_F",
-"arifle_TRG21_F",
-"arifle_TRG21_GL_F",
+//"arifle_TRG20_F",
+//"arifle_TRG21_F",
+//"arifle_TRG21_GL_F",
 
 "LMG_Mk200_F",
 "srifle_EBR_F",
@@ -166,8 +166,13 @@ vas_items = [
 "ItemCompass",
 "ItemGPS",
 "ItemMap",
-"ItemRadio",
-"ACRE_PRC119",
+//"ItemRadio",
+//"ACRE_PRC119",
+
+//tfa radios
+"tf_rf7800str",
+"tf_anprc152",
+
 "ItemWatch",
 "NVGoggles",
 "NVGoggles_OPFOR",
@@ -300,18 +305,16 @@ vas_items = [
 
 //"optic_LRPS",
 //"optic_SOS",
-//"optic_DMS",
+"optic_DMS",
 "optic_NVS",
 
 //--- Silencers
-"muzzle_snds_acp",
-"muzzle_snds_B",
-"muzzle_snds_H",
+//"muzzle_snds_B",
 //"muzzle_snds_H_MG",
+"muzzle_snds_acp",
+"muzzle_snds_H",
 "muzzle_snds_L",
 "muzzle_snds_M",
-
-//"B_UavTerminal",
 
 //--- Attachments
 "acc_flashlight",
@@ -319,6 +322,7 @@ vas_items = [
 
 //Want to limit backpacks? Place the classnames in the array!
 vas_backpacks = [
+"tf_rt1523g",
 "B_Parachute",
 "B_UAV_01_backpack_F",
 "B_AssaultPack_blk_DiverExp",
@@ -339,8 +343,8 @@ vas_backpacks = [
 
 "B_Kitbag_cbr",
 "B_Kitbag_mcamo",
-"B_Kitbag_mcamo_Eng",
-"B_Kitbag_rgr_Exp",
+//"B_Kitbag_mcamo_Eng",
+//"B_Kitbag_rgr_Exp",
 "B_Kitbag_sgg",
 
 "B_OutdoorPack_blk",

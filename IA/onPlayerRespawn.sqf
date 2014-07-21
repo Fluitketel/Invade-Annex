@@ -27,7 +27,9 @@
 	{
 		_ret = [false] call acre_api_fnc_setSpectator;
 	};
-
+	
+	[player, false] call TFAR_fnc_forceSpectator;
+	
 //--- BL1P remove corpses of players
 	sleep 20;
 	hideBody _corpse;

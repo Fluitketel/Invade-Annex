@@ -43,7 +43,7 @@ if(DEBUG) then
 #define CLOSEENOUGH 10
 
 // how close units have to be to each other to share information
-#define SHAREDIST 1000
+#define SHAREDIST 300
 
 // how long AI units should be in alert mode after initially spotting an enemy
 #define ALERTTIME 180

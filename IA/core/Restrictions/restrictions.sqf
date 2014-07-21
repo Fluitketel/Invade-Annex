@@ -81,37 +81,18 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 			
 		};
 		
-		// MG Scopes
+		// DMS Scope
 		if 
-			(
-				( "optic_DMS" in (primaryWeaponItems player + items player) ) 
-				
-				|| ( "optic_SOS" in (primaryWeaponItems player + items player) )
-				|| ( "optic_LRPS" in (primaryWeaponItems player + items player) )
-				
-				|| ( "optic_Nightstalker" in (primaryWeaponItems player + items player) )
-				|| ( "optic_tws" in (primaryWeaponItems player + items player) )
-				|| ( "optic_tws_mg" in (primaryWeaponItems player + items player) )
-			)
+			("optic_DMS" in (primaryWeaponItems player + items player))
 		then
 		{
 		//hint "has optic_DMS";
-			if ((player hasWeapon "LMG_Mk200_F") || (player hasWeapon "LMG_Zafir_F")) then
+			if (typeOf player != "B_recon_M_F") then
 			{
 				
 				player removePrimaryWeaponItem "optic_DMS";
 				player removeItem "optic_DMS";
-				player removePrimaryWeaponItem "optic_SOS";
-				player removeItem "optic_SOS";
-				player removePrimaryWeaponItem "optic_LRPS";
-				player removeItem "optic_LRPS";
-				player removePrimaryWeaponItem "optic_Nightstalker";
-				player removeItem "optic_Nightstalker";
-				player removePrimaryWeaponItem "optic_tws";
-				player removeItem "optic_tws";
-				player removePrimaryWeaponItem "optic_tws_mg";
-				player removeItem "optic_tws_mg";
-				player globalChat "Heavy MG with Some Scopes Unsupported. Scope Removed.";
+				player globalChat "DMS scope restricted to Marksman. Scope Removed.";
 			};
 		}; 
 		

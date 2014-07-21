@@ -82,18 +82,18 @@ _layer = 85125;
             };
 			
 			//friend check on mohawk and armed little bird
-			if (typeOf _veh == "I_Heli_Transport_02_F" || typeOf _veh == "B_Heli_Light_01_armed_F") then 
-			{
-                _friend = player getVariable "friend";
-			    _forbidden = [driver _veh];
-                if (player in _forbidden && !(_friend)) then 
-			   {
-					systemChat format ["Sorry %1 Only dR Members and Friends can pilot this craft",name player];
-                    player action ["getOut", _veh];
-					_veh engineon false;
-					sleep 1;
-			   };
-            };
+			//if (typeOf _veh == "I_Heli_Transport_02_F" || typeOf _veh == "B_Heli_Light_01_armed_F") then 
+			//{
+            //    _friend = player getVariable "friend";
+			//    _forbidden = [driver _veh];
+            //    if (player in _forbidden && !(_friend)) then 
+			//   {
+			//		systemChat format ["Sorry %1 Only dR Members and Friends can pilot this craft",name player];
+            //        player action ["getOut", _veh];
+			//		_veh engineon false;
+			//		sleep 1;
+			//   };
+            // };
 			
 			
 			//Mortar check
@@ -111,25 +111,25 @@ _layer = 85125;
             };
 			
 			//friend and pilot check on PLANE
-			if (typeOf _veh == "B_Plane_CAS_01_F") then 
-			{
-                _friend = player getVariable "friend";
-			    _forbidden = [driver _veh] + [gunner _veh];
-                if ((player in _forbidden && !(_friend)) || (player in _forbidden && !(_iampilot))) then 
-			   {
-					systemChat format ["Sorry %1 Only LvL 1 Plane Pilots in the vehicle",name player];
-                    player action ["getOut", _veh];
-					_veh engineon false;
-					sleep 0.5;
-			   };
-            };
+			//if (typeOf _veh == "B_Plane_CAS_01_F") then 
+			//{
+            //    _friend = player getVariable "friend";
+			//    _forbidden = [driver _veh] + [gunner _veh];
+            //   if ((player in _forbidden && !(_friend)) || (player in _forbidden && !(_iampilot))) then 
+			//   {
+			//		systemChat format ["Sorry %1 Only LvL 1 Plane Pilots in the vehicle",name player];
+            //        player action ["getOut", _veh];
+			//		_veh engineon false;
+			//		sleep 0.5;
+			//   };
+            //};
 			
-			//friend and pilot check on CHOPPER
+			//-- friend and pilot check on CHOPPER
 			if (typeOf _veh == "B_Heli_Attack_01_F") then 
 			{
-                _friend = player getVariable "friend";
+               //_friend = player getVariable "friend";
 			    _forbidden = [driver _veh] + [gunner _veh];
-                if ((player in _forbidden && !(_friend)) || (player in _forbidden && !(_iampilotChop))) then 
+                if (player in _forbidden && !(_iampilotChop)) then 
 			   {
 					systemChat format ["Sorry %1 Only LvL 1 Chopper Pilots in the vehicle",name player];
                     player action ["getOut", _veh];
@@ -152,10 +152,10 @@ _layer = 85125;
 				typeOf _veh == "B_APC_Wheeled_01_cannon_F"
 			) then 
 			{
-                _friend = player getVariable "friend";
+               // _friend = player getVariable "friend";
 				_forbidden = [commander _veh] + [gunner _veh] + [driver _veh];
 				//_forbidden = [commander _veh] + [gunner _veh] + [driver _veh] + [crew _veh];
-                if ((player in _forbidden && !(_friend)) || (player in _forbidden && !(_iamcrewman))) then  
+                if (player in _forbidden && !(_iamcrewman)) then  
 				{
                     systemChat format ["Sorry %1 Only LvL 1 Crew in the vehicle",name player];
                     player action ["getOut", _veh];

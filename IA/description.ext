@@ -221,7 +221,7 @@ class Daytime
 	};
 	
 	//def 2
-	class ExternalperimPatrol
+	class MidPatrol
 	{
 		title = "Mid Patrolling AO";
 		values[] = {0,1,2,3,4,5};
@@ -389,15 +389,7 @@ class Daytime
 		texts[] = {"Enable","Disable"};
 		default = 0;
 	};
-	
-	class DebugMode2
-	{
-		title = "Enable UPSMON Debug Mode";
-		values[] = {1,0};
-		texts[] = {"Enable","Disable"};
-		default = 0;
-	};
-	
+
 	class AISUPPRESSION
 	{
 		title = "Enable AI suppression";
@@ -411,7 +403,7 @@ class Daytime
 		title = "Set the Total amount of AI allowed";
 		values[] = {100,110,120,130,140,150,160,170,180,190,200,250,300,400,500};
 		texts[] = {100,110,120,130,140,150,160,170,180,190,200,250,300,400,500};
-		default = 120;
+		default = 180;
 	};
 	
 	class CacheAOUnits

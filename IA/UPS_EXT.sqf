@@ -563,7 +563,8 @@ while {_loop} do {
 	if (_track=="TRACK") then { _trackername setmarkerpos _currPos; };
 	//diag_log format ["_enemies = %1",_enemies];
 	
-		if (count _enemies < 1) then 
+		//--- bl1p stuff does things yer !!!!
+		if ((count _enemies < 1) && (count playableunits > 0)) then 
 			{
 				{
 					//player sidechat format["%1,%2: %3",_npc,_x,(side _x) getFriend (side _npc)];

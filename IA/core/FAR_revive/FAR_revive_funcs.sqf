@@ -151,6 +151,8 @@ FAR_Player_Unconscious =
 			_ret = [true] call acre_api_fnc_setSpectator;
 		};
 		
+		[player, true] call TFAR_fnc_forceSpectator;
+		
 	_unit switchMove "AinjPpneMstpSnonWrflDnon";
 	_unit enableSimulation false;
 	_unit setVariable ["FAR_isUnconscious", 1, true];
@@ -222,6 +224,8 @@ FAR_Player_Unconscious =
 					{
 						_ret = [false] call acre_api_fnc_setSpectator;
 					};
+					
+					[player, false] call TFAR_fnc_forceSpectator;
 				
 				disableUserInput false;
 				_unit enableSimulation true;

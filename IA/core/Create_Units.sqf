@@ -171,7 +171,7 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 //////////////////////////////////////////////////////// SQPAT START ////////////////////////////////////////////////////////
 		// squad patrol UPS
 			_x = 0;
-			if (DEBUG) then {diag_log format ["=====Creating %1 SQPAT UPSMON=====",PARAMS_SquadsPatrol];};
+			if (DEBUG) then {diag_log format ["=====Creating %1 SQPAT UPS=====",PARAMS_SquadsPatrol];};
 			for "_x" from 1 to PARAMS_SquadsPatrol do 
 			{
 				
@@ -198,8 +198,9 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 							[_randomPos,_spawnGroup] call GurillaSquad;
 						};
 					
-					nul=[(leader _spawnGroup), "aoCircle","RANDOM"] execVm "scripts\UPSMON.sqf";
-					
+					//nul=[(leader _spawnGroup), "aoCircle","RANDOM"] execVm "scripts\UPSMON.sqf";
+					sleep 0.5;
+					[(leader _spawnGroup), "aoCircle"] execVM "UPS_BL1P.sqf";
 					sleep 0.5;
 					[(leader _spawnGroup)] execVM "core\spotter.sqf";
 					sleep 0.5;
@@ -303,25 +304,21 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 				};
 			};
 //////////////////////////////////////////////////////// DEFPAT END ////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////// TEAMPAT START ////////////////////////////////////////////////////////			
-// consolidated with sqpat
-//////////////////////////////////////////////////////// TEAMPAT END ////////////////////////////////////////////////////////
-			
+	
 //////////////////////////////////////////////////////// MIDPAT START ////////////////////////////////////////////////////////
-		// MID ExternalperimPatrol NONE UPS
+		// MID MidPatrol NONE UPS
 			_x = 0;
-			_amountHotel = PARAMS_ExternalperimPatrol;
+			_amountHotel = PARAMS_MidPatrol;
 			if (currentAO == "Bates Motel") then
 				{
 					_amountHotel = 4;
 				}
 				else
 				{
-					_amountHotel = PARAMS_ExternalperimPatrol;
+					_amountHotel = PARAMS_MidPatrol;
 				};
 				
-				if (DEBUG) then {diag_log format ["=====Creating %1 MIDPAT UPSMON=====",PARAMS_ExternalperimPatrol];};
+				if (DEBUG) then {diag_log format ["=====Creating %1 MIDPAT=====",PARAMS_MidPatrol];};
 			for "_x" from 1 to _amountHotel do {
 				_randomPos = [getMarkerPos currentAO, 450,2] call aw_fnc_randomPosbl1p;
 				if ((count _randomPos) == 3) then 
@@ -350,19 +347,18 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 					{
 						//--- bl1p it is hotel
 						if (DEBUG) then {diag_log format ["HOTEL ===== being creating currentAO = %1",currentAO];};
-							_HotelName = "HOTEL";
-							createMarker [_HotelName,getMarkerPos currentAO];
-							_HotelName setMarkerShape "ELLIPSE";
-							_HotelName setMarkerSize [100, 100];
-							_HotelName setMarkerAlpha 0;
-							
-							nul=[(leader _spawnGroup), "HOTEL", "RANDOMA", "NOSHARE"] execVm "scripts\UPSMON.sqf";
-							
-					
-						[(leader _spawnGroup)] execVM "core\spotter.sqf";
 						
+						_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
+						_upsZoneMid setTriggerArea [150, 150, 0, false];
+							
+							//nul=[(leader _spawnGroup), "HOTEL", "RANDOMA", "NOSHARE"] execVm "scripts\UPSMON.sqf";
+						sleep 0.5;
+						[(leader _spawnGroup), _upsZoneMid] execVM "UPS_MID.sqf";
+						sleep 0.5;
+						[(leader _spawnGroup)] execVM "core\spotter.sqf";
+						sleep 0.5;
 						[(units _spawnGroup)] call aw_setGroupSkill;
-						sleep 1;
+						sleep 0.5;
 						
 						if(DEBUG) then
 						{
@@ -394,13 +390,20 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 						if ((Houses) && (_HousesPercent <= PARAMS_HousesPercent)) then 
 						{
 						if (DEBUG) then {diag_log format ["_HousesPercent = %1 PARAMS_HousesPercent = %2 :: Houses = %3",_HousesPercent,PARAMS_HousesPercent,Houses];};
-						if (DEBUG) then {diag_log "=====Creating MIDPAT UPSMON NOT HOTEL=====";};
+						if (DEBUG) then {diag_log "=====Creating MIDPAT UPS=====";};
 						
-							nul=[(leader _spawnGroup), "aoCircle", "RANDOMDN"] execVm "scripts\UPSMON.sqf";
+						_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
+						_upsZoneMid setTriggerArea [150, 150, 0, false];
+						
+							//nul=[(leader _spawnGroup), "aoCircle", "RANDOMDN"] execVm "scripts\UPSMON.sqf";
+							sleep 0.5;
+							[(leader _spawnGroup), _upsZoneMid] execVM "UPS_MID.sqf";
+							sleep 0.5;
 							
 						}
 						else
 						{
+							if (DEBUG) then {diag_log "Spawning Mid on Patrol not houses not UPS"};
 							sleep 0.5;
 							[_spawnGroup, getMarkerPos currentAO,450] call aw_fnc_spawn2_perimeterPatrol;
 						};

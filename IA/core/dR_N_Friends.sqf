@@ -96,8 +96,8 @@ player setVariable["friend", _IamAdRFriend, true];
 player setVariable["admin", _isAdmin, true];
 _playerType = typeOf player;
 
-if ((_playerType == "B_officer_F") && !(_isAdmin)) then {failMission "END6";}; //--- bl1p sent back to lobby
-if ((_playerType == "B_Pilot_F" || _playerType == "B_Helipilot_F" || _playerType == "B_helicrew_F" || _playerType == "B_soldier_repair_F") && !(_IamAdRFriend)) then {failMission "END7";}; //--- bl1p sent back to lobby
+//if ((_playerType == "B_officer_F") && !(_isAdmin)) then {failMission "END6";}; //--- bl1p sent back to lobby
+//if ((_playerType == "B_Pilot_F" || _playerType == "B_Helipilot_F" || _playerType == "B_helicrew_F" || _playerType == "B_soldier_repair_F") && !(_IamAdRFriend)) then {failMission "END7";}; //--- bl1p sent back to lobby
 
 if (_IamAdRFriend) then {
 	if (_isAdmin) then {

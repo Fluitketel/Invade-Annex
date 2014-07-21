@@ -127,24 +127,7 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 		"aoMarker_2" SetMarkerAlpha 0;
 	};
 	
-/*	
-	//bl1p uav action
-	_type = typeOf player;
-	if (_type == "B_Soldier_SL_F" || _type == "B_Soldier_TL_F" || _type == "B_officer_F") then 
-		{
-			_uavAction = player addAction
-			[
-				"<t color='#FFCF11'>Activate Personal UAV</t>",
-				"scripts\uavView.sqf",
-				[
-					currentAO
-				],
-				0,
-				false,
-				true
-			];
-		};
-*/
+
 	
 _spawnBuildings = nearestObjects [(getMarkerPos "respawn_west"), ["building"], 1000];
 
@@ -153,30 +136,6 @@ _spawnBuildings = nearestObjects [(getMarkerPos "respawn_west"), ["building"], 1
 		_x enableSimulation false;
 	} forEach _spawnBuildings;
 
-/*
-while {true} do
-{
-	
-	waitUntil {sleep 0.5; !alive player};
-	waitUntil {sleep 0.5; alive player};
-	//bl1p uav action
-	_type = typeOf player;
-	if (_type == "B_Soldier_SL_F" || _type == "B_Soldier_TL_F" || _type == "B_officer_F") then 
-		{
-			_uavAction = player addAction
-			[
-				"<t color='#FFCF11'>Activate Personal UAV</t>",
-				"scripts\uavView.sqf",
-				[
-					currentAO
-				],
-				0,
-				false,
-				true
-			];
-		};
-sleep 1;
-};
-*/
+
 
 CTI_Init_Client = true;
