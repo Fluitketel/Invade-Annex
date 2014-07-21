@@ -12,36 +12,36 @@ _groups = _groups + [_campgroup];
 
 _ammo = "Box_East_WpsLaunch_F" createVehicle _pos;
 _ammo setDir _dir;
-_objects = _objects + [_ammo];
+//_objects = _objects + [_ammo];
 
 _newpos = [_ammo, 6, _dir + 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir] call BIS_fnc_relPos;
 _prop = "Land_HBarrierWall6_F" createVehicle _newpos;
 _prop setDir _dir + 90;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_ammo, 6, _dir + 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir + 180] call BIS_fnc_relPos;
 _prop = "Land_HBarrierWall6_F" createVehicle _newpos;
 _prop setDir _dir + 90;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_ammo, 5, _dir - 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir] call BIS_fnc_relPos;
 _prop = "Land_HBarrierWall6_F" createVehicle _newpos;
 _prop setDir _dir - 90;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_ammo, 5, _dir - 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir + 180] call BIS_fnc_relPos;
 _prop = "Land_HBarrierWall6_F" createVehicle _newpos;
 _prop setDir _dir - 90;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_ammo, 10, _dir] call BIS_fnc_relPos;
 _tower = "Land_HBarrierTower_F" createVehicle _newpos;
 _tower setDir _dir + 180;
-_objects = _objects + [_tower];
+//_objects = _objects + [_tower];
 
 _newpos = [_ammo, 5, _dir + 180] call BIS_fnc_relPos;
 _gun1 = "O_static_AA_F" createVehicle _newpos;
@@ -60,19 +60,19 @@ _totalenemies = _totalenemies + 1;
 _newpos = [_ammo, 11, _dir + 180] call BIS_fnc_relPos;
 _prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_ammo, 10, _dir + 180] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir - 90] call BIS_fnc_relPos;
 _prop = "Land_CncBarrier_F" createVehicle _newpos;
 _prop setDir _dir + 30;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_ammo, 10, _dir + 180] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir + 90] call BIS_fnc_relPos;
 _prop = "Land_CncBarrier_F" createVehicle _newpos;
 _prop setDir _dir - 30;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _soldier = _campgroup createUnit ["I_G_Soldier_SL_F", getPos _tower, [], 0, "NONE"];
 doStop _soldier;

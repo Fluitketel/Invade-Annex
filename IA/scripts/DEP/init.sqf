@@ -47,6 +47,7 @@ dep_fnc_activate            = compile preprocessFileLineNumbers format ["%1activ
 dep_fnc_activate_aacamp     = compile preprocessFileLineNumbers format ["%1activate_aacamp.sqf",    dep_directory];
 dep_fnc_deactivate          = compile preprocessFileLineNumbers format ["%1deactivate.sqf",         dep_directory];
 dep_fnc_garrison            = compile preprocessFileLineNumbers format ["%1garrison.sqf",           dep_directory];
+dep_fnc_enemyspawnprotect   = compile preprocessFileLineNumbers format ["%1enemyspawnprotect.sqf",  dep_directory];
 
 private ["_locations","_pos"];
 diag_log "Initializing DEP . . .";

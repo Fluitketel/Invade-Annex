@@ -22,8 +22,8 @@ _objects    = _location select 8;
 _groups = [];
 _totalenemies = 0;
 _NME_pool = ["I_G_Soldier_F","I_G_Soldier_GL_F","I_G_Soldier_AR_F","I_G_Soldier_LAT_F","I_G_medic_F","I_Soldier_AA_F","I_G_Soldier_SL_F","I_G_Soldier_M_F"];
-_VEH_pool = ["O_MRAP_02_hmg_F","O_MRAP_02_gmg_F","O_APC_Tracked_02_cannon_F"];
-_rubble_pool = ["Land_Tyres_F","Land_GarbageBags_F","Land_JunkPile_F"];
+_VEH_pool = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_APC_tracked_03_cannon_F","I_APC_Wheeled_03_cannon_F"];
+_rubble_pool = ["Land_Tyres_F","Land_GarbageBags_F","Land_JunkPile_F","Land_GarbageContainer_closed_F","Land_GarbageContainer_open_F"];
 
 if ((_location select 1) == "roadblock") then {
     _result = [_pos, _location select 9] call dep_fnc_roadblock;
@@ -85,7 +85,31 @@ for "_c" from 1 to _groupsperlocation do {
     } else {
         doStop (units _depgroup);
     };
+    [_depgroup] spawn dep_fnc_enemyspawnprotect;
     sleep 0.02;
+};
+
+// Spawn APERS mines
+for "_y" from 0 to 2 do {
+    if ((count _validhouses) > 0 && (random 1) <= 0.3) then {
+        _house = _validhouses call BIS_fnc_selectRandom;
+        _validhouses = _validhouses - [_house];
+        _minepos = _house buildingExit 0;
+        if (dep_debug) then {
+            _m = createMarker [format ["mine-%1",random 9999], _minepos];
+            _m setMarkerShape "ELLIPSE";
+            _m setMarkerSize [3, 3];
+            _m setMarkerColor "ColorRed";
+            _m setMarkerBrush "Solid";
+            _m setMarkerAlpha 1;
+        };
+        
+        _minepos set [2, 0.01];
+        _mine = createMine [["APERSMine","APERSBoundingMine","APERSTripMine"] call BIS_fnc_selectRandom, _minepos, [], 0];
+        _mine setDir (getDir _house);
+        //_objects = _objects + [_mine];
+        dep_side revealMine _mine;
+    };
 };
 
 // Spawn vehicle?
@@ -137,17 +161,17 @@ if !(_createveh) then {
         if (count _list > 0) then {
             _road = _list call BIS_fnc_selectRandom;
             _dir = [_road] call dep_fnc_roaddir;
-            if ((random 1) <= 0.5) then {
+            if ((random 1) <= 0.3) then {
                 // Create rubble
-                _rubblepos = [_road, 3, _dir + 90] call BIS_fnc_relPos;
+                _rubblepos = [_road, 4, _dir + 90] call BIS_fnc_relPos;
                 _rubble = (_rubble_pool call BIS_fnc_selectRandom) createVehicle _rubblepos;
-                _objects = _objects + [_rubble];
+                //_objects = _objects + [_rubble];
             };
             if ((random 1) <= 0.2) then {
                 // Create mine
                 _minepos = [_road, 1, _dir + 270] call BIS_fnc_relPos;
                 _mine = createMine ["ATMine", _minepos, [], 0];
-                _objects = _objects + [_mine];
+                //_objects = _objects + [_mine];
                 dep_side revealMine _mine;
             };
         };

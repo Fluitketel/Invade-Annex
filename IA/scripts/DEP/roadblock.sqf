@@ -13,51 +13,51 @@ _campgroup setFormDir _dir;
 _gate = "Land_BarGate_F" createVehicle _pos;
 waitUntil {alive _gate};
 _gate setDir _dir;
-_objects = _objects + [_gate];
+//_objects = _objects + [_gate];
 
 _newpos = [_gate, 6, _dir] call BIS_fnc_relPos;
 _newpos = [_newpos, 11, _dir - 90] call BIS_fnc_relPos;
 _prop = "Land_Sign_WarningMilitaryArea_F" createVehicle _newpos;
 _prop setDir _dir + 180;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_gate, 7, _dir] call BIS_fnc_relPos;
 _newpos = [_newpos, 11, _dir - 90] call BIS_fnc_relPos;
 _prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 _newpos = [_gate, 7, _dir] call BIS_fnc_relPos;
 _newpos = [_newpos, 16, _dir - 90] call BIS_fnc_relPos;
 _prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 _newpos = [_gate, 7, _dir] call BIS_fnc_relPos;
 _newpos = [_newpos, 3, _dir + 90] call BIS_fnc_relPos;
 _prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 _newpos = [_gate, 7, _dir] call BIS_fnc_relPos;
 _newpos = [_newpos, 7, _dir + 90] call BIS_fnc_relPos;
 _prop = "Land_CncBarrier_stripes_F" createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_gate, 9, _dir + 180] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir + 90] call BIS_fnc_relPos;
 _prop = "Land_Razorwire_F" createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 _newpos = [_gate, 9, _dir + 180] call BIS_fnc_relPos;
 _newpos = [_newpos, 13, _dir - 90] call BIS_fnc_relPos;
 _prop = "Land_Razorwire_F" createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_gate, 4, _dir + 180] call BIS_fnc_relPos;
 _newpos = [_newpos, 5, _dir + 90] call BIS_fnc_relPos;
 _prop = (["Flag_CSAT_F","Land_TTowerSmall_1_F","Land_FieldToilet_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_gate, 14, _dir - 90] call BIS_fnc_relPos;
 if (random 1 > 0.5) then {
@@ -67,11 +67,11 @@ if (random 1 > 0.5) then {
     _prop = "Land_Cargo_House_V3_F" createVehicle _newpos;
     _prop setDir (_dir - 90);
 };
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _prop = (["Box_East_Ammo_F", "Box_East_AmmoOrd_F", "Box_East_Grenades_F", "Box_East_Ammo_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 sleep 0.5;
 
 _campgun1group = createGroup dep_side;

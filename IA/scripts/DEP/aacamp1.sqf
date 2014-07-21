@@ -13,25 +13,25 @@ _groups = _groups + [_campgroup];
 _housepos = [_pos, 7, _dir - 90] call BIS_fnc_relPos;
 _prop = "Land_Cargo_House_V3_F" createVehicle _housepos;
 _prop setDir _dir - 90;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_pos, 6, _dir + 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 3, _dir] call BIS_fnc_relPos;
 _prop = "Land_HBarrier_5_F" createVehicle _newpos;
 _prop setDir _dir + 90;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _newpos = [_pos, 6, _dir + 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 3, _dir + 180] call BIS_fnc_relPos;
 _prop = "Land_HBarrier_5_F" createVehicle _newpos;
 _prop setDir _dir + 90;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _barrels = ["Land_BarrelWater_grey_F", "Land_BarrelEmpty_grey_F", "Land_GarbageBarrel_01_F", "Land_BarrelTrash_grey_F"];
 _newpos = [_housepos, 4, _dir + 200] call BIS_fnc_relPos;
 _prop = (_barrels call BIS_fnc_selectRandom) createVehicle _newpos;
 _prop setDir _dir;
-_objects = _objects + [_prop];
+//_objects = _objects + [_prop];
 
 _gun1 = "I_static_AA_F" createVehicle _pos;
 waitUntil {alive _gun1};
