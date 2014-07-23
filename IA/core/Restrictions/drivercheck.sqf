@@ -81,20 +81,19 @@ _layer = 85125;
 				};
             };
 			
-			//friend check on mohawk and armed little bird
-			//if (typeOf _veh == "I_Heli_Transport_02_F" || typeOf _veh == "B_Heli_Light_01_armed_F") then 
-			//{
-            //    _friend = player getVariable "friend";
-			//    _forbidden = [driver _veh];
-            //    if (player in _forbidden && !(_friend)) then 
-			//   {
-			//		systemChat format ["Sorry %1 Only dR Members and Friends can pilot this craft",name player];
-            //        player action ["getOut", _veh];
-			//		_veh engineon false;
-			//		sleep 1;
-			//   };
-            // };
-			
+			//Pilot check on mohawk and armed little bird
+			if (typeOf _veh == "I_Heli_Transport_02_F" || typeOf _veh == "B_Heli_Light_01_armed_F") then 
+			{
+             //_friend = player getVariable "friend";
+			    _forbidden = [driver _veh];
+                if (player in _forbidden && !(_iampilotChop)) then 
+			   {
+					systemChat format ["Sorry Pilots only",name player];
+                    player action ["getOut", _veh];
+					_veh engineon false;
+					sleep 1;
+			   };
+			};
 			
 			//Mortar check
 			if (typeOf _veh == "O_Mortar_01_F") then 
