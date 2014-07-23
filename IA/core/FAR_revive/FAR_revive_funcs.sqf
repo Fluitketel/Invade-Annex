@@ -307,7 +307,7 @@ FAR_HandleRevive_Med =
 		_target setVariable ["revives", (_targetRevives + 1), true];
 		
 		sleep 6;
-		if (_targetRevives >= 3) then {systemchat format ["%1 wont survive another injury",name _target];};
+		//if (_targetRevives >= 3) then {systemchat format ["%1 wont survive another injury",name _target];};
 	};
 };
 ////////////////////////////////////////////////

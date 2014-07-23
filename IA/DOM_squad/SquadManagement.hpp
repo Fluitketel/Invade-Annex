@@ -110,7 +110,7 @@ class XD_SquadManagementDialog {
 					x = __EVAL(xposlockbu);
 					__EXEC(yposlockbu = 0.32)
 					y = __EVAL(yposlockbu);
-					text = "$STR_DOM_MISSIONSTRING_1449";
+					text = "Lock";
 					__EXEC(_lnumbstr = str lockbutnum)
 					action = __EVAL(_lnumbstr + " call d_fnc_squadmgmtlockbuttonclicked");
 				};

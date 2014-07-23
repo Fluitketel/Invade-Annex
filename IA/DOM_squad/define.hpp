@@ -112,7 +112,7 @@ class RscBG: SXRscText {
 	linespacing = 1;
 	text = "";
 };
-class RscButton2 {
+class RscButton {
 	idc = -1;
 	type = CT_BUTTON;
 	style = 2;
@@ -133,6 +133,10 @@ class RscButton2 {
 	offsetPressedX = 0.002;
 	offsetPressedY = 0.002;
 	colorFocused[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",1};
+	
+	// modified by naong
+	colorBackgroundFocused[] = {1,1,1,1};
+	
 	colorShadow[] = {0,0,0,1};
 	colorBorder[] = {0,0,0,1};
 	borderSize = 0.0;
@@ -142,7 +146,7 @@ class RscButton2 {
 	soundEscape[] = {__UI_Sound_Path(mouse1), 0.09, 1};
 	default = false;
 };
-class RscNavButton:RscButton2 {
+class RscNavButton:RscButton {
 	w = 0.1; h = 0.04;
 	x = 0.90;
 };
@@ -174,14 +178,15 @@ class SXRscListBox {
 	default = false;
 	arrowEmpty = "#(argb,8,8,3)color(1,1,1,1)";
 	arrowFull = "#(argb,8,8,3)color(1,1,1,1)";
-	class ScrollBar {
+	// modified by naong
+	class ListScrollBar {
 		color[] = {1,1,1,0.6};
 		colorActive[] = {1,1,1,1};
 		colorDisabled[] = {1,1,1,0.3};
-		thumb = __UI_Path_Scrollbar(thumb_ca.paa);
-		arrowFull = __UI_Path_Scrollbar(arrowFull_ca.paa);
-		arrowEmpty = __UI_Path_Scrollbar(arrowEmpty_ca.paa);
-		border = __UI_Path_Scrollbar(border_ca.paa);
+		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
 	};
 };
 class XD_RscPicture {
@@ -828,7 +833,7 @@ class GVAR(Dummy_Map) {
 	};
 };
 
-class RscShortcutButton2 {
+class RscShortcutButton {
 	idc = -1;
 	style = 0;
 	default = 0;
@@ -840,6 +845,11 @@ class RscShortcutButton2 {
 	colorDisabled[] = {1,1,1,0.25};
 	colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",1};
 	colorBackground2[] = {1,1,1,1};
+	
+	// modified by naong
+	colorFocused[] = {0,0,0,1};
+	colorBackgroundFocused[] = {1,1,1,1};
+	
 	textureNoShortcut = "";
 	animTextureDefault = __UI_Path_ShortcutButton(normal_ca.paa);
 	animTextureNormal = __UI_Path_ShortcutButton(normal_ca.paa);
@@ -889,7 +899,7 @@ class RscShortcutButton2 {
 		align = "left";
 	};
 };
-class XD_ButtonBase: RscShortcutButton2 {
+class XD_ButtonBase: RscShortcutButton {
 	idc = -1;
 	type = 16;
 	style = "0x02 + 0xC0";
@@ -1002,7 +1012,7 @@ class XD_UIList {
 		border = __UI_Path_Scrollbar(border_ca.paa);
 	};
 };
-class RscCombo2 {
+class RscCombo {
 	style = 16;
 	x = 0;
 	y = 0;
@@ -1026,17 +1036,18 @@ class RscCombo2 {
 	soundExpand[] = {"",0.1,1};
 	soundCollapse[] = {"",0.1,1};
 	maxHistoryDelay = 1;
-	class ScrollBar {
+	// modified by naong
+	class ComboScrollBar {
 		color[] = {1,1,1,0.6};
 		colorActive[] = {1,1,1,1};
 		colorDisabled[] = {1,1,1,0.3};
-		thumb = __UI_Path_Scrollbar(thumb_ca.paa);
-		arrowFull = __UI_Path_Scrollbar(arrowFull_ca.paa);
-		arrowEmpty = __UI_Path_Scrollbar(arrowEmpty_ca.paa);
-		border = __UI_Path_Scrollbar(border_ca.paa);
+		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
 	};
 };
-class XD_UIComboBox: RscCombo2 {
+class XD_UIComboBox: RscCombo {
 	type = UICOMBO;
 	//style = 0;
 	idc = -1;

@@ -1,6 +1,4 @@
 //--- bl1p on player killed auto ran by engine on players death
-
-
 //--- Remove 2 points when player killed
 	addToScore = [player, -2]; publicVariable "addToScore";
 

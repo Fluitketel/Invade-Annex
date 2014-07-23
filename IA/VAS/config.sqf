@@ -215,7 +215,6 @@ vas_items = [
 "V_PlateCarrier1_rgr",
 "V_PlateCarrier2_rgr",
 "V_PlateCarrier3_rgr",
-"V_PlateCarrier_Kerry",
 "V_PlateCarrierGL_rgr",
 "V_PlateCarrierH_CTRG",
 "V_PlateCarrierIA1_dgtl",
@@ -224,7 +223,6 @@ vas_items = [
 "V_PlateCarrierL_CTRG",
 "V_PlateCarrierSpec_rgr",
 "V_TacVest_blk",
-"V_TacVest_blk_POLICE",
 "V_TacVest_brn",
 "V_TacVest_camo",
 "V_TacVest_khk",
@@ -325,17 +323,13 @@ vas_backpacks = [
 "tf_rt1523g",
 "B_Parachute",
 "B_UAV_01_backpack_F",
-"B_AssaultPack_blk_DiverExp",
 "B_AssaultPack_cbr",
-"B_AssaultPack_Kerry",
 "B_AssaultPack_khk",
 "B_AssaultPack_mcamo",
 "B_AssaultPack_rgr",
-"B_AssaultPack_rgr_LAT",
 "B_AssaultPack_sgg",
 
 "B_FieldPack_blk",
-"B_FieldPack_blk_DiverExp",
 "B_FieldPack_cbr",
 "B_FieldPack_khk",
 "B_FieldPack_oli",
@@ -343,8 +337,6 @@ vas_backpacks = [
 
 "B_Kitbag_cbr",
 "B_Kitbag_mcamo",
-//"B_Kitbag_mcamo_Eng",
-//"B_Kitbag_rgr_Exp",
 "B_Kitbag_sgg",
 
 "B_OutdoorPack_blk",
@@ -408,6 +400,6 @@ vas_r_backpacks =
 //Magazines to remove from VAS
 vas_r_magazines = ["Titan_AP","30Rnd_556x45_Stanag_Tracer_Yellow","30Rnd_556x45_Stanag_Tracer_Green"];
 //Items to remove from VAS
-vas_r_items = ["optic_tws_mg","optic_tws","optic_Nightstalker","optic_LRPS","optic_SOS","optic_DMS","muzzle_snds_H_MG"];
+vas_r_items = ["optic_tws_mg","optic_tws","optic_Nightstalker","optic_LRPS","optic_SOS","muzzle_snds_H_MG","muzzle_snds_B"];
 //Goggles to remove from VAS
 vas_r_glasses = [];

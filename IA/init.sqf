@@ -8,11 +8,13 @@ if (!isDedicated) then
 	sidePlayer = side player;
 };
 
+[] execVM "core\sC\sC.sqf";
 
 //--- set object , view , terrain
 setViewDistance 1000;
 setObjectViewDistance 1500;
 setTerrainGrid 3.125;
+//tf_no_auto_long_range_radio = true;
 
 #define WELCOME_MESSAGE	"Welcome to Invade & Annex ~ALTIS~\n" +\
                         "Edited By [dR]Hellstorm77\n\n" +\

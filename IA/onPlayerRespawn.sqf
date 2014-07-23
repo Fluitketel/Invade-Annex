@@ -23,10 +23,10 @@
 	_unit setVariable ["revives", 0, true];
 
 //--- BL1P stop acre when uncon
-	if (acre_enabled) then 
-	{
-		_ret = [false] call acre_api_fnc_setSpectator;
-	};
+//	if (acre_enabled) then 
+//	{
+//		_ret = [false] call acre_api_fnc_setSpectator;
+//	};
 	
 	[player, false] call TFAR_fnc_forceSpectator;
 	

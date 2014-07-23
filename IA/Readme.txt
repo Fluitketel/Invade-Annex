@@ -17,6 +17,7 @@ Kegertys spectator scripts = http://forums.bistudio.com/showthread.php?148405-Ke
 Benny Warfare for script snippets stolen from his CTI and Warfare missions. (with his permission)
 Dedicated Rejects for hosting the Mission.
 All Dedicated Rejects Arma3 members who helped test the mission and didnt moad about stuff that went wrong.
+BI for the Game.
 
 
 If I have missed anybody out I am sorry and please contact me (BL1P) and I will add you to the credits.

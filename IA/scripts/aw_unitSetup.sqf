@@ -3,9 +3,6 @@ _unit = _this select 0;
 if(isNull _unit) exitWith {};
 
 //--- clear all cargo all vehicles
-//clearitemcargo _unit; 
-//clearWeaponCargoGlobal _unit; 
-//clearMagazineCargoGlobal _unit;
 _unit execVM "scripts\ClearCargo.sqf";
 
 //--- Mowhawk
@@ -37,4 +34,10 @@ if (typeOf _unit == "B_Truck_01_ammo_F") then
 		      _unit addAction ["<t color='#40ff00'>Ammo Box</t>", "VAS\open.sqf",[], 0, false, false, "", "vehicle _this == _this && _target distance _this < 10"];
 	};
 	
-	
+//--- Ammo box taskforce radio
+if (typeOf _unit == "B_supplyCrate_F") then 
+	{
+		_unit addItemCargoGlobal ["tf_rf7800str", 100];
+		_unit addItemCargoGlobal ["tf_anprc152", 100];
+		_unit addBackpackCargoGlobal ["tf_rt1523g",50];
+	};
