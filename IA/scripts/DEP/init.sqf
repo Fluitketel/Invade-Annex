@@ -221,6 +221,7 @@ while {true} do {
         _enemies    = _location select 6;
         _clear      = _location select 7;
         _close      = false;
+        _tooclose   = false;
         _blacklist  = false;
         
         // Check if active location is clear
@@ -260,23 +261,39 @@ while {true} do {
             if ((count _units) == 0) then { 
                 _units = allUnits;
             };
+            _closest = 999999;
             {
                if ((side _x) == West && isPlayer _x) then
                {
-                    if (_type == "antiair") then {
-                        if (((getPos _x) distance _pos) < (_radius + (dep_act_dist * 3))) exitWith { _close = true; };
-                    } else {
-                        if (((getPos _x) select 2) <= dep_act_height && (speed player) <= dep_act_speed) then {
-                            if (((getPos _x) distance _pos) < (_radius + dep_act_dist)) exitWith { _close = true; };
-                        };
+                    _speedok = true;
+                    _heightok = true;
+                    if (_type != "antiair") then {
+                        // Check the speed and height of the player
+                        if (((getPos _x) select 2) > dep_act_height) then { _heightok = false; };
+                        if ((speed _x) > dep_act_speed) then { _speedok = false; };
+                    };
+                    
+                    if ((_speedok && _heightok)) then {
+                        _distance = (getPos _x) distance _pos;
+                        if (_distance < _closest) then { _closest = _distance; };
                     };
                };
             } forEach _units;
+            
+            if (_type == "antiair") then {
+                // Anti air locations have 3x greater activation distance
+                if (_closest < (_radius + (dep_act_dist * 3))) then { _close = true; };
+            } else {
+                if (_closest < (_radius + dep_act_dist)) then { _close = true; };
+            };
+
+            // Don't activate when players are too close
+            if (_closest < (2 * _radius)) then { _tooclose = true; };
         };
         
         if (_close && !_clear) then {
             // Players are close and location not clear, should enemies be spawned?
-            if (!_active && dep_total_ai < dep_max_ai_tot) then {
+            if (!_active && dep_total_ai < dep_max_ai_tot && !_tooclose) then {
                 // Location is not cleared and not active => spawn units
                 if (_type == "antiair") then {
                     _handle = _g call dep_fnc_activate_aacamp;
