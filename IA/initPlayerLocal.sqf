@@ -14,7 +14,7 @@
 	player removeItem "NVGoggles";
 	
 //--- BL1P check for acre mod on Client
-	acre_enabled	= isClass(configFile/"CfgPatches"/"acre_main");
+	//acre_enabled	= isClass(configFile/"CfgPatches"/"acre_main");
 	
 	player setcaptive false;                                                           
 	player enableSimulation true; 

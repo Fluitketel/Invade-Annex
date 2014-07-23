@@ -147,10 +147,10 @@ FAR_Player_Unconscious =
 		noesckey = (findDisplay 2000) displayAddEventHandler ["KeyDown", "true"]; 
 	};
 	//--- bl1p stop acre when uncon
-		if (acre_enabled) then 
-		{
-			_ret = [true] call acre_api_fnc_setSpectator;
-		};
+	//	if (acre_enabled) then 
+	//	{
+	//		_ret = [true] call acre_api_fnc_setSpectator;
+	//	};
 		
 		[player, true] call TFAR_fnc_forceSpectator;
 		
@@ -221,10 +221,10 @@ FAR_Player_Unconscious =
 				(findDisplay 2000) displayRemoveEventHandler ["KeyDown", noesckey]; //--- bl1p remove button and enable keypresses
 					};
 				//--- bl1p stop acre when uncon
-					if (acre_enabled) then 
-					{
-						_ret = [false] call acre_api_fnc_setSpectator;
-					};
+					//if (acre_enabled) then 
+					//{
+					//	_ret = [false] call acre_api_fnc_setSpectator;
+					//};
 					
 					[player, false] call TFAR_fnc_forceSpectator;
 				
