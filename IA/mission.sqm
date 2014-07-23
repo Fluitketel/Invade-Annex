@@ -1261,7 +1261,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_8";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item58
 		{
@@ -1272,7 +1272,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_7";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item59
 		{
@@ -1283,7 +1283,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_5";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item60
 		{
@@ -1294,7 +1294,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_6";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item61
 		{
@@ -2046,7 +2046,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_4";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item132
 		{
@@ -2057,7 +2057,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item133
 		{
@@ -2068,7 +2068,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_2";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item134
 		{
@@ -2079,7 +2079,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_3";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item135
 		{
@@ -2506,7 +2506,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_4_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item174
 		{
@@ -2517,7 +2517,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_1_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item175
 		{
@@ -2528,7 +2528,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_2_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item176
 		{
@@ -2539,7 +2539,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_3_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
 		};
 		class Item177
 		{
