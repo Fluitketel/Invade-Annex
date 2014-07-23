@@ -26,7 +26,7 @@ FAR_HandleDamage_EH =
     _amountOfDamage = _this select 2;
     _killer = _this select 3;
     _isUnconscious = _unit getVariable "FAR_isUnconscious";
-    _maxrevives = 4;
+    _maxrevives = 5;
     
     if (alive _unit && {_amountOfDamage >= 1} && {_isUnconscious == 0}) then
     {

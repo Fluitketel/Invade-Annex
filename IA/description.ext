@@ -189,9 +189,9 @@ class Daytime
     class DEP_MAX_VEH
 	{
 		title = "DEP Maximum amount of vehicles";
-		values[] = {0, 1, 2, 3, 4};
-		texts[] = {"0", "1", "2", "3", "4"};
-		default = 3;
+		values[] = {0, 2, 4, 6, 8, 10};
+		texts[] = {"0", "2", "4", "6", "8", "10"};
+		default = 6;
 	};
 	
 	class Space1b
