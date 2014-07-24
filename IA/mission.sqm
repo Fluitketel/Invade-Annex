@@ -96,7 +96,7 @@ class Mission
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co31 [dR] I&A SDO TFA V62.8 Altis";
+		briefingName="co31 [dR] I&A SDO TFA V62.9 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;
