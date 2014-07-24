@@ -32,7 +32,7 @@ FAR_HandleDamage_EH =
     {
         _uncon = false;
         if (_unit getVariable "revives" < _maxrevives) then { _uncon = true; };
-        if (_uncon && ((random 1) <= 0.1)) then { _uncon = false; };
+        if (_uncon && ((random 1) <= 0.1) && _unit getVariable "revives" >= _maxrevives) then { _uncon = false; };
         
         // Fluit: Only go uncon if revive times not exceeded
         if (_uncon) then {
