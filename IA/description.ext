@@ -1,5 +1,3 @@
-#include "scripts\unitCaching\description.ext"
-
 //--- com slot only 
 #include "core\Debriefing.hpp"
 
@@ -404,22 +402,6 @@ class Daytime
 		values[] = {100,110,120,130,140,150,160,170,180,190,200,250,300,400,500};
 		texts[] = {100,110,120,130,140,150,160,170,180,190,200,250,300,400,500};
 		default = 180;
-	};
-	
-	class CacheAOUnits
-	{
-		title = "Use caching for AO enemies";
-		values[] = {1,0};
-		texts[] = {"Enable","Disable"};
-		default = 0;
-	};
-	
-	class CacheDynamicUnits
-	{
-		title = "Use caching for dynamic enemies";
-		values[] = {1,0};
-		texts[] = {"Enable","Disable"};
-		default = 0;
 	};
 	
 	class Space4 {title = ""; values[]= {0}; texts[]= {" "}; default = 0; };
