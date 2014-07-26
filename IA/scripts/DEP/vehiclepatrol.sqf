@@ -1,8 +1,12 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file makes a vehicle patrol the given area.
 private ["_pos","_group","_list","_road","_wp"];
 _pos = _this select 0;
 _group = _this select 1;
 
-_list = _pos nearRoads 1000;
+_list = _pos nearRoads dep_act_dist;
 for "_y" from 0 to 8 do {
     _road = _list call BIS_fnc_selectRandom;
     _list = _list - [_road];

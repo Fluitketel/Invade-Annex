@@ -1,3 +1,7 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file makes units invincible for a short time after to counter unit deaths on spawn.
 private ["_group"];
 _group = _this select 0;
 

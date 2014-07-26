@@ -1,6 +1,17 @@
 /*=======================================================================================
-    DYNAMIC ENEMY POPULATION by Fluit
-    This script places enemies all across the map
+    DYNAMIC ENEMY POPULATION 
+        by Fluit 
+            bugs & feedback:    fluitketel@outlook.com
+            last revision:      2014-07-26
+    
+    This script places cached enemies all across the map including:
+    - units in buildings
+    - units patroling outside buildings
+    - patroling vehicles
+    - roadblocks
+    - anti-air camps
+    - IED's
+    - mines (AT & APERS)
   =======================================================================================*/
 
 // SETTINGS

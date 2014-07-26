@@ -1,3 +1,7 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file finds the closest enterable houses.
 private ["_pos", "_validhouses"];
 _pos = _this select 0;
 _validhouses = [_pos, 4] call dep_fnc_enterablehouses;

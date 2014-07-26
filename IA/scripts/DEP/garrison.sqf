@@ -1,3 +1,7 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file tells a group to garrison in the nearest building.
 private ["_house","_group","_pos","_buildpos","_newbuildpos"];
 _group  = _this select 0;
 _pos    = getPos (leader _group);

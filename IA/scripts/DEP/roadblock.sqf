@@ -1,3 +1,7 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file spawns a roadblock at the given location.
 private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier", "_gate", "_groups", "_totalenemies", "_objects"];
 _pos    = _this select 0; // roadblock position
 _dir    = _this select 1; // roadblock direction

@@ -1,3 +1,7 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file finds the direction of a road.
 private ["_road","_roadsConnectedTo","_connectedRoad","_roaddir","_connected"];
 _road = _this select 0;
 _roadsConnectedTo = roadsConnectedTo _road;

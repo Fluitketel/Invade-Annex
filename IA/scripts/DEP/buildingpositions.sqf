@@ -1,3 +1,7 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file finds spawn positions in a building.
 private ["_building", "_positions", "_i"];
 _building = _this;
 _positions = [];

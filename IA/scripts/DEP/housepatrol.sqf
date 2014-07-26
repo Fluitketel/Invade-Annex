@@ -1,3 +1,7 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file tells a group to patrol around the nearest house.
 private ["_pos","_group","_validhouses","_wp","_grouppos"];
 _group  = _this select 0;
 _pos    = getPos (leader _group);

@@ -1,3 +1,8 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file activates an anti-air camp.
+
 private ["_location","_pos","_return"];
 
 _cache = dep_loc_cache select _this;

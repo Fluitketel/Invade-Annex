@@ -1,3 +1,8 @@
+// ***** Dynamic Enemy Population *****
+//              By Fluit
+// 
+// This file restores a previously activated location.
+
 private ["_loccache","_objects","_groups","_grp","_obj","_pos","_unit"];
 
 _loccache = dep_loc_cache select _this;
@@ -25,6 +30,12 @@ _totalobjects = [];
             dep_side revealMine _obj;
         };
         default {
+            if (_pos distance _locpos > (_location select 2)) then {
+                // Prevent objects from spawning outside the location
+                _list = _locpos nearRoads (_location select 2);
+                _road = _list call BIS_fnc_selectRandom;
+                _pos = (getPos _road);
+            };
             _obj = (_x select 2) createVehicle _pos;
         };
     };

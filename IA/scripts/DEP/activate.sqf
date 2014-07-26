@@ -159,19 +159,47 @@ if !(_createveh) then {
     if ((_location select 1) in ["roadpop"]) then {
         _list = _pos nearRoads 50;
         if (count _list > 0) then {
-            _road = _list call BIS_fnc_selectRandom;
-            _dir = [_road] call dep_fnc_roaddir;
+            
             if ((random 1) <= 0.3) then {
                 // Create rubble
-                _rubblepos = [_road, 4, _dir + 90] call BIS_fnc_relPos;
-                _rubble = (_rubble_pool call BIS_fnc_selectRandom) createVehicle _rubblepos;
-                //_objects = _objects + [_rubble];
+                _road = _list call BIS_fnc_selectRandom;
+                _list = _list - [_road];
+                _dir = [_road] call dep_fnc_roaddir;
+                _rubblepos = [_road, 5, _dir + 90] call BIS_fnc_relPos;
+                _rubble = (_rubble_pool call BIS_fnc_selectRandom) createVehicle _rubblepos;                
+                _rubble addEventHandler 
+                ["Explosion", 
+                    {                       
+                        _object = (_this select 0);
+                        _isied = _object getVariable "IED";
+                        if (_isied) then {
+                            "Bo_GBU12_LGB" createVehicle (position _object);
+                            deleteVehicle _object;
+                        };
+                        _this select 1;
+                    }
+                ];
+                
+                if ((random 1) <= 0.6) then {
+                    // Hide IED in rubble
+                    _rubble setVariable ["IED",true,true];
+                    // type of IED
+                    if ((random 1) <= 0.2) then {
+                        _rubble execFSM (dep_directory + "ied_dp.fsm"); // explodes on vehicles and infantry
+                    } else {
+                        _rubble execFSM (dep_directory + "ied_veh.fsm"); // only explodes on vehicles
+                    };
+                } else {
+                    _rubble setVariable ["IED",false,true];
+                };
             };
-            if ((random 1) <= 0.2) then {
+            if ((random 1) <= 0.15) then {
                 // Create mine
+                _road = _list call BIS_fnc_selectRandom;
+                _list = _list - [_road];
+                _dir = [_road] call dep_fnc_roaddir;
                 _minepos = [_road, 1, _dir + 270] call BIS_fnc_relPos;
                 _mine = createMine ["ATMine", _minepos, [], 0];
-                //_objects = _objects + [_mine];
                 dep_side revealMine _mine;
             };
         };
