@@ -40,6 +40,10 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 		onMapSingleClick "_shift";
 	};
 	
+	//--- stop show score test === todo make this work :)
+	//player addAction ["", {player sideChat "NetworkStats button pressed";}, "", 0, false, true, "NetworkStats"];
+	
+	
 	// vehicle crew display
 	[player] execVM "scripts\crew\crew.sqf";
 

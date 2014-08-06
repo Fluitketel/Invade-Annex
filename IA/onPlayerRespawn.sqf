@@ -1,6 +1,9 @@
 //--- BL1P THIS SCRIPT IS AUTO RAN BY BIS ON PlAYER RESPAWN
 	if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked from the onPlayerrespawn.sqf I am not a true client";};
     
+// Wait until player is initialized
+//	waitUntil {!isNull player && isPlayer player};
+
 	_unit = _this select 0;
 	_corpse = _this select 1;
 	
@@ -22,13 +25,18 @@
 //--- Fluit: Reset the number of times revived
 	_unit setVariable ["revives", 0, true];
 
-//--- BL1P stop acre when uncon
+//--- BL1P restart acre when alive
 //	if (acre_enabled) then 
 //	{
 //		_ret = [false] call acre_api_fnc_setSpectator;
 //	};
-	
+
+
+//--- BL1P restart taskforce when alive
+	if (taskForce_enabled) then 
+	{
 	[player, false] call TFAR_fnc_forceSpectator;
+	};
 	
 //--- BL1P remove corpses of players
 	sleep 20;

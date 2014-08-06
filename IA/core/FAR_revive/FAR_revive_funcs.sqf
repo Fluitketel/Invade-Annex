@@ -151,8 +151,11 @@ FAR_Player_Unconscious =
 	//	{
 	//		_ret = [true] call acre_api_fnc_setSpectator;
 	//	};
-		
+	
+		if (taskForce_enabled) then 
+		{
 		[player, true] call TFAR_fnc_forceSpectator;
+		};
 		
 	_unit switchMove "AinjPpneMstpSnonWrflDnon";
 	_unit enableSimulation false;
@@ -226,8 +229,12 @@ FAR_Player_Unconscious =
 					//	_ret = [false] call acre_api_fnc_setSpectator;
 					//};
 					
+				//--- bl1p stop taskforce when uncon
+					if (taskForce_enabled) then 
+					{
 					[player, false] call TFAR_fnc_forceSpectator;
-				
+					};
+					
 				disableUserInput false;
 				_unit enableSimulation true;
 				_unit allowDamage true;

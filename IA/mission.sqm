@@ -62,8 +62,7 @@ class Mission
 		"a3_characters_f_gamma",
 		"a3_characters_f_beta",
 		"a3_characters_f",
-		"A3_Modules_F",
-		"task_force_radio_items"
+		"A3_Modules_F"
 	};
 	addOnsAuto[]=
 	{
@@ -90,33 +89,21 @@ class Mission
 		"A3_Structures_F_Mil_Helipads",
 		"A3_Air_F_Beta_Heli_Transport_02",
 		"A3_Soft_F_Quadbike",
-		"task_force_radio_items",
 		"a3_map_altis"
 	};
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co31 [dR] I&A SDO TFA V62.9 Altis";
+		briefingName="co31 [dR] I&A SDO TFA V63.0 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;
 		timeOfChanges=28800;
-		startWeather=0.0099999998;
-		startFog=0.0099999998;
-		startWind=0.0099999998;
-		startRain=0.0099999998;
-		startLightnings=0.0099999998;
-		startWaves=0.0099999998;
-		startGust=0.0099999998;
-		forecastWeather=0.0099999998;
-		forecastFog=0.0099999998;
-		forecastWind=0.0099999998;
-		forecastWaves=0.0099999998;
-		forecastRain=0.0099999998;
-		forecastLightnings=0.0099999998;
-		forecastGust=0.0099999998;
-		rainForced=1;
-		lightningsForced=1;
+		startWeather=0;
+		startWind=0;
+		forecastWeather=0;
+		forecastWind=0;
+		forecastWaves=0;
 		wavesForced=1;
 		windForced=1;
 		year=2035;
@@ -124,8 +111,8 @@ class Mission
 		day=6;
 		hour=0;
 		minute=0;
-		startFogDecay=0.0049333;
-		forecastFogDecay=0.0049333;
+		startFogDecay=0;
+		forecastFogDecay=0.;
 	};
 	class Groups
 	{
@@ -626,7 +613,7 @@ class Mission
 	};
 	class Vehicles
 	{
-		items=178;
+		items=177;
 		class Item0
 		{
 			position[]={15246.208,-0.0082027912,14204.392};
@@ -2540,14 +2527,6 @@ class Mission
 			skill=0.60000002;
 			text="car_3_1";
 			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
-		};
-		class Item177
-		{
-			position[]={8429.3633,111.38176,25115.717};
-			id=210;
-			side="EMPTY";
-			vehicle="TF_NATO_Radio_Crate";
-			skill=0.60000002;
 		};
 	};
 	class Markers

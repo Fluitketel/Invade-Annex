@@ -15,6 +15,7 @@
 	
 //--- BL1P check for acre mod on Client
 	//acre_enabled	= isClass(configFile/"CfgPatches"/"acre_main");
+	taskForce_enabled = isClass(configFile/"CfgPatches"/"task_force_radio");
 	
 	player setcaptive false;                                                           
 	player enableSimulation true; 

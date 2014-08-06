@@ -528,6 +528,6 @@ onLoadMissionTime = true;
 disabledAI = 1;
 Respawn = 3;
 RespawnDelay = 15;
-RespawnDialog = 0;
+RespawnDialog = 1;
 joinUnassigned = false;
 
