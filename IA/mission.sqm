@@ -94,7 +94,7 @@ class Mission
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co31 [dR] I&A SDO TFA V63.0 Altis";
+		briefingName="co31 [dR] I&A SDO TFA V64.0 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;
@@ -112,7 +112,7 @@ class Mission
 		hour=0;
 		minute=0;
 		startFogDecay=0;
-		forecastFogDecay=0.;
+		forecastFogDecay=0;
 	};
 	class Groups
 	{
@@ -135,7 +135,7 @@ class Mission
 					leader=1;
 					rank="LIEUTENANT";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Squad Leader";
 				};
 				class Item1
@@ -148,7 +148,7 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Medic";
 				};
 				class Item2
@@ -161,7 +161,7 @@ class Mission
 					vehicle="B_Soldier_GL_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Grenadier";
 				};
 				class Item3
@@ -174,7 +174,7 @@ class Mission
 					vehicle="B_soldier_AR_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Autorifleman";
 				};
 				class Item4
@@ -187,7 +187,7 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Rifleman (AT)";
 				};
 				class Item5
@@ -201,7 +201,7 @@ class Mission
 					player="PLAY CDG";
 					rank="SERGEANT";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Team Leader";
 				};
 				class Item6
@@ -214,7 +214,7 @@ class Mission
 					vehicle="B_soldier_exp_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Explosive Specialist";
 				};
 				class Item7
@@ -227,7 +227,7 @@ class Mission
 					vehicle="B_Soldier_GL_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Grenadier";
 				};
 				class Item8
@@ -240,7 +240,7 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Rifleman (AT)";
 				};
 				class Item9
@@ -253,7 +253,7 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false;";
+					init="enableRadio false;enablesentences false;";
 					description="Alpha Medic";
 				};
 			};
@@ -316,7 +316,7 @@ class Mission
 					leader=1;
 					rank="LIEUTENANT";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Squad Leader";
 				};
 				class Item1
@@ -329,7 +329,7 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Medic";
 				};
 				class Item2
@@ -342,7 +342,7 @@ class Mission
 					vehicle="B_Soldier_GL_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Grenadier";
 				};
 				class Item3
@@ -355,7 +355,7 @@ class Mission
 					vehicle="B_soldier_AR_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Autorifleman";
 				};
 				class Item4
@@ -368,7 +368,7 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Rifleman (AT)";
 				};
 				class Item5
@@ -382,7 +382,7 @@ class Mission
 					player="PLAY CDG";
 					rank="SERGEANT";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Team Leader";
 				};
 				class Item6
@@ -395,7 +395,7 @@ class Mission
 					vehicle="B_soldier_exp_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Explosive Specialist";
 				};
 				class Item7
@@ -408,7 +408,7 @@ class Mission
 					vehicle="B_Soldier_GL_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Grenadier";
 				};
 				class Item8
@@ -421,7 +421,7 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false;";
 					description="Bravo Rifleman (AT)";
 				};
 				class Item9
@@ -434,7 +434,7 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-					init="enablesentences false; ";
+					init="enableRadio false;enablesentences false; ";
 					description="Bravo Medic";
 				};
 			};
@@ -477,6 +477,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Recon Team Leader";
 				};
 				class Item1
@@ -488,6 +489,7 @@ class Mission
 					vehicle="B_recon_M_F";
 					player="PLAY CDG";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Recon Marksman";
 				};
 				class Item2
@@ -499,6 +501,7 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Recon Medic";
 				};
 				class Item3
@@ -510,6 +513,7 @@ class Mission
 					vehicle="B_soldier_UAV_F";
 					player="PLAY CDG";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Recon UAV Op";
 				};
 			};
@@ -531,6 +535,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Helo Pilot (level 1)";
 				};
 				class Item1
@@ -542,6 +547,7 @@ class Mission
 					vehicle="B_helicrew_F";
 					player="PLAY CDG";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Helo Pilot Crew (level 1)";
 				};
 			};
@@ -563,6 +569,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Armour Crew/Rep TL (level 1)";
 				};
 				class Item1
@@ -574,6 +581,7 @@ class Mission
 					vehicle="B_soldier_repair_F";
 					player="PLAY CDG";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Armour Crew/Rep (level 1)";
 				};
 				class Item2
@@ -585,6 +593,7 @@ class Mission
 					vehicle="B_soldier_repair_F";
 					player="PLAY CDG";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Armour Crew/Rep (level 1)";
 				};
 			};
@@ -606,6 +615,7 @@ class Mission
 					leader=1;
 					rank="COLONEL";
 					skill=0.60000002;
+					init="enableRadio false;enablesentences false;";
 					description="Commander (level 2)";
 				};
 			};

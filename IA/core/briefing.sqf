@@ -11,7 +11,11 @@ player createDiaryRecord
 		[
 			"Revive", 
 				"
-				WIP</br>
+				Revive System:<br/><br/>
+				Medics using a medkit will always be able to revive unconscious players.<br/><br/>
+				Other classes can attempt to revive with a first aid kit but have only a 20% chance of success and it will remove a FAK each try.<br/><br/>
+				In addition the bleedout timer decreases for each time you've been critically wounded and after a certain amount of revives there becomes a slim chance of dying outright.<br/><br/> 
+				On the medical trucks and Nurse Gladys in the field hospital at base is a 'Heal' option that resets this.<br/><br/>
 				"
 		]
 	];
