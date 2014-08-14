@@ -23,7 +23,8 @@ _groups = [];
 _totalenemies = 0;
 _NME_pool = ["I_G_Soldier_F","I_G_Soldier_GL_F","I_G_Soldier_AR_F","I_G_Soldier_LAT_F","I_G_medic_F","I_Soldier_AA_F","I_G_Soldier_SL_F","I_G_Soldier_M_F"];
 _VEH_pool = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_APC_tracked_03_cannon_F","I_APC_Wheeled_03_cannon_F"];
-_rubble_pool = ["Land_Tyres_F","Land_GarbageBags_F","Land_JunkPile_F","Land_GarbageContainer_closed_F","Land_GarbageContainer_open_F"];
+_rubble_pool = ["Land_Tyres_F","Land_GarbageBags_F","Land_JunkPile_F","Land_GarbageContainer_closed_F","Land_GarbageContainer_open_F","Land_WoodenBox_F"];
+_ied_pool = ["IEDLandBig_Remote_Ammo","IEDLandSmall_Remote_Ammo","IEDUrbanBig_Remote_Ammo","IEDUrbanSmall_Remote_Ammo"];
 
 if ((_location select 1) == "roadblock") then {
     _result = [_pos, _location select 9] call dep_fnc_roadblock;
@@ -96,12 +97,9 @@ for "_y" from 0 to 2 do {
         _validhouses = _validhouses - [_house];
         _minepos = _house buildingExit 0;
         if (dep_debug) then {
-            _m = createMarker [format ["mine-%1",random 9999], _minepos];
-            _m setMarkerShape "ELLIPSE";
-            _m setMarkerSize [3, 3];
-            _m setMarkerColor "ColorRed";
-            _m setMarkerBrush "Solid";
-            _m setMarkerAlpha 1;
+            _m = createMarker[format["APmine%1%2", _this, _y], _minepos];
+            _m setMarkerType "Minefield";
+            _m setMarkerText "AP";
         };
         
         _minepos set [2, 0.01];
@@ -115,7 +113,7 @@ for "_y" from 0 to 2 do {
 // Spawn vehicle?
 _createveh = false;
 if !((_location select 1) in ["roadblock"]) then {
-    if ((random 1) <= 0.3) then {
+    if ((random 1) <= dep_veh_chance) then {
         _vehamount = 1 + (round (random 1));
         for "_c" from 1 to _vehamount do {
             if (dep_total_veh >= dep_max_veh) exitWith {};
@@ -155,52 +153,100 @@ if !((_location select 1) in ["roadblock"]) then {
         };
     };
 };
-if !(_createveh) then {
-    if ((_location select 1) in ["roadpop"]) then {
-        _list = _pos nearRoads 50;
-        if (count _list > 0) then {
-            
-            if ((random 1) <= 0.3) then {
-                // Create rubble
-                _road = _list call BIS_fnc_selectRandom;
-                _list = _list - [_road];
-                _dir = [_road] call dep_fnc_roaddir;
-                _rubblepos = [_road, 5, _dir + 90] call BIS_fnc_relPos;
-                _rubble = (_rubble_pool call BIS_fnc_selectRandom) createVehicle _rubblepos;                
-                _rubble addEventHandler 
-                ["Explosion", 
-                    {                       
-                        _object = (_this select 0);
-                        _isied = _object getVariable "IED";
-                        if (_isied) then {
-                            "Bo_GBU12_LGB" createVehicle (position _object);
-                            deleteVehicle _object;
-                        };
-                        _this select 1;
-                    }
-                ];
-                
-                if ((random 1) <= 0.6) then {
-                    // Hide IED in rubble
-                    _rubble setVariable ["IED",true,true];
-                    // type of IED
-                    if ((random 1) <= 0.2) then {
-                        _rubble execFSM (dep_directory + "ied_dp.fsm"); // explodes on vehicles and infantry
-                    } else {
-                        _rubble execFSM (dep_directory + "ied_veh.fsm"); // only explodes on vehicles
-                    };
+
+if ((_location select 1) in ["roadpop"]) then {
+    _list = _pos nearRoads 75;
+    if (count _list > 0) then {
+        
+        if ((random 1) <= 0.5) then {
+            // Create rubble
+            _road = _list call BIS_fnc_selectRandom;
+            _list = _list - [_road];
+            _dir = [_road] call dep_fnc_roaddir;
+            _rubblepos = [_road, 5, _dir + 90] call BIS_fnc_relPos;
+            _rubble = (_rubble_pool call BIS_fnc_selectRandom) createVehicle _rubblepos;
+           _rubble setVariable ["workingon",false,true]; 
+            if ((random 1) <= dep_ied_chance) then {
+                // Hide IED in rubble
+                _rubble setVariable ["IED",true,true];
+                // type of IED
+                if ((random 1) <= 0.2) then {
+                    _rubble execFSM (dep_directory + "ied_dp.fsm"); // explodes on vehicles and infantry
                 } else {
-                    _rubble setVariable ["IED",false,true];
+                    _rubble execFSM (dep_directory + "ied_veh.fsm"); // only explodes on vehicles
                 };
+                
+                // Add the actions
+                [[[_rubble],format["%1disable_ied_addactions.sqf", dep_directory]],"BIS_fnc_execVM",nil,true] spawn BIS_fnc_MP;
+                
+                if (dep_debug) then {
+                    _m = createMarker[format["ied%1", _this], _rubblepos];
+                    _m setMarkerType "mil_dot";
+                    _m setMarkerText "ied";
+                };
+            } else {
+                _rubble setVariable ["IED",false,true];
+                if (dep_debug) then {
+                    _m = createMarker[format["ied%1", _this], _rubblepos];
+                    _m setMarkerType "mil_dot";
+                    _m setMarkerText "fake ied";
+                };
+            };            
+            _rubble addEventHandler 
+            ["Explosion", 
+                {                       
+                    _object = (_this select 0);
+                    if (_object getVariable "IED") then {
+                        _boomtype = ["Bomb_03_F", "Bomb_04_F", "Bo_GBU12_LGB"] select round random 2;
+                        _boomtype createVehicle (position _object);
+                        deleteVehicle _object;
+                    };
+                    _this select 1;
+                }
+            ];
+        };
+        
+        /*if ((random 1) <= dep_ied_chance) then {
+            // Create IED
+            _road = _list call BIS_fnc_selectRandom;
+            _list = _list - [_road];
+            _dir = [_road] call dep_fnc_roaddir;
+            _rubblepos = [_road, 5, _dir + (random 360)] call BIS_fnc_relPos;
+            _ied = (_ied_pool call BIS_fnc_selectRandom) createVehicle _rubblepos;
+            _ied setVariable ["IED",true,true];
+            // type of IED
+            if ((random 1) <= 0.2) then {
+                _ied execFSM (dep_directory + "ied_dp.fsm"); // explodes on vehicles and infantry
+            } else {
+                _ied execFSM (dep_directory + "ied_veh.fsm"); // only explodes on vehicles
             };
-            if ((random 1) <= 0.15) then {
-                // Create mine
-                _road = _list call BIS_fnc_selectRandom;
-                _list = _list - [_road];
-                _dir = [_road] call dep_fnc_roaddir;
-                _minepos = [_road, 1, _dir + 270] call BIS_fnc_relPos;
-                _mine = createMine ["ATMine", _minepos, [], 0];
-                dep_side revealMine _mine;
+            _ied addMPEventHandler 
+            ["MPHit", 
+                {                       
+                    _object = (_this select 0);
+                    _isied = _object getVariable "IED";
+                    if (_isied) then {
+                        _boomtype = ["Bomb_03_F", "Bomb_04_F", "Bo_GBU12_LGB"] select round random 2;
+                        _boomtype createVehicle (position _object);
+                        deleteVehicle _object;
+                    };
+                    _this select 2;
+                }
+            ];
+        };*/
+        
+        if ((random 1) <= 0.15) then {
+            // Create mine
+            _road = _list call BIS_fnc_selectRandom;
+            _list = _list - [_road];
+            _dir = [_road] call dep_fnc_roaddir;
+            _minepos = [_road, 1, _dir + 270] call BIS_fnc_relPos;
+            _mine = createMine ["ATMine", _minepos, [], 0];
+            dep_side revealMine _mine;
+            if (dep_debug) then {
+                _m = createMarker[format["ATmine%1", _this], _minepos];
+                _m setMarkerType "Minefield";
+                _m setMarkerText "AT";
             };
         };
     };

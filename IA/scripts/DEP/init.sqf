@@ -15,24 +15,9 @@
   =======================================================================================*/
 
 // SETTINGS
-dep_side        = independent;          // Enemy side (east, west, independent)
-dep_despawn     = PARAMS_DEP_DESPAWN;   // Despawn location after x minutes inactivity
-dep_debug       = DEBUG;                // Enable debug
-dep_max_ai_loc  = PARAMS_DEP_AI_LOC;    // Maximum AI per location
-dep_max_ai_tot  = PARAMS_DEP_AI_TOT;    // Maximum AI in total
-dep_act_dist    = PARAMS_DEP_ACTDIST;   // Location activation distance
-dep_act_height  = 80;                   // Player must be below this height to activate location
-dep_act_speed   = 160;                  // Player must be below this speed to activate location
-dep_roadblocks  = PARAMS_DEP_ROADBLK;   // Number of roadblocks
-dep_aa_camps    = PARAMS_DEP_AA;        // Number of AA camps
-dep_roadpop     = PARAMS_DEP_ROADPOP;   // Number of road population
-dep_safezone    = 1500;                 // Respawn safe zone radius
-dep_max_veh     = PARAMS_DEP_MAX_VEH;   // Max number of vehicles
-dep_directory   = "scripts\DEP\";       // Script location
-
-// ***************************
-// DO NOT EDIT BELOW THIS LINE
-// ***************************
+dep_directory = "scripts\DEP\";   // Script location
+_handle = execVM format ["%1settings.sqf", dep_directory];
+waitUntil{scriptDone _handle};
 
 // PUBLIC VARIABLES
 dep_total_ai    = 0;
@@ -59,6 +44,8 @@ dep_fnc_activate_aacamp     = compile preprocessFileLineNumbers format ["%1activ
 dep_fnc_deactivate          = compile preprocessFileLineNumbers format ["%1deactivate.sqf",         dep_directory];
 dep_fnc_garrison            = compile preprocessFileLineNumbers format ["%1garrison.sqf",           dep_directory];
 dep_fnc_enemyspawnprotect   = compile preprocessFileLineNumbers format ["%1enemyspawnprotect.sqf",  dep_directory];
+dep_fnc_disable_ied         = compile preprocessFileLineNumbers format ["%1disable_ied.sqf",        dep_directory];
+dep_fnc_disable_ied_action  = compile preprocessFileLineNumbers format ["%1disable_ied_action.sqf", dep_directory];
 
 private ["_locations","_pos"];
 diag_log "Initializing DEP . . .";
@@ -327,5 +314,27 @@ while {true} do {
         };
         sleep 0.02;
     };
-    sleep 1;
+    
+    _fps = diag_fps;
+    if (dep_debug) then {
+        _west = 0;
+        _east = 0;
+        _resi = 0;
+        {
+            if (side _x == east) then { _east = _east + 1; };
+            if (side _x == west) then { _west = _west + 1; };
+            if (side _x == resistance) then { _resi = _resi + 1; };
+        } forEach allUnits;
+        
+        systemChat format ["west: %1 east: %2 resistance: %3 FPS: %4", _west, _east, _resi, _fps];
+    };
+    if (_fps > 45) then {
+        sleep 1;
+    } else {
+        if (_fps > 40) then {
+            sleep 4;
+        } else {
+            sleep 8;
+        };
+    };
 };

@@ -30,4 +30,7 @@
 	
 //--- bl1p revive
 	call compileFinal preprocessFileLineNumbers "core\FAR_revive\FAR_revive_init.sqf"; 		//--- revive
-	
+    
+// Initialize Client DEP functions
+_handle = execVM "scripts\DEP\client_init.sqf";
+waitUntil{scriptDone _handle};	
