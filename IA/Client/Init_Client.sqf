@@ -64,6 +64,7 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 	execVM "core\Restrictions\naughtyThermal.sqf";
 	execVM "core\Restrictions\drivercheck.sqf";
 	
+////////////////////////////// AO jip stuff ///////////////////////	
 	
 	if (isNil 'currentAO') then {currentAO = "Nothing"};
 	waitUntil {sleep 0.5; currentAO != "Nothing"};
@@ -131,15 +132,16 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 		"aoMarker_2" SetMarkerAlpha 0;
 	};
 	
-
-	
-_spawnBuildings = nearestObjects [(getMarkerPos "respawn_west"), ["building"], 1000];
+	_spawnBuildings = nearestObjects [(getMarkerPos "respawn_west"), ["building"], 1000];
 
 	{
 		_x allowDamage false;
 		_x enableSimulation false;
 	} forEach _spawnBuildings;
 
+////////////////////////////// AO jip stuff ///////////////////////	
+	
 
+	
 
 CTI_Init_Client = true;

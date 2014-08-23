@@ -94,7 +94,7 @@ bl1p_fnc_defend =
 				{
 					
 					//random radius pos from ao center
-					_randomPos = [getMarkerPos currentAO, _distance] call aw_fnc_randomPosbl1p;
+					_randomPos = [getMarkerPos currentAO, _distance] call dR_fnc_randomPosbl1p;
 					
 					if ((count _randomPos) == 3) then 
 					{
@@ -123,10 +123,10 @@ bl1p_fnc_defend =
 							};
 						};
 					
-						//[_inf_Patrol, getMarkerPos currentAO,250] call aw_fnc_spawn2_perimeterPatrolBL1P;
+						//[_inf_Patrol, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 						//waituntil {sleep 1;alive (leader _inf_Patrol)};
 						sleep 0.5;
-						[_inf_Patrol, getMarkerPos currentAO,100] call aw_fnc_spawn2_randomPatrolBL1P;
+						[_inf_Patrol, getMarkerPos currentAO,100] call dR_fnc_spawn2_randomPatrolBL1P;
 						
 						{
 						  AttackReinforcementUnits set [count AttackReinforcementUnits, _x];

@@ -60,7 +60,7 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 				if (!isNil ("_upsZoneAir")) then {if (DEBUG) then {diag_log "_upsZoneAir was not nil removing";};deleteVehicle _upsZoneAir;};
 				
 				//create and check random pos
-				_patrolCreatePos = [getMarkerPos currentAO, 5000,7] call aw_fnc_randomPosbl1p;
+				_patrolCreatePos = [getMarkerPos currentAO, 5000,7] call dR_fnc_randomPosbl1p;
 				if ((count _patrolCreatePos) == 3) then 
 				{		
 					//choose a random type
@@ -192,7 +192,7 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 				for "_x" from 1 to 2 do //create 2 groups
 				{
 					//_patrolPos = getMarkerPos currentAO;
-					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+					_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 					
 					_HeavyRandomChance = random 6;
 					if (_HeavyRandomChance <= 3) then
@@ -205,7 +205,7 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 						_armour = [_randomPos,0,"O_MBT_02_cannon_F",_ReinfarmourGroup] call BIS_fnc_spawnVehicle;
 						HeavyReVehicles set [count HeavyReVehicles, _armour select 0];
 						sleep 1;
-						[_ReinfarmourGroup, getMarkerPos currentAO,250] call aw_fnc_spawn2_perimeterPatrolBL1P;
+						[_ReinfarmourGroup, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 						[(units _ReinfarmourGroup)] call aw_setGroupSkill;
 						
 						ReinforcedTank = true;
@@ -231,7 +231,7 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 						_armour = [_randomPos,0,"O_APC_Tracked_02_cannon_F",_ReinfarmourGroup] call BIS_fnc_spawnVehicle;
 						HeavyReVehicles set [count HeavyReVehicles, _armour select 0];
 						sleep 1;
-						[_ReinfarmourGroup, getMarkerPos currentAO,250] call aw_fnc_spawn2_perimeterPatrolBL1P;
+						[_ReinfarmourGroup, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 						[(units _ReinfarmourGroup)] call aw_setGroupSkill;
 						
 						ReinforcedTank = true;

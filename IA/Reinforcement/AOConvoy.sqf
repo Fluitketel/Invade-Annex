@@ -110,7 +110,7 @@ while {!_giveup} do
 										diag_log format ["_ConRandAmount = %1",_ConRandAmount];
 										};
 							// create lead vehicle
-							_ConvoySafePos = [_ConvoyCreatePos, 30,5] call aw_fnc_randomPosbl1p;
+							_ConvoySafePos = [_ConvoyCreatePos, 30,5] call dR_fnc_randomPosbl1p;
 							_Convoy_Vehicle = [_ConvoySafePos,0,["O_MBT_02_cannon_F"] call BIS_fnc_selectRandom,_ConvoyGroup] call BIS_fnc_spawnVehicle;
 							
 							ConvoyVehicles set [count ConvoyVehicles, _Convoy_Vehicle select 0];
@@ -121,7 +121,7 @@ while {!_giveup} do
 							//create random amount and type vehs		
 							for "_x" from 1 to _ConRandAmount do 
 								{
-									_ConvoySafePos = [_ConvoyCreatePos, 30,5] call aw_fnc_randomPosbl1p;
+									_ConvoySafePos = [_ConvoyCreatePos, 30,5] call dR_fnc_randomPosbl1p;
 									_Convoy_Vehicle = [_ConvoySafePos,0,["O_APC_Wheeled_02_rcws_F","O_APC_Tracked_02_cannon_F","O_APC_Tracked_02_AA_F","O_Truck_03_repair_F"] call BIS_fnc_selectRandom,_ConvoyGroup] call BIS_fnc_spawnVehicle;
 									ConvoyVehicles set [count ConvoyVehicles, _Convoy_Vehicle select 0];
 									(vehicle (leader _ConvoyGroup)) spawn aw_fnc_fuelMonitor;
@@ -135,7 +135,7 @@ while {!_giveup} do
 							_randomChopper = random 10;
 							if (_randomChopper > 10) then 
 								{
-									_ConvoySafePos = [_ConvoyCreatePos, 30,5] call aw_fnc_randomPosbl1p;
+									_ConvoySafePos = [_ConvoyCreatePos, 30,5] call dR_fnc_randomPosbl1p;
 									_Convoy_Vehicle = [_ConvoySafePos,0,["O_Heli_Light_02_F"] call BIS_fnc_selectRandom,_ConvoyGroup] call BIS_fnc_spawnVehicle;
 									ConvoyVehicles set [count ConvoyVehicles, _Convoy_Vehicle select 0];
 									(vehicle (leader _ConvoyGroup)) spawn aw_fnc_fuelMonitor;
@@ -162,7 +162,7 @@ while {!_giveup} do
 											diag_log format ["_ConvoyGroup = %1",_ConvoyGroup];
 											};
 						
-							[_ConvoyGroup, getMarkerPos currentAO,250] call aw_fnc_spawn2_perimeterPatrolBL1P;
+							[_ConvoyGroup, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 						
 									
 		   //Set fuzzy marker

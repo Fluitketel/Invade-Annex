@@ -10,6 +10,7 @@ if (!isDedicated) then
 
 [] execVM "core\sC\sC.sqf";
 
+
 //--- set object , view , terrain
 setViewDistance 1000;
 setObjectViewDistance 1500;

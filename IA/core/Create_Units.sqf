@@ -320,7 +320,7 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 				
 				if (DEBUG) then {diag_log format ["=====Creating %1 MIDPAT=====",PARAMS_MidPatrol];};
 			for "_x" from 1 to _amountHotel do {
-				_randomPos = [getMarkerPos currentAO, 450,2] call aw_fnc_randomPosbl1p;
+				_randomPos = [getMarkerPos currentAO, 450,2] call dR_fnc_randomPosbl1p;
 				if ((count _randomPos) == 3) then 
 				{
 					_spawnGroup = createGroup EAST;
@@ -474,7 +474,7 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 						if (DEBUG) then {diag_log format ["=====Creating %1 EXTSQ UPS=====",_randamountSquad];};
 					for "_x" from 1 to _randamountSquad do 
 					{
-						_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+500,2] call aw_fnc_randomPosbl1p;
+						_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+500,2] call dR_fnc_randomPosbl1p;
 						if ((count _randomPos) == 3) then 
 						{
 							_randSquadMort = random 10;
@@ -892,7 +892,7 @@ BL_fnc_towerDefence =
 	_x = 0;
 	for "_x" from 1 to PARAMS_TowerDefenders do 
 	{
-		_randomPos = [getMarkerPos "radioMarker", 10] call aw_fnc_randomPosbl1p;
+		_randomPos = [getMarkerPos "radioMarker", 10] call dR_fnc_randomPosbl1p;
 		if ((count _randomPos) == 3) then 
 		{
 			_spawnGroup = createGroup EAST;
@@ -973,7 +973,7 @@ BL_fnc_towerDefence =
 			
 					[(leader _spawnGroupSN), _upsZone3, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
 				
-			[(units _spawnGroupSN)] call aw_setGroupSkillElite;
+			[(units _spawnGroupSN)] call dR_fnc_Snipers;
 			sleep 1;
 			
 			if(DEBUG) then

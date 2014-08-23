@@ -14,8 +14,18 @@
 	player removeItem "NVGoggles";
 	
 //--- BL1P check for acre mod on Client
-	//acre_enabled	= isClass(configFile/"CfgPatches"/"acre_main");
-	taskForce_enabled = isClass(configFile/"CfgPatches"/"task_force_radio");
+	acre_enabled = isClass(configFile/"CfgPatches"/"acre_main");
+	//taskForce_enabled = isClass(configFile/"CfgPatches"/"task_force_radio");
+	
+//--- BL1P Black listed mods
+	STGI = isClass(configFile/"CfgPatches"/"STGI");
+	st_interact = isClass(configFile/"CfgPatches"/"st_interact");
+	STNametags = isClass(configFile/"CfgPatches"/"STNametags");
+	
+	if (STGI) then {failMission "END9";};
+	if (st_interact) then {failMission "END9";};
+	if (STNametags) then {failMission "END9";};
+	
 	
 	player setcaptive false;                                                           
 	player enableSimulation true; 
@@ -32,5 +42,13 @@
 	call compileFinal preprocessFileLineNumbers "core\FAR_revive\FAR_revive_init.sqf"; 		//--- revive
     
 // Initialize Client DEP functions
-_handle = execVM "scripts\DEP\client_init.sqf";
-waitUntil{scriptDone _handle};	
+	_handle = execVM "scripts\DEP\client_init.sqf";
+	waitUntil{scriptDone _handle};	
+	
+//--- Remove players voice
+	player setspeaker "NoVoice";
+	
+//--- Remove radio subtitles by Larrow
+	waitUntil {! (isNull player) && time > 1}; 
+	oldSubs = showSubtitles false;  
+	diag_log "showSubtitles is false";

@@ -81,7 +81,7 @@ while {true} do
 					
 					if (_subType == "G1") then 
 					{
-						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call aw_fnc_randomPosbl1p; //--- primary position
+						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call dR_fnc_randomPosbl1p; //--- primary position
 						//--- place on road if road near
 						_roadpos = _randomPosInf;
 						_list = _randomPosInf nearRoads 400;
@@ -118,7 +118,7 @@ while {true} do
 					
 					if (_subType == "G2") then 
 					{
-						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call aw_fnc_randomPosbl1p; //--- primary position
+						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call dR_fnc_randomPosbl1p; //--- primary position
 						//--- place on road if road near
 						_roadpos = _randomPosInf;
 						_list = _randomPosInf nearRoads 400;
@@ -155,7 +155,7 @@ while {true} do
 					
 					if (_subType == "G3") then 
 					{
-						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call aw_fnc_randomPosbl1p; //--- primary position
+						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call dR_fnc_randomPosbl1p; //--- primary position
 						//--- place on road if road near
 						_roadpos = _randomPosInf;
 						_list = _randomPosInf nearRoads 400;
@@ -536,7 +536,7 @@ while {true} do
 					
 					if (_subType == "A1") then 
 					{
-						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call aw_fnc_randomPosbl1p;
+						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call dR_fnc_randomPosbl1p;
 						if ((count _randomPosInf) == 3) then 
 							{
 								_x = 0;
@@ -563,7 +563,7 @@ while {true} do
 					
 					if (_subType == "A2") then 
 					{
-						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call aw_fnc_randomPosbl1p;
+						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call dR_fnc_randomPosbl1p;
 						if ((count _randomPosInf) == 3) then 
 							{
 								_x = 0;
@@ -590,7 +590,7 @@ while {true} do
 					
 					if (_subType == "A3") then 
 					{
-						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call aw_fnc_randomPosbl1p;
+						_randomPosInf = [getMarkerPos currentAO, PARAMS_AOSize+750] call dR_fnc_randomPosbl1p;
 						if ((count _randomPosInf) == 3) then 
 							{
 								_x = 0;
@@ -621,7 +621,7 @@ while {true} do
 					
 					if (_subType == "M1") then 
 					{
-						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 						if ((count _randomPoscar) == 3) then 
 						{
 							//find a road if posible
@@ -662,7 +662,7 @@ while {true} do
 					
 					if (_subType == "M2") then 
 					{
-						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 						if ((count _randomPoscar) == 3) then 
 						{
 							//find a road if posible
@@ -703,7 +703,7 @@ while {true} do
 					
 					if (_subType == "M3") then 
 					{
-						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 						if ((count _randomPoscar) == 3) then 
 						{
 							//find a road if posible
@@ -748,7 +748,7 @@ while {true} do
 					
 					if (_subType == "V1") then 
 					{
-						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 						if ((count _randomPoscar) == 3) then 
 						{
 							//find a road if posible
@@ -789,7 +789,7 @@ while {true} do
 						
 					if (_subType == "V2") then 
 					{
-						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 						if ((count _randomPoscar) == 3) then 
 						{
 							//find a road if posible
@@ -830,7 +830,7 @@ while {true} do
 						
 					if (_subType == "V3") then 
 					{
-						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+						_randomPoscar = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 						if ((count _randomPoscar) == 3) then 
 						{
 							//find a road if posible

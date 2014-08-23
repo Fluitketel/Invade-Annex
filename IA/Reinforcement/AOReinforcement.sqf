@@ -66,12 +66,12 @@ while {true} do
 							diag_log format ["Reinforce = %1",Reinforced];
 							};
 							//random radius pos from ao center
-							_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+750] call aw_fnc_randomPosbl1p;
+							_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+750] call dR_fnc_randomPosbl1p;
 							if ((count _randomPos) == 3) then 
 							{
 								_inf_Patrol = [_randomPos, EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad")] call BIS_fnc_spawnGroup;
 							
-								[_inf_Patrol, getMarkerPos currentAO,250] call aw_fnc_spawn2_perimeterPatrolBL1P;
+								[_inf_Patrol, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 								
 								{
 								  ReinforcementUnits set [count ReinforcementUnits, _x];
@@ -105,7 +105,7 @@ while {true} do
 					};	
 						//random radius pos from ao center
 						_Arm_Patrol = createGroup east;
-						_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+						_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 						if ((count _randomPos) == 3) then 
 						{
 							//find a road if posible
@@ -126,7 +126,7 @@ while {true} do
 							_veh = [_roadPos,0,"O_MRAP_02_gmg_F",_Arm_Patrol] call BIS_fnc_spawnVehicle;
 							ReinforcementVehicles set [count ReinforcementVehicles, _veh select 0];
 							
-							[_Arm_Patrol, getMarkerPos currentAO,250] call aw_fnc_spawn2_perimeterPatrolBL1P;
+							[_Arm_Patrol, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 							
 							{
 							  ReinforcementUnits set [count ReinforcementUnits, _x];
@@ -158,7 +158,7 @@ while {true} do
 						diag_log format ["Reinforce = %1",Reinforced];
 						};
 						//random radius pos from ao center
-						_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+1000] call aw_fnc_randomPosbl1p;
+						_randomPos = [getMarkerPos currentAO, PARAMS_AOSize+1000] call dR_fnc_randomPosbl1p;
 						
 						if ((count _randomPos) == 3) then 
 						{
@@ -181,7 +181,7 @@ while {true} do
 							_veh = [_randomPos,0,"O_APC_Wheeled_02_rcws_F",_Arm_Patrol] call BIS_fnc_spawnVehicle;
 							ReinforcementVehicles set [count ReinforcementVehicles, _veh select 0];
 							
-							[_Arm_Patrol, getMarkerPos currentAO,250] call aw_fnc_spawn2_perimeterPatrolBL1P;
+							[_Arm_Patrol, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 							
 							{
 							  ReinforcementUnits set [count ReinforcementUnits, _x];

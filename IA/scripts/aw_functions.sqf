@@ -1,9 +1,9 @@
 
-AW_fnc_deleteOldAOUnits =
+dR_fnc_deleteOldAOUnits =
 {
 	private ["_unitsArray", "_obj", "_group"];
 	
-	if (DEBUG) then {diag_log "Running AW_fnc_deleteOldAOUnits";};
+	if (DEBUG) then {diag_log "Running dR_fnc_deleteOldAOUnits";};
 	_unitsArray = _this select 0;
 	for "_c" from 0 to (count _unitsArray) do
 	{
@@ -40,70 +40,7 @@ AW_fnc_deleteOldAOUnits =
 	sleep 1;
 };
 
-GC_fnc_deleteOldUnitsAndVehicles = {
-    {
-	sleep 2;
-	if (DEBUG) then {diag_log "Runing   GC_fnc_deleteOldUnitsAndVehicles";};
-        if (typeName _x == "GROUP") then {
-            {
-                if (vehicle _x != _x) then {
-                    deleteVehicle (vehicle _x);
-                };
-                deleteVehicle _x;
-            } forEach (units _x);
-        } else {
-            if (vehicle _x != _x) then {
-                deleteVehicle (vehicle _x);
-            };
-            if !(_x isKindOf "Man") then {
-                {
-                    deleteVehicle _x;
-                } forEach (crew _x)
-            };
-            deleteVehicle _x;
-        };
-    } forEach (_this select 0);
-};
-
-AW_fnc_deleteOldSMUnits =
-{
-	private ["_unitsArray", "_obj", "_isGroup"];
-	sleep 300;
-	if (DEBUG) then {diag_log "Running   AW_fnc_deleteOldSMUnits";};
-	_unitsArray = _this select 0;
-	for "_c" from 0 to (count _unitsArray) do
-	{
-		_obj = _unitsArray select _c;
-		_isGroup = false;
-		if (_obj in allGroups) then { _isGroup = true; };
-		if (_isGroup) then
-		{
-			{
-				if (!isNull _x) then { deleteVehicle _x; };
-			} forEach (units _obj);
-		} else {
-			if (!isNull _obj) then { deleteVehicle _obj; };
-		};
-	};
-};
-AW_fnc_deleteSingleUnit = {
-if (DEBUG) then {diag_log "Running   AW_fnc_deleteSingleUnit";};
-private ["_obj","_time"];
-_obj = _this select 0;
-	_time = _this select 1;
-	sleep _time;
-	deleteVehicle _obj;
-};
-
-aw_fnc_loiter =
-{
-	private["_group","_wp","_pos"];
-	_group = _this select 0;
-	_pos = _this select 1;
-	_wp = _group addWaypoint [_pos, 0];
-	_wp setWaypointType "LOITER";
-};
-
+//--- refil fuel on AI vehicles
 aw_fnc_fuelMonitor = 
 {
 	if(hasinterface OR (vehicle _this == _this)) exitWith {};
@@ -114,6 +51,7 @@ aw_fnc_fuelMonitor =
 	};
 };
 
+//--- create random pos
 aw_fnc_randomPos = 
 {
 	private["_center","_radius","_exit","_pos","_angle","_posX","_posY","_size","_flatPos","_debugCounter"];
@@ -160,7 +98,8 @@ aw_fnc_randomPos =
 	_pos;
 };
 
-aw_fnc_randomPosbl1p = 
+//--- edited random pos
+dR_fnc_randomPosbl1p = 
 {
 	private["_center","_radius","_exit","_pos","_angle","_posX","_posY","_size","_flatPos","_debugCounter"];
 	_center = _this select 0;
@@ -169,7 +108,7 @@ aw_fnc_randomPosbl1p =
 	_debugCounter = 0;
 	while{!_exit} do
 	{
-		//if (DEBUG) then { diag_log format["Finding flat position in aw_fnc_randomPosBL1P script.Attempt #%1",_debugCounter]; };
+		//if (DEBUG) then { diag_log format["Finding flat position in dR_fnc_randomPosbl1p script.Attempt #%1",_debugCounter]; };
 		_debugCounter = _debugCounter + 1;
 		
 		_radius = _this select 1;
@@ -200,6 +139,7 @@ aw_fnc_randomPosbl1p =
 	_pos;
 };
 
+//---- give ai waypoint behaviours
 aw_fnc_spawn2_waypointBehaviour = 
 {
 	if(hasinterface) exitWith{};
@@ -227,7 +167,8 @@ aw_fnc_spawn2_waypointBehaviour =
 	};
 };
 
-aw_fnc_spawn2_waypointBehaviourBL1P = 
+//---- Edited give ai waypoint behaviours
+dR_fnc_spawn2_waypointBehaviourBL1P = 
 {
 	if(hasinterface) exitWith{};
 	while{({alive _x} count (units _this) > 0)} do
@@ -257,6 +198,7 @@ aw_fnc_spawn2_waypointBehaviourBL1P =
 	};
 };
 
+//---- radial pos
 aw_fnc_radPos = 
 {
 	if(hasinterface) exitWith{};
@@ -277,19 +219,8 @@ aw_fnc_radPos =
 	_pos;
 };
 
-aw_fnc_spawn2_hold = 
-{
-	if(hasinterface) exitWith{};
-	private["_group","_wp","_pos"];
-	_group = _this select 0;
-	_pos = _this select 1;
-	
-	_wp = _group addWaypoint [_pos, 0];
-	_wp setWaypointType "HOLD";
-	_wp setWaypointBehaviour "SAFE";
-	_wp setWaypointSpeed "LIMITED";
-};
-aw_fnc_spawn2_randomPatrolBL1P = 
+//--- edited random patrol
+dR_fnc_spawn2_randomPatrolBL1P = 
 {
 	if(hasinterface) exitWith{};
 	private["_group","_center","_radius","_wp","_checkDist","_angle","_currentAngle","_pos","_wp1","_x"];
@@ -333,11 +264,10 @@ aw_fnc_spawn2_randomPatrolBL1P =
 		_name setMarkerText "Cycle";
 	};
 	
-	_group spawn aw_fnc_spawn2_waypointBehaviourBL1P;
+	_group spawn dR_fnc_spawn2_waypointBehaviourBL1P;
 };
 
-
-
+//--- random patrol
 aw_fnc_spawn2_randomPatrol = 
 {
 	if(hasinterface) exitWith{};
@@ -384,8 +314,9 @@ aw_fnc_spawn2_randomPatrol =
 	
 	_group spawn aw_fnc_spawn2_waypointBehaviour;
 };
-//--- BL1P was ere
-aw_fnc_spawn2_perimeterPatrolBL1P = 
+
+//--- Edited perim partol
+dR_fnc_spawn2_perimeterPatrolBL1P = 
 {
 	if(hasinterface) exitWith{};
 	private["_group","_center","_radius","_wp","_angle","_currentAngle","_wp1","_pos","_x","_toCenter"];
@@ -441,9 +372,10 @@ aw_fnc_spawn2_perimeterPatrolBL1P =
 		_name setMarkerText "Cycle";
 	};
 	
-	_group spawn aw_fnc_spawn2_waypointBehaviourBL1P;
+	_group spawn dR_fnc_spawn2_waypointBehaviourBL1P;
 };
 
+//--- perim patrol
 aw_fnc_spawn2_perimeterPatrol = 
 {
 	if(hasinterface) exitWith{};
@@ -503,6 +435,7 @@ aw_fnc_spawn2_perimeterPatrol =
 	_group spawn aw_fnc_spawn2_waypointBehaviour;
 };
 
+//--- set AI skills on some groups
 aw_setGroupSkill = 
 {
 	if(hasinterface) exitWith{};
@@ -516,7 +449,8 @@ aw_setGroupSkill =
 	} forEach (_this select 0);
 };
 
-aw_setGroupSkillElite = 
+//--- set skill for snipers
+dR_fnc_Snipers = 
 {
 	if(hasinterface) exitWith{};
 	{
@@ -529,6 +463,7 @@ aw_setGroupSkillElite =
 	} forEach (_this select 0);
 };
 
+//--- cleanup
 aw_cleanGroups =
 {
 if (DEBUG) then {diag_log "Running   aw_cleangroups";};
@@ -536,86 +471,16 @@ if (DEBUG) then {diag_log "Running   aw_cleangroups";};
 	{
 		if(count (units _x) == 0) then {deleteGroup _x};
 	}forEach allGroups;
-	
 };
 
-aw_deleteUnits = 
-{
-if (DEBUG) then {diag_log "Running   aw_deleteunits";};
-	private["_deleteVehicles"];
-	if(hasinterface) exitWith{};
-
-	_deleteVehicles = if(count _this > 1) then {_this select 1} else {true};
-
-	{
-		if(_deleteVehicles) then {deleteVehicle (vehicle _x)} else{moveOut _x};
-		deleteVehicle _x;
-	}forEach (_this select 0);
-	
-	[] spawn aw_cleanGroups;
-};
-
-aw_serverRespawn = 
-{
-	if(!serverCommandAvailable "#kick") exitWith{};
-	private ["_x","_y"];
-	{
-		_x setVelocity [0,0,0];
-		_x setPos [getPos _x select 0,getPos _x select 1,0];
-		
-		hint format["Deleting %1",typeOf _x];
-		
-		for[{_y=0},{_y<(count (crew _x))},{_y=_y+1}] do
-		{
-			moveOut ((crew _x) select _y);
-			((crew _x) select _y) setPos [getPos ((crew _x) select _y) select 0,(getPos ((crew _x) select _y) select 1) + 5,0];
-		};
-		_x setPos [0,0,0];
-		_x setDamage 1;
-	}forEach ((getPos trg_aw_admin) nearEntities [["Air","Car","Motorcycle","Tank"],5000]);
-};
-
-aw_serverSingleRespawn = 
-{
-	private ["_x","_y","_pos","_units"];
-	
-	if(!serverCommandAvailable "#kick") exitWith{};
-	
-	_pos = screenToWorld [0.5,0.5];
-	
-	_units = _pos nearEntities [["Car","Air","Tank","Ship","Motorcycle"],5];
-	
-	if(count _units > 0) then 
-	{
-		_x =_units select 0;
-		_x setVelocity [0,0,0];
-		_x setPos [getPos _x select 0,getPos _x select 1,0];
-			
-		hint format["Deleting %1",typeOf _x];
-			
-		for[{_y=0},{_y<(count (crew _x))},{_y=_y+1}] do
-		{
-			moveOut ((crew _x) select _y);
-			((crew _x) select _y) setPos [getPos ((crew _x) select _y) select 0,(getPos ((crew _x) select _y) select 1) + 5,0];
-		};
-		_x setPos [0,0,0];
-		_x setDamage 1;
-	};
-};
-
-aw_serverCursorTP =
-{
-	if(!serverCommandAvailable "#kick") exitWith{};
-	player setPos (screenToWorld [0.5,0.5]);
-};
-
-aw_serverMapTP =
+//--- teleport to pos if in debug mode
+dR_serverMapTP =
 {
 	if(!DEBUG) exitWith{};
 	onMapSingleClick "player setPos _pos;onMapSingleClick '';true";
 };
-
-AOAdvance =
+//--- bl1p destroy east units and destroy radio tower 
+dR_fnc_AOAdvance =
 {
 	if(!DEBUG) exitWith{};
 	

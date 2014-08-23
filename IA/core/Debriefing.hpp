@@ -18,4 +18,11 @@ class CfgDebriefing {
 		description = "Mission designed to be played on Elite with all options off except camera shake";
 		pictureBackground = "core\signs\Warning3.jpg";
 	};
+		class End9
+	{
+		title = "WARNING";
+		subtitle = "";
+		description = "The following MODs are not compatable with this mission :- @st_gi : @st_interact : @st_nametags";
+		pictureBackground = "core\signs\NoEntry.jpg";
+	};
 };

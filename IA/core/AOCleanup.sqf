@@ -3,7 +3,7 @@ _arraystocleanup = _this select 0;
 {
 	if (!isNil ("_x")) then 
     {
-        [_x] spawn AW_fnc_deleteOldAOUnits;
+        [_x] spawn dR_fnc_deleteOldAOUnits;
     };
 	
 } forEach _arraystocleanup;
