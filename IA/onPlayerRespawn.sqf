@@ -26,17 +26,17 @@
 	_unit setVariable ["revives", 0, true];
 
 //--- BL1P restart acre when alive
-	if (acre_enabled) then 
-	{
-		_ret = [false] call acre_api_fnc_setSpectator;
-	};
+//	if (acre_enabled) then 
+//	{
+//		_ret = [false] call acre_api_fnc_setSpectator;
+//	};
 
 
 //--- BL1P restart taskforce when alive
-//	if (taskForce_enabled) then 
-//	{
-//	[player, false] call TFAR_fnc_forceSpectator;
-//	};
+	if (taskForce_enabled) then 
+	{
+	[player, false] call TFAR_fnc_forceSpectator;
+	};
 	
 //--- BL1P remove corpses of players
 	sleep 20;

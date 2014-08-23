@@ -167,12 +167,11 @@ vas_items = [
 "ItemGPS",
 "ItemMap",
 //"ItemRadio",
-"ACRE_PRC148",
-"ACRE_PRC343",
+//"ACRE_PRC119",
 
 //tfa radios
-//"tf_rf7800str",
-//"tf_anprc152",
+"tf_rf7800str",
+"tf_anprc152",
 
 "ItemWatch",
 "NVGoggles",

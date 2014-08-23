@@ -14,8 +14,8 @@
 	player removeItem "NVGoggles";
 	
 //--- BL1P check for acre mod on Client
-	acre_enabled = isClass(configFile/"CfgPatches"/"acre_main");
-	//taskForce_enabled = isClass(configFile/"CfgPatches"/"task_force_radio");
+	//acre_enabled	= isClass(configFile/"CfgPatches"/"acre_main");
+	taskForce_enabled = isClass(configFile/"CfgPatches"/"task_force_radio");
 	
 //--- BL1P Black listed mods
 	STGI = isClass(configFile/"CfgPatches"/"STGI");
