@@ -61,6 +61,10 @@ _totalobjects = [];
                         _unit assignAsGunner _obj;
                         _unit moveInGunner _obj;
                     };
+                    case "Cargo": {
+                        _unit assignAsCargo _obj;
+                        _unit moveInCargo _obj;
+                    };
                     default {
                         _unit assignAsCommander _obj;
                         _unit moveInCommander _obj;

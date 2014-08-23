@@ -16,5 +16,5 @@ dep_aa_camps    = PARAMS_DEP_AA;        // Number of AA camps
 dep_roadpop     = PARAMS_DEP_ROADPOP;   // Number of road population
 dep_safezone    = 1500;                 // Respawn safe zone radius
 dep_max_veh     = PARAMS_DEP_MAX_VEH;   // Max number of vehicles
-dep_ied_chance  = 0.4;                  // Chance of IEDs
-dep_veh_chance  = 0.3;                  // Chance of vehicles
+dep_ied_chance  = 0.5;                  // Chance of IEDs
+dep_veh_chance  = 0.4;                  // Chance of vehicles
