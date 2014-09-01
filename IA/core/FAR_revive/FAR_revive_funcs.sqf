@@ -162,7 +162,7 @@ FAR_Player_Unconscious =
 	_unit setVariable ["FAR_isUnconscious", 1, true];
 	
 	// place marker on unconsious player
-	if (FAR_EnableDeathMessages) then //--- param in the revive init
+	if (FAR_EnableDeathMessagesMarker) then //--- param in the revive init
 	{
 		FAR_Marker_bl1p = [_unit, _killer];
 		publicVariable "FAR_Marker_bl1p";

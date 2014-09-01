@@ -98,7 +98,7 @@ class Mission
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co31 [dR] I&A SDO ACRE2 MODS V69.1 Altis";
+		briefingName="co31 [dR] I&A SDO ACRE2 MODS V69.3 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;

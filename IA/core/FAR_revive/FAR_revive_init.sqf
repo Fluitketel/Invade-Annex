@@ -15,6 +15,7 @@ FAR_BleedOut = 480; // 8 min
 
 // Enable teamkill notifications
 FAR_EnableDeathMessages = true;
+FAR_EnableDeathMessagesMarker = false;
 
 /*
 	0 = Only medics can revive
