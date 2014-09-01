@@ -22,7 +22,8 @@ _objects    = _location select 8;
 _groups = [];
 _totalenemies = 0;
 _NME_pool = ["I_G_Soldier_F","I_G_Soldier_GL_F","I_G_Soldier_AR_F","I_G_Soldier_LAT_F","I_G_medic_F","I_Soldier_AA_F","I_G_Soldier_SL_F","I_G_Soldier_M_F"];
-_OPFOR_pool = ["O_Soldier_F","O_Soldier_GL_F","O_Soldier_AR_F","O_Soldier_LAT_F","O_medic_F","O_Soldier_AA_F","O_Soldier_SL_F","O_soldier_M_F","O_sniper_F"];
+//_OPFOR_pool = ["O_Soldier_F","O_Soldier_GL_F","O_Soldier_AR_F","O_Soldier_LAT_F","O_medic_F","O_Soldier_AA_F","O_Soldier_SL_F","O_soldier_M_F","O_sniper_F"];
+_OPFOR_pool = ["I_soldier_F","I_Soldier_GL_F","I_Soldier_AR_F","I_Soldier_LAT_F","I_medic_F","I_Soldier_AA_F","I_Soldier_SL_F","I_soldier_M_F","I_Sniper_F"];
 _VEH_pool = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_APC_tracked_03_cannon_F","I_APC_Wheeled_03_cannon_F","I_G_offroad_01_armed_F"];
 _rubble_pool = ["Land_Tyres_F","Land_GarbageBags_F","Land_JunkPile_F","Land_GarbageContainer_closed_F","Land_GarbageContainer_open_F","Land_WoodenBox_F"];
 _ied_pool = ["IEDLandBig_Remote_Ammo","IEDLandSmall_Remote_Ammo","IEDUrbanBig_Remote_Ammo","IEDUrbanSmall_Remote_Ammo"];
@@ -147,7 +148,8 @@ if ((_location select 1) in ["roadpop"]) then {
             _mine = createMine [["APERSMine","APERSBoundingMine","APERSTripMine"] call BIS_fnc_selectRandom, _minepos, [], 0];
             _mine setDir (getDir _house);
             //_objects = _objects + [_mine];
-            dep_side revealMine _mine;
+            east revealMine _mine;
+            independent revealMine _mine;
         };
     };
 };
@@ -285,7 +287,8 @@ if ((_location select 1) in ["roadpop"]) then {
             _dir = [_road] call dep_fnc_roaddir;
             _minepos = [_road, 1, _dir + 270] call BIS_fnc_relPos;
             _mine = createMine ["ATMine", _minepos, [], 0];
-            dep_side revealMine _mine;
+            east revealMine _mine;
+            independent revealMine _mine;
             if (dep_debug) then {
                 _m = createMarker[format["ATmine%1", _this], _minepos];
                 _m setMarkerType "Minefield";

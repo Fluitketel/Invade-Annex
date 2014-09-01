@@ -26,10 +26,12 @@
 	_unit setVariable ["revives", 0, true];
 
 //--- BL1P restart acre when alive
+if !(isNil "acre_enabled") then {
 	if (acre_enabled) then 
 	{
 		_ret = [false] call acre_api_fnc_setSpectator;
 	};
+};
 
 
 //--- BL1P restart taskforce when alive
