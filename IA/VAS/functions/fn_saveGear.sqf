@@ -65,11 +65,11 @@ player selectWeapon _curWep;
 
 if(vas_disableLoadSave) then
 {
-	missionNamespace setVariable[format["BL_vas_gear_new_%1",_slot],[_title,_primary,_launcher,_handgun,_magazines,_uniform,_vest,_backpack,_items,_primitems,_secitems,_handgunitems,_uitems,_vitems,_bitems]];
+	missionNamespace setVariable[format["BL1_vas_gear_new_%1",_slot],[_title,_primary,_launcher,_handgun,_magazines,_uniform,_vest,_backpack,_items,_primitems,_secitems,_handgunitems,_uitems,_vitems,_bitems]];
 }
 	else
 {
-	profileNameSpace setVariable[format["BL_vas_gear_new_%1",_slot],[_title,_primary,_launcher,_handgun,_magazines,_uniform,_vest,_backpack,_items,_primitems,_secitems,_handgunitems,_uitems,_vitems,_bitems]];
+	profileNameSpace setVariable[format["BL1_vas_gear_new_%1",_slot],[_title,_primary,_launcher,_handgun,_magazines,_uniform,_vest,_backpack,_items,_primitems,_secitems,_handgunitems,_uitems,_vitems,_bitems]];
 	saveProfileNamespace;
 };
 

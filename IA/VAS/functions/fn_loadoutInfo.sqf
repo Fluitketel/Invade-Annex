@@ -21,11 +21,11 @@ lbClear _control;
 if(_slot == -1) exitWith {hint localize "STR_VAS_Prompt_slotNoInfo";}; //No slot selected
 if(vas_disableLoadSave) then
 {
-    _loadout = missionNamespace getVariable format["BL_vas_gear_new_%1",_slot];
+    _loadout = missionNamespace getVariable format["BL1_vas_gear_new_%1",_slot];
 }
     else
 {
-    _loadout = profileNamespace getVariable format["BL_vas_gear_new_%1",_slot];
+    _loadout = profileNamespace getVariable format["BL1_vas_gear_new_%1",_slot];
 };
 
 if(isNil {_loadout}) exitWith {(VAS_getControl(VAS_save_Display,VAS_save_text)) ctrlSetText localize "STR_VAS_Save_CLN";}; //No information in this slot.

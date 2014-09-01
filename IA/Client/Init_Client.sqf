@@ -141,7 +141,4 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 
 ////////////////////////////// AO jip stuff ///////////////////////	
 	
-
-	
-
 CTI_Init_Client = true;

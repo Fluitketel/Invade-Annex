@@ -164,37 +164,31 @@ _layer = 85125;
             };
 			
 			///tick tock for enemy vehicle
-			if (typeOf _veh == "O_APC_Tracked_02_cannon_F" || typeOf _veh == "O_APC_Tracked_02_AA_F" || typeOf _veh == "O_MBT_02_cannon_F" || typeOf _veh == "O_APC_Wheeled_02_rcws_F") then 
+			if (typeOf _veh == "O_APC_Tracked_02_cannon_F" || typeOf _veh == "O_APC_Tracked_02_AA_F" || typeOf _veh == "O_MBT_02_cannon_F" || typeOf _veh == "O_APC_Wheeled_02_rcws_F" || typeOf _veh == "I_APC_Wheeled_03_cannon_F" || typeOf _veh == "I_APC_tracked_03_cannon_F" || typeOf _veh == "I_MBT_03_cannon_F") then 
 			{
                 // _friend = player getVariable "friend";
                 _forbidden = [commander _veh] + [gunner _veh] + [driver _veh] + [crew _veh];
                 if (player in _forbidden) then  
 				{
-					_randChanceBoom = random 10;
-					if (_randChanceBoom <= 5) then 
+					
+					_ticktock = 10;
+					while {_ticktock > 0} do
 					{
-						systemchat "Seems ok...";
-					}
-					else
-					{
-						_ticktock = 10;
-						while {_ticktock > 0} do
-						{
-							_veh lock true;
-							_veh setFuel 0;
-							_layer cuttext [format ["TICK... %1",_ticktock],"PLAIN"];
-							playsound3d ["A3\Sounds_f\sfx\Beep_Target.wss",_veh, true, getpos _veh, 1, 1, 0];
-							sleep 1;
-							_ticktock = _ticktock -1;
-							if (_ticktock < 3) then 
-							{
-								player action ["getOut", _veh];
-								//_veh engineon false;
-							};
-						};
+						_veh lock true;
+						_veh setFuel 0;
+						_layer cuttext [format ["TICK... %1",_ticktock],"PLAIN"];
+						playsound3d ["A3\Sounds_f\sfx\Beep_Target.wss",_veh, true, getpos _veh, 1, 1, 0];
 						sleep 1;
-						_veh setdamage 1;
+						_ticktock = _ticktock -1;
+						if (_ticktock < 3) then 
+						{
+							player action ["getOut", _veh];
+							//_veh engineon false;
+						};
 					};
+					sleep 1;
+					_veh setdamage 1;
+					
 					
 			    };
             };

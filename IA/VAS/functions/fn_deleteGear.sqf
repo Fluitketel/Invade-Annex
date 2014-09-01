@@ -11,11 +11,11 @@ _slot = lbCurSel VAS_load_list;
 if(_slot == -1) exitWith {hint localize "STR_VAS_Prompt_selectSlotFail";};
 if(vas_disableLoadSave) then
 {
-	_data = missionNamespace getVariable format["BL_vas_gear_new_%1",_slot];
+	_data = missionNamespace getVariable format["BL1_vas_gear_new_%1",_slot];
 }
 	else
 {
-	_data = profileNameSpace getVariable format["BL_vas_gear_new_%1",_slot];
+	_data = profileNameSpace getVariable format["BL1_vas_gear_new_%1",_slot];
 };
 
 if(isNil {_data}) exitWith {hint localize "STR_VAS_Prompt_deleteSlotNoInfo";};
@@ -33,15 +33,15 @@ if(vas_prompt_choice) then
 {
 	if(vas_disableLoadSave) then
 	{
-		hint format["%2:\n%1",(missionNamespace getVariable format["BL_vas_gear_new_%1",_slot]) select 0,localize "STR_VAS_Prompt_deleteSuccess"];
-		missionNamespace setVariable[format["BL_vas_gear_new_%1",_slot],nil];
+		hint format["%2:\n%1",(missionNamespace getVariable format["BL1_vas_gear_new_%1",_slot]) select 0,localize "STR_VAS_Prompt_deleteSuccess"];
+		missionNamespace setVariable[format["BL1_vas_gear_new_%1",_slot],nil];
 		[1,true] spawn VAS_fnc_SaveLoad;
 		vas_prompt_choice = nil;
 	}
 		else
 	{
-		hint format["You deleted slot:\n%1",(profileNameSpace getVariable format["BL_vas_gear_new_%1",_slot]) select 0];
-		profileNameSpace setVariable[format["BL_vas_gear_new_%1",_slot],nil];
+		hint format["You deleted slot:\n%1",(profileNameSpace getVariable format["BL1_vas_gear_new_%1",_slot]) select 0];
+		profileNameSpace setVariable[format["BL1_vas_gear_new_%1",_slot],nil];
 		saveProfileNamespace;
 		[1,true] spawn VAS_fnc_SaveLoad;
 		vas_prompt_choice = nil;

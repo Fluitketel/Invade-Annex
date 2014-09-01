@@ -23,9 +23,9 @@ if(vas_disableLoadSave) then
 {
 	for "_i" from 0 to vas_customslots do
 	{
-		if(!isNil {missionNamespace getVariable format["BL_vas_gear_new_%1",_i]}) then
+		if(!isNil {missionNamespace getVariable format["BL1_vas_gear_new_%1",_i]}) then
 		{
-			_control lbAdd format["%1",(missionNamespace getVariable format["BL_vas_gear_new_%1",_i]) select 0];
+			_control lbAdd format["%1",(missionNamespace getVariable format["BL1_vas_gear_new_%1",_i]) select 0];
 		}
 			else
 		{
@@ -37,9 +37,9 @@ if(vas_disableLoadSave) then
 {
 	for "_i" from 0 to vas_customslots do
 	{
-		if(!isNil {profileNamespace getVariable format["BL_vas_gear_new_%1",_i]}) then
+		if(!isNil {profileNamespace getVariable format["BL1_vas_gear_new_%1",_i]}) then
 		{
-			_control lbAdd format["%1",(profileNamespace getVariable format["BL_vas_gear_new_%1",_i]) select 0];
+			_control lbAdd format["%1",(profileNamespace getVariable format["BL1_vas_gear_new_%1",_i]) select 0];
 		}
 			else
 		{

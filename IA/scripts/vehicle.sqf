@@ -86,6 +86,9 @@ if (DEBUG) then {
 };
 
 
+//--- clear all cargo all vehicles
+_unit execVM "scripts\ClearCargo.sqf";
+
 // Start monitoring the vehicle
 while {_run} do
 {
@@ -133,8 +136,10 @@ while {_run} do
 			_unit  setVehicleVarName (format ["%1",_unitname]);
 			PublicVariable (format ["%1",_unitname]);
 		};
+
 		//processInitCommands;
-		
+		//--- clear all cargo all vehicles
+		_unit execVM "scripts\ClearCargo.sqf";
 		[[[_unit],"scripts\aw_unitSetup.sqf"],"BIS_fnc_execVM",nil,true] spawn BIS_fnc_MP;
 		
 

@@ -147,15 +147,15 @@ FAR_Player_Unconscious =
 		noesckey = (findDisplay 2000) displayAddEventHandler ["KeyDown", "true"]; 
 	};
 	//--- bl1p stop acre when uncon
-	//	if (acre_enabled) then 
-	//	{
-	//		_ret = [true] call acre_api_fnc_setSpectator;
-	//	};
-	
-		if (taskForce_enabled) then 
+		if (acre_enabled) then 
 		{
-		[player, true] call TFAR_fnc_forceSpectator;
+			_ret = [true] call acre_api_fnc_setSpectator;
 		};
+	
+	//	if (taskForce_enabled) then 
+	//	{
+	//	[player, true] call TFAR_fnc_forceSpectator;
+	//	};
 		
 	_unit switchMove "AinjPpneMstpSnonWrflDnon";
 	_unit enableSimulation false;
@@ -224,16 +224,16 @@ FAR_Player_Unconscious =
 				(findDisplay 2000) displayRemoveEventHandler ["KeyDown", noesckey]; //--- bl1p remove button and enable keypresses
 					};
 				//--- bl1p stop acre when uncon
-					//if (acre_enabled) then 
-					//{
-					//	_ret = [false] call acre_api_fnc_setSpectator;
-					//};
+					if (acre_enabled) then 
+					{
+						_ret = [false] call acre_api_fnc_setSpectator;
+					};
 					
 				//--- bl1p stop taskforce when uncon
-					if (taskForce_enabled) then 
-					{
-					[player, false] call TFAR_fnc_forceSpectator;
-					};
+				//	if (taskForce_enabled) then 
+				//	{
+				//	[player, false] call TFAR_fnc_forceSpectator;
+				//	};
 					
 				disableUserInput false;
 				_unit enableSimulation true;

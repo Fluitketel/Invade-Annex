@@ -526,9 +526,9 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		{_x setMarkerPos (getMarkerPos currentAO);} forEach ["aoCircle","aoMarker"];
 		"aoMarker" setMarkerText format["Take %1",currentAO];
 		"aoMarker" SetMarkerAlpha 0;
-        if (!isNil "dep_act_bl") then {
-            dep_act_bl = dep_act_bl + [(getMarkerPos currentAO)];
-        };
+//        if (!isNil "dep_act_bl") then {
+//            dep_act_bl = dep_act_bl + [(getMarkerPos currentAO)];
+//       };
 	
 		sleep 5;
 		publicVariable "refreshMarkers";
@@ -1018,9 +1018,9 @@ while {count _targets > PARAMS_AOENDCOUNT} do
 		[] spawn aw_cleanGroups;
 		sleep 5;
         
-        if (!isNil "dep_act_bl") then {
-            dep_act_bl = dep_act_bl - [(getMarkerPos currentAO)];
-        };
+//        if (!isNil "dep_act_bl") then {
+//            dep_act_bl = dep_act_bl - [(getMarkerPos currentAO)];
+//        };
 		
 		//--- bl1p stat collection report
 		diag_log "=====================STATS=====================";

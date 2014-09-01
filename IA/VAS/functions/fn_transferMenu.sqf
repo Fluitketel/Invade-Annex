@@ -14,11 +14,11 @@ _slot = lbCurSel VAS_load_list;
 if(_slot == -1) exitWith {hint localize "STR_VAS_Transfer_NoSlotSelection";};
 if(vas_disableLoadSave) then
 {
-    VAS_Transfer_Loadout = missionNamespace getVariable format["BL_vas_gear_new_%1",_slot];
+    VAS_Transfer_Loadout = missionNamespace getVariable format["BL1_vas_gear_new_%1",_slot];
 }
     else
 {
-    VAS_Transfer_Loadout = profileNamespace getVariable format["BL_vas_gear_new_%1",_slot];
+    VAS_Transfer_Loadout = profileNamespace getVariable format["BL1_vas_gear_new_%1",_slot];
 };
 
 if(isNil "VAS_Transfer_Loadout") exitWith {hint localize "STR_VAS_Transfer_NoSlotSelection";};

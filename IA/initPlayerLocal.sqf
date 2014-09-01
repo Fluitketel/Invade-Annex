@@ -14,8 +14,8 @@
 	player removeItem "NVGoggles";
 	
 //--- BL1P check for acre mod on Client
-	//acre_enabled	= isClass(configFile/"CfgPatches"/"acre_main");
-	taskForce_enabled = isClass(configFile/"CfgPatches"/"task_force_radio");
+	acre_enabled = isClass(configFile/"CfgPatches"/"acre_main");
+	//taskForce_enabled = isClass(configFile/"CfgPatches"/"task_force_radio");
 	
 //--- BL1P Black listed mods
 	STGI = isClass(configFile/"CfgPatches"/"STGI");
@@ -46,9 +46,9 @@
 	waitUntil{scriptDone _handle};	
 	
 //--- Remove players voice
-	player setspeaker "NoVoice";
+//	player setspeaker "NoVoice";
 	
 //--- Remove radio subtitles by Larrow
-	waitUntil {! (isNull player) && time > 1}; 
-	oldSubs = showSubtitles false;  
-	diag_log "showSubtitles is false";
+//	waitUntil {! (isNull player) && time > 1}; 
+//	oldSubs = showSubtitles false;  
+//	diag_log "showSubtitles is false";

@@ -167,15 +167,16 @@ vas_items = [
 "ItemGPS",
 "ItemMap",
 //"ItemRadio",
-//"ACRE_PRC119",
+//"ACRE_PRC148",
+//"ACRE_PRC343",
 
 //tfa radios
-"tf_rf7800str",
-"tf_anprc152",
+//"tf_rf7800str",
+//"tf_anprc152",
 
 "ItemWatch",
 "NVGoggles",
-"NVGoggles_OPFOR",
+//"NVGoggles_OPFOR",
 "FirstAidKit",
 "Medikit",
 "ToolKit",
@@ -400,6 +401,6 @@ vas_r_backpacks =
 //Magazines to remove from VAS
 vas_r_magazines = ["Titan_AP","30Rnd_556x45_Stanag_Tracer_Yellow","30Rnd_556x45_Stanag_Tracer_Green"];
 //Items to remove from VAS
-vas_r_items = ["optic_tws_mg","optic_tws","optic_Nightstalker","optic_LRPS","optic_SOS","muzzle_snds_H_MG","muzzle_snds_B"];
+vas_r_items = ["optic_tws_mg","optic_tws","optic_Nightstalker","optic_LRPS","optic_SOS","muzzle_snds_H_MG","muzzle_snds_B","ACRE_PRC148","ACRE_PRC343"];
 //Goggles to remove from VAS
 vas_r_glasses = [];

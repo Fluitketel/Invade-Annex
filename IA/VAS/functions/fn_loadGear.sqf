@@ -12,11 +12,11 @@ _slot = if(isNil {_this select 0}) then {lbCurSel VAS_load_list} else {_this sel
 if(_slot == -1) exitWith {hint localize "STR_VAS_Prompt_slotSelFail";};
 if(vas_disableLoadSave) then
 {
-	_loadout = missionNamespace getVariable format["BL_vas_gear_new_%1",_slot];
+	_loadout = missionNamespace getVariable format["BL1_vas_gear_new_%1",_slot];
 }
 	else
 {
-	_loadout = profileNamespace getVariable format["BL_vas_gear_new_%1",_slot];
+	_loadout = profileNamespace getVariable format["BL1_vas_gear_new_%1",_slot];
 };
 
 if(isNil {_loadout}) exitWith {}; //Slot data doesn't exist
