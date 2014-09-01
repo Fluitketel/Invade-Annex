@@ -13,8 +13,10 @@ if ((count _validhouses) > 0) then {
     {
         if (alive _x) then {
             _newbuildpos = _buildpos call BIS_fnc_selectRandom;
-            _buildpos = _buildpos - [_newbuildpos];
-            _x setPos _newbuildpos;
+            if !(isNil "_newbuildpos") then {
+                _buildpos = _buildpos - [_newbuildpos];
+                _x setPos _newbuildpos;
+            };
         };
     } foreach (units _group);
 };

@@ -3,7 +3,7 @@
 // 
 // This file cleans up a location after it is deactivated.
 
-private ["_location"];
+private ["_location", "_waypoints"];
 diag_log format ["Despawning location %1", _this];
 _location = dep_locations select _this;
 
@@ -43,6 +43,7 @@ if (!(_location select 7)) then {
     {
         _loccachegrp = [];
         _group = _x;
+        _waypoints = [_group] call dep_fnc_getwaypoints;
         {
             if (alive _x && vehicle _x == _x) then {
                 _loccacheitem = [];
@@ -51,6 +52,7 @@ if (!(_location select 7)) then {
                 _loccacheitem set [2, typeOf _x];               // Kind
                 _loccacheitem set [3, damage _x];               // Health
                 _loccacheitem set [4, []];                      // Crew
+                _loccacheitem set [5, _waypoints];              // Waypoints
                 _loccachegrp = _loccachegrp + [_loccacheitem];
             };
         } foreach (units _group); // foreach unit in group

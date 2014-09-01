@@ -22,6 +22,7 @@ _objects    = _location select 8;
 _groups = [];
 _totalenemies = 0;
 _NME_pool = ["I_G_Soldier_F","I_G_Soldier_GL_F","I_G_Soldier_AR_F","I_G_Soldier_LAT_F","I_G_medic_F","I_Soldier_AA_F","I_G_Soldier_SL_F","I_G_Soldier_M_F"];
+_OPFOR_pool = ["O_Soldier_F","O_Soldier_GL_F","O_Soldier_AR_F","O_Soldier_LAT_F","O_medic_F","O_Soldier_AA_F","O_Soldier_SL_F","O_soldier_M_F","O_sniper_F"];
 _VEH_pool = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_APC_tracked_03_cannon_F","I_APC_Wheeled_03_cannon_F","I_G_offroad_01_armed_F"];
 _rubble_pool = ["Land_Tyres_F","Land_GarbageBags_F","Land_JunkPile_F","Land_GarbageContainer_closed_F","Land_GarbageContainer_open_F","Land_WoodenBox_F"];
 _ied_pool = ["IEDLandBig_Remote_Ammo","IEDLandSmall_Remote_Ammo","IEDUrbanBig_Remote_Ammo","IEDUrbanSmall_Remote_Ammo"];
@@ -34,7 +35,7 @@ if ((_location select 1) == "roadblock") then {
 };
 
 // Spawn units
-if !((_location select 1) in ["vehicle_patrol"]) then {
+if !((_location select 1) in ["patrol"]) then {
     _validhouses = [_pos, _size] call dep_fnc_enterablehouses;
     _num_houses = (count _validhouses);
     _groupsperlocation = (ceil (random _num_houses));
@@ -60,8 +61,14 @@ if !((_location select 1) in ["vehicle_patrol"]) then {
         
         for "_e" from 1 to _enemyamount do {
             _newbuildpos = _buildpos call BIS_fnc_selectRandom;
-            _buildpos = _buildpos - [_newbuildpos];					
-            _soldiername = _NME_pool call BIS_fnc_selectRandom;
+            _buildpos = _buildpos - [_newbuildpos];
+            _soldiername = "";
+            if ((_location select 1) == "military") then {
+                _soldiername = _OPFOR_pool call BIS_fnc_selectRandom;
+            } else {
+                _soldiername = _NME_pool call BIS_fnc_selectRandom;
+            };
+            
             _spawnhandle = [_depgroup, _soldiername, _newbuildpos] spawn {
                 _soldier = (_this select 0) createUnit [(_this select 1), (_this select 2), [], 0, "NONE"];
                 waitUntil{alive _soldier};
@@ -94,6 +101,35 @@ if !((_location select 1) in ["vehicle_patrol"]) then {
     };
 };
 
+if (_location select 1 == "military") then {
+    if ((random 1) < 0.7) then {
+        _depgroup = createGroup dep_side;
+        _groups = _groups + [_depgroup];
+        _enemyamount = 6;
+        _totalenemies = _totalenemies + _enemyamount;
+        
+        for "_e" from 1 to _enemyamount do {				
+            _soldiername = _OPFOR_pool call BIS_fnc_selectRandom;
+            _newpos = _pos findEmptyPosition [0,20];
+            _spawnhandle = [_depgroup, _soldiername, _newpos] spawn {
+                _soldier = (_this select 0) createUnit [(_this select 1), (_this select 2), [], 0, "NONE"];
+                waitUntil{alive _soldier};
+                _soldier removeEventHandler ["killed", 0];
+                _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
+            };
+            waitUntil {scriptDone _spawnhandle};
+        };
+        [_depgroup] spawn dep_fnc_enemyspawnprotect;
+        [_depgroup, (_location select 2)] spawn dep_fnc_unitpatrol;
+    };
+    _rng = round random 2;
+    _ammoboxes = ["IG_supplyCrate_F", "O_supplyCrate_F", "Box_East_Ammo_F"];
+    for "_y" from 1 to _rng do {
+        _newpos = _pos findEmptyPosition [0, _size];
+        _ammo = (_ammoboxes call BIS_fnc_selectRandom) createVehicle _newpos;
+    };
+};
+
 // Spawn APERS mines
 if ((_location select 1) in ["roadpop"]) then {
     for "_y" from 0 to 2 do {
@@ -117,7 +153,7 @@ if ((_location select 1) in ["roadpop"]) then {
 };
 
 // Spawn vehicles
-if ((_location select 1) in ["vehicle_patrol"]) then {
+if ((_location select 1) in ["patrol"]) then {
     _list = _pos nearRoads dep_veh_pat_rad;
     if (count _list > 0) then {
         _numvehicles = round random (dep_veh_chance * 10);
@@ -168,6 +204,25 @@ if ((_location select 1) in ["vehicle_patrol"]) then {
             };
         };
     };
+    
+    _depgroup = createGroup dep_side;
+    _groups = _groups + [_depgroup];
+    _enemyamount = 6;
+    _totalenemies = _totalenemies + _enemyamount;
+    _newpos = [_pos, 30, (random 360)] call BIS_fnc_relPos;
+    
+    for "_e" from 1 to _enemyamount do {				
+        _soldiername = _NME_pool call BIS_fnc_selectRandom;
+        _spawnhandle = [_depgroup, _soldiername, _newpos] spawn {
+            _soldier = (_this select 0) createUnit [(_this select 1), (_this select 2), [], 0, "NONE"];
+            waitUntil{alive _soldier};
+            _soldier removeEventHandler ["killed", 0];
+            _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
+        };
+        waitUntil {scriptDone _spawnhandle};
+    };
+    [_depgroup] spawn dep_fnc_enemyspawnprotect;
+    [_depgroup, (_location select 2)] spawn dep_fnc_unitpatrol;
 };
 
 // Spawn IED and AT mine
@@ -180,7 +235,7 @@ if ((_location select 1) in ["roadpop"]) then {
             _road = _list call BIS_fnc_selectRandom;
             _list = _list - [_road];
             _dir = [_road] call dep_fnc_roaddir;
-            _rubblepos = [_road, 5, _dir + 90] call BIS_fnc_relPos;
+            _rubblepos = [_road, (5 + (round random 2)), _dir + 90] call BIS_fnc_relPos;
             _rubble = (_rubble_pool call BIS_fnc_selectRandom) createVehicle _rubblepos;
            _rubble setVariable ["workingon",false,true]; 
             if ((random 1) <= dep_ied_chance) then {

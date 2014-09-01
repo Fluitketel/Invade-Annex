@@ -3,7 +3,7 @@
 // 
 // This file restores a previously activated location.
 
-private ["_loccache","_objects","_groups","_grp","_obj","_pos","_unit"];
+private ["_loccache","_objects","_groups","_grp","_obj","_pos","_unit","_waypoints"];
 
 _loccache = dep_loc_cache select _this;
 if ((count _loccache) == 0) exitWith { false; };
@@ -96,6 +96,14 @@ _totalobjects = [];
             [_grp] spawn dep_fnc_housepatrol;
         } else {
             [_grp] spawn dep_fnc_garrison;
+        };
+    } else {
+        _unit = _group select 0;
+        if (count _unit > 5) then {
+            _waypoints = _unit select 5;
+            if (count _waypoints > 0) then {
+                [_grp, _waypoints] spawn dep_fnc_setwaypoints;              
+            };
         };
     };
 } foreach _groups;

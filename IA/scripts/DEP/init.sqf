@@ -2,7 +2,7 @@
     DYNAMIC ENEMY POPULATION 
         by Fluit 
             bugs & feedback:    fluitketel@outlook.com
-            last revision:      2014-08-23
+            last revision:      2014-09-01
     
     This script places cached enemies all across the map including:
     - units in buildings
@@ -30,8 +30,11 @@ dep_act_bl      = [];
 dep_veh_pat_rad = 600;
 
 // FUNCTIONS
+dep_fnc_setwaypoints        = compile preprocessFileLineNumbers format ["%1setwaypoints.sqf",       dep_directory];
+dep_fnc_getwaypoints        = compile preprocessFileLineNumbers format ["%1getwaypoints.sqf",       dep_directory];
 dep_fnc_vehiclepatrol       = compile preprocessFileLineNumbers format ["%1vehiclepatrol.sqf",      dep_directory];
 dep_fnc_housepatrol         = compile preprocessFileLineNumbers format ["%1housepatrol.sqf",        dep_directory];
+dep_fnc_unitpatrol          = compile preprocessFileLineNumbers format ["%1unitpatrol.sqf",         dep_directory];
 dep_fnc_enterablehouses     = compile preprocessFileLineNumbers format ["%1enterablehouses.sqf",    dep_directory];
 dep_fnc_findnearhouses      = compile preprocessFileLineNumbers format ["%1findnearhouses.sqf",     dep_directory];
 dep_fnc_buildingpositions   = compile preprocessFileLineNumbers format ["%1buildingpositions.sqf",  dep_directory];
@@ -50,6 +53,46 @@ dep_fnc_disable_ied_action  = compile preprocessFileLineNumbers format ["%1disab
 
 private ["_locations","_pos"];
 diag_log "Initializing DEP . . .";
+
+_buildings = nearestObjects [[15000, 15000, 0], ["Cargo_Tower_base_F", "Cargo_House_base_F", "Cargo_HQ_base_F", "Cargo_Patrol_base_F"], 25000];
+_numbuildings = (count _buildings) / 2;
+
+for [{_x=0}, {_x<=_numbuildings}, {_x=_x+1}] do {
+    _building = _buildings call BIS_fnc_selectRandom;
+    _buildings = _buildings - [_building];
+    _pos = getPos _building;
+    if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
+        _ownradius = 75;
+        _distance = true;
+        {
+            _loc_pos    = _x select 0;
+            _radius     = _x select 2;
+            if ((_pos distance _loc_pos) < (_radius + _ownradius)) exitWith { _distance = false; };
+        } foreach dep_locations;
+        if (_distance) then {
+            _milbuild = nearestObjects [_pos, ["Cargo_Tower_base_F", "Cargo_House_base_F", "Cargo_HQ_base_F", "Cargo_Patrol_base_F"], _ownradius];
+            if (count _milbuild > 2) then {
+                _houses = [_pos, 100] call dep_fnc_enterablehouses;
+                if ((count _houses) > 1) then {
+                    _location = [];
+                    _location set [0, _pos];            // position
+                    _location set [1, "military"];      // location type
+                    _location set [2, _ownradius];      // radius
+                    _location set [3, false];           // location active
+                    _location set [4, []];              // enemy groups
+                    _location set [5, 0];               // time last active
+                    _location set [6, 0];               // enemy amount
+                    _location set [7, false];           // location cleared
+                    _location set [8, []];              // objects to cleanup
+                    _location set [9, 0];               // possible direction of objects
+                    dep_locations = dep_locations + [_location];
+                    dep_loc_cache = dep_loc_cache + [[]];
+                };
+            };
+        };
+    };
+    //sleep 0.005;
+};
 
 // Roadblocks
 _list = [15000, 15000, 0] nearRoads 25000;
@@ -171,7 +214,7 @@ for "_c" from 1 to dep_aa_camps do {
 _aacamps = nil;
 
 // Get other locations
-_locs = nearestLocations [ [15000, 15000, 0], ["NameLocal"], 25000];
+/*_locs = nearestLocations [ [15000, 15000, 0], ["NameLocal"], 25000];
 {
     if ((random 1) < 0.5) then {
         _pos = getPos _x;
@@ -205,7 +248,7 @@ _locs = nearestLocations [ [15000, 15000, 0], ["NameLocal"], 25000];
         sleep 0.005;
     };
 } forEach _locs;
-_locs = nil;
+_locs = nil;*/
 
 // Vehicle patrols
 for [{_x=1}, {_x<=80}, {_x=_x+1}] do {
@@ -216,7 +259,7 @@ for [{_x=1}, {_x<=80}, {_x=_x+1}] do {
         if ((_pos distance (getMarkerPos "respawn_west")) > (dep_safezone + dep_veh_pat_rad)) then {
             _distance = true;
             {
-                if (_x select 1 == "vehicle_patrol") then {
+                if (_x select 1 == "patrol") then {
                     _loc_pos    = _x select 0;
                     _radius     = _x select 2;
                     if ((_pos distance _loc_pos) < (_radius + dep_veh_pat_rad)) exitWith { _distance = false; };
@@ -225,7 +268,7 @@ for [{_x=1}, {_x<=80}, {_x=_x+1}] do {
             if (_distance) then {
                 _location = [];
                 _location set [0, _pos];            // position
-                _location set [1, "vehicle_patrol"];// location type
+                _location set [1, "patrol"];        // location type
                 _location set [2, dep_veh_pat_rad]; // radius
                 _location set [3, false];           // location active
                 _location set [4, []];              // enemy groups
@@ -253,13 +296,14 @@ if (dep_debug) then {
         _m setMarkerShape "ELLIPSE";
         _m setMarkerSize [_location select 2, _location select 2];
         switch (_location select 1) do {
-            case "vehicle_patrol":  { _m setMarkerColor "ColorRed";};
+            case "patrol":          { _m setMarkerColor "ColorRed";};
             case "antiair":         { _m setMarkerColor "ColorBlue";};
             case "roadblock":       { _m setMarkerColor "ColorGreen";};
             case "roadpop":         { _m setMarkerColor "ColorYellow";};
+            case "military":        { _m setMarkerColor "ColorPink";};
         };
         _m setMarkerBrush "Solid";
-        _m setMarkerAlpha 0.5;
+        _m setMarkerAlpha 0.7;
     };
 };
 
