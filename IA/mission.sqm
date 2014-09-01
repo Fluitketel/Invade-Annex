@@ -63,8 +63,7 @@ class Mission
 		"a3_characters_f_beta",
 		"a3_characters_f",
 		"A3_Modules_F",
-		"cba_main",
-		"acre_main"
+		"cba_main"
 		
 	};
 	addOnsAuto[]=
