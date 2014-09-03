@@ -66,6 +66,7 @@ _layer = 85125;
 	{
         //--- COPILOT KICK
         //If player is inside vehicle and not on foot
+		waituntil {vehicle player != player};
         if(vehicle player != player) then 
 		{
             _veh = vehicle player;
@@ -188,11 +189,8 @@ _layer = 85125;
 					};
 					sleep 1;
 					_veh setdamage 1;
-					
-					
 			    };
             };
-			//////
         };
 		sleep 1;
     };

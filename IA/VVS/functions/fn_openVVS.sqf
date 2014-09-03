@@ -9,8 +9,9 @@ private["_sp","_playerType"];
 
 _playerType = typeOf player;
 If (_playerType != "B_officer_F") exitwith {systemChat "Comand Access Only";};
+if !(IsNil "UnlockAssets") then {
 if (!UnlockAssets) exitwith {systemChat "Cannot Order Until AO Completed";};
-
+};
 _sp = [_this,3,"",["",[]]] call BIS_fnc_param;
 if(typeName _sp == "STRING") then
 {

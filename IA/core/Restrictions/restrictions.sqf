@@ -1,4 +1,4 @@
-/* by wildw1ng */
+//--- by BL1P 
 if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked from the restrictions.sqf I am not a true client";};
 // bl1p edited
 [] spawn

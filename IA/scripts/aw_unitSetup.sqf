@@ -26,6 +26,6 @@ if((_unit isKindOf "I_Heli_Transport_02_F")) then
 if (typeOf _unit == "B_Truck_01_ammo_F") then 
 	{
 		_unit addAction ["<t color='#40ff00'>Ammo Box</t>", "VAS\open.sqf",[], 0, false, false, "", "vehicle _this == _this && _target distance _this < 10"];
-		_unit addAction ["<t color='#FF0000'>ADD ACRE SHORTRANGE</t>", "addacre\add_acre_lr.sqf",[], 0, false, false, "", "vehicle _this == _this && _target distance _this < 10"];  
-		_unit addAction ["<t color='#FF0000'>ADD ACRE LONGRANGE</t>", "addacre\add_acre_sr.sqf",[], 0, false, false, "", "vehicle _this == _this && _target distance _this < 10"];
+		_unit addAction ["<t color='#FF0000'>ADD ACRE SHORTRANGE</t>", "addacre\add_acre_lr.sqf",[], 0, false, true, "", "vehicle _this == _this && _target distance _this < 10"];  
+		_unit addAction ["<t color='#FF0000'>ADD ACRE LONGRANGE</t>", "addacre\add_acre_sr.sqf",[], 0, false, true, "", "vehicle _this == _this && _target distance _this < 10"];
 	};

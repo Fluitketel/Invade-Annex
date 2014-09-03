@@ -138,9 +138,12 @@ while {_run} do
 		};
 
 		//processInitCommands;
-		//--- clear all cargo all vehicles
+		//--- clear all cargo respawned vehicles
 		_unit execVM "scripts\ClearCargo.sqf";
+		//--- run unit setup on respawned vehicles
 		[[[_unit],"scripts\aw_unitSetup.sqf"],"BIS_fnc_execVM",nil,true] spawn BIS_fnc_MP;
+		//--- run fuel on respawned vehicles
+		[[[_unit,0.01] ,"core\Restrictions\Fuel_Consumption.sqf"],"BIS_fnc_execVM",nil,true] spawn BIS_fnc_MP;
 		
 
 		_dead = false;

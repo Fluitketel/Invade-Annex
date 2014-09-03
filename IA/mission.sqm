@@ -63,8 +63,8 @@ class Mission
 		"a3_characters_f_beta",
 		"a3_characters_f",
 		"A3_Modules_F",
-		"cba_main"
-		
+		"cba_main",
+		"acre_main"
 	};
 	addOnsAuto[]=
 	{
@@ -97,7 +97,7 @@ class Mission
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co31 [dR] I&A SDO ACRE2 MODS V69.3 Altis";
+		briefingName="co31 [dR] I&A SDO ACRE2 MODS V69.4 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;
@@ -688,7 +688,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item3
 		{
@@ -744,7 +744,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item8
 		{
@@ -918,7 +918,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_5";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item24
 		{
@@ -1290,7 +1290,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_8";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item58
 		{
@@ -1301,7 +1301,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_7";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item59
 		{
@@ -1312,7 +1312,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_5";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item60
 		{
@@ -1323,7 +1323,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_6";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item61
 		{
@@ -1904,7 +1904,7 @@ class Mission
 			vehicle="B_supplyCrate_F";
 			skill=0.60000002;
 			text="ammo6_1";
-			init="clearitemcargo this;  clearWeaponCargoGlobal this;  clearMagazineCargoGlobal this;      this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false;";
+			init="this addAction[""<t color='#40ff00'>Ammo Box</t>"", ""VAS\open.sqf""]; this allowDamage false;_m = [this] execVM ""scripts\aw_unitSetup.sqf"";this addAction [""<t color='#FF0000'>ADD ACRE SHORTRANGE</t>"", ""addacre\add_acre_lr.sqf""];  this addAction [""<t color='#FF0000'>ADD ACRE LONGRANGE</t>"", ""addacre\add_acre_sr.sqf""];";
 		};
 		class Item116
 		{
@@ -2075,7 +2075,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_4";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item132
 		{
@@ -2086,7 +2086,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_1";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item133
 		{
@@ -2097,7 +2097,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_2";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item134
 		{
@@ -2108,7 +2108,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_3";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item135
 		{
@@ -2120,7 +2120,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item136
 		{
@@ -2140,7 +2140,7 @@ class Mission
 			vehicle="I_Heli_Transport_02_F";
 			skill=0.60000002;
 			text="DR_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item138
 		{
@@ -2160,7 +2160,7 @@ class Mission
 			vehicle="I_Heli_Transport_02_F";
 			skill=0.60000002;
 			text="DR_2";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item140
 		{
@@ -2172,43 +2172,43 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_2";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item141
 		{
 			position[]={14788.753,17.91,16742.678};
-			azimut=-765.65906;
+			azimut=-765.659;
 			id=175;
 			side="EMPTY";
 			vehicle="B_Truck_01_Repair_F";
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_1_1";
-			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item142
 		{
 			position[]={14784.163,17.91,16737.486};
-			azimut=-765.65906;
+			azimut=-765.659;
 			id=176;
 			side="EMPTY";
 			vehicle="B_Truck_01_ammo_F";
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_2_1";
-			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item143
 		{
 			position[]={14778.865,17.91,16731.586};
-			azimut=-765.65906;
+			azimut=-765.659;
 			id=177;
 			side="EMPTY";
 			vehicle="B_Truck_01_fuel_F";
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_2_1_1";
-			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,600] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item144
 		{
@@ -2230,7 +2230,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_5_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item146
 		{
@@ -2332,7 +2332,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_3";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item156
 		{
@@ -2344,7 +2344,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_1_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item157
 		{
@@ -2356,7 +2356,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_5_2";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item158
 		{
@@ -2368,7 +2368,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_1_2";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item159
 		{
@@ -2380,7 +2380,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_4_2_2";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item160
 		{
@@ -2392,7 +2392,7 @@ class Mission
 			leader=1;
 			skill=0.60000002;
 			text="HEMTT_5_1_1";
-			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,0] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item161
 		{
@@ -2403,7 +2403,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item162
 		{
@@ -2414,7 +2414,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item163
 		{
@@ -2425,7 +2425,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_2";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item164
 		{
@@ -2436,7 +2436,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_3";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item165
 		{
@@ -2447,7 +2447,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_4";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item166
 		{
@@ -2458,73 +2458,73 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_5";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item167
 		{
 			position[]={14567.704,17.763607,16870.928};
-			azimut=763.80804;
+			azimut=763.80798;
 			id=201;
 			side="EMPTY";
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_6";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item168
 		{
 			position[]={14565.027,17.760038,16873.508};
-			azimut=763.80804;
+			azimut=763.80798;
 			id=202;
 			side="EMPTY";
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_1_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item169
 		{
 			position[]={14562.535,17.75609,16875.469};
-			azimut=763.80804;
+			azimut=763.80798;
 			id=203;
 			side="EMPTY";
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_2_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item170
 		{
 			position[]={14560.027,17.748892,16878.357};
-			azimut=763.80804;
+			azimut=763.80798;
 			id=204;
 			side="EMPTY";
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_3_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item171
 		{
 			position[]={14557.739,17.742378,16880.955};
-			azimut=763.80804;
+			azimut=763.80798;
 			id=205;
 			side="EMPTY";
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_4_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item172
 		{
 			position[]={14555.048,17.727638,16883.373};
-			azimut=763.80804;
+			azimut=763.80798;
 			id=206;
 			side="EMPTY";
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_5_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item173
 		{
@@ -2535,7 +2535,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_4_1";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item174
 		{
@@ -2546,18 +2546,18 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_1_1";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item175
 		{
 			position[]={14533.839,17.667627,16852.115};
-			azimut=404.96741;
+			azimut=404.96701;
 			id=209;
 			side="EMPTY";
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_2_1";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item176
 		{
@@ -2568,7 +2568,7 @@ class Mission
 			vehicle="B_MRAP_01_F";
 			skill=0.60000002;
 			text="car_3_1";
-			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";";
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 	};
 	class Markers

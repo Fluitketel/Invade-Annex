@@ -42,5 +42,6 @@ if(VVS_Checkbox) then
 };
 
 _vehicle allowDamage true;
-hint format["You have spawned a %1",_displayName];
+//--- bl1p add fuel consumption
+[[[_vehicle,0.01],"core\Restrictions\Fuel_Consumption.sqf"],"BIS_fnc_execVM",nil,true] spawn BIS_fnc_MP;hint format["You have spawned a %1",_displayName];
 closeDialog 0;
