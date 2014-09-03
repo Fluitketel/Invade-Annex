@@ -6,6 +6,13 @@ private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier", "_housepo
 _pos = _this select 0; // Camp position
 _dir = _this select 1; // Camp direction
 
+// Try to align the camp with the nearest road
+_road = [_pos, 100] call dep_fnc_nearestroad;
+if !(isNull _road) then {
+    _dir = [_road] call dep_fnc_roaddir;
+    systemChat format ["adjusting direction to %1", _dir];
+};
+
 _totalenemies = 0;
 _groups = [];
 _objects = [];

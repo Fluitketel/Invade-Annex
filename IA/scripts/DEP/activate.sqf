@@ -166,6 +166,7 @@ if ((_location select 1) in ["patrol"]) then {
                 _veh = _vehname createVehicle (getPos _road);
                 dep_total_veh = dep_total_veh + 1;
                 _objects = _objects + [_veh];
+                [_veh] spawn dep_fnc_vehicledamage;
                 
                 _depgroup = createGroup dep_side;
                 _groups = _groups + [_depgroup];

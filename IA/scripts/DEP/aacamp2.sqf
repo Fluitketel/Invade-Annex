@@ -6,6 +6,13 @@ private ["_pos", "_dir", "_newpos", "_campgroup", "_prop", "_soldier", "_ammo","
 _pos = _this select 0; // Camp position
 _dir = _this select 1; // Camp direction
 
+// Try to align the camp with the nearest road
+_road = [_pos, 100] call dep_fnc_nearestroad;
+if !(isNull _road) then {
+    _dir = [_road] call dep_fnc_roaddir;
+    systemChat format ["adjusting direction to %1", _dir];
+};
+
 _totalenemies = 0;
 _groups = [];
 _objects = [];
@@ -19,27 +26,27 @@ _ammo setDir _dir;
 
 _newpos = [_ammo, 6, _dir + 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir] call BIS_fnc_relPos;
-_prop = "Land_HBarrierWall6_F" createVehicle _newpos;
+_prop = "Land_HBarrier_5_F" createVehicle _newpos;
 _prop setDir _dir + 90;
 
 _newpos = [_ammo, 6, _dir + 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir + 180] call BIS_fnc_relPos;
-_prop = "Land_HBarrierWall6_F" createVehicle _newpos;
+_prop = "Land_HBarrier_5_F" createVehicle _newpos;
 _prop setDir _dir + 90;
 
 _newpos = [_ammo, 5, _dir - 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir] call BIS_fnc_relPos;
-_prop = "Land_HBarrierWall6_F" createVehicle _newpos;
+_prop = "Land_HBarrier_5_F" createVehicle _newpos;
 _prop setDir _dir - 90;
 
 _newpos = [_ammo, 5, _dir - 90] call BIS_fnc_relPos;
 _newpos = [_newpos, 4, _dir + 180] call BIS_fnc_relPos;
-_prop = "Land_HBarrierWall6_F" createVehicle _newpos;
+_prop = "Land_HBarrier_5_F" createVehicle _newpos;
 _prop setDir _dir - 90;
 
 _newpos = [_ammo, 10, _dir] call BIS_fnc_relPos;
-_tower = "Land_HBarrierTower_F" createVehicle _newpos;
-_tower setDir _dir + 180;
+_tower = (["Land_HBarrier_5_F","Land_Cargo_House_V3_F"] call BIS_fnc_selectRandom) createVehicle _newpos;
+_tower setDir _dir;
 
 _newpos = [_ammo, 5, _dir + 180] call BIS_fnc_relPos;
 _gun1 = "O_static_AA_F" createVehicle _newpos;

@@ -2,7 +2,7 @@
     DYNAMIC ENEMY POPULATION 
         by Fluit 
             bugs & feedback:    fluitketel@outlook.com
-            last revision:      2014-09-01
+            last revision:      2014-09-03
     
     This script places cached enemies all across the map including:
     - units in buildings
@@ -38,6 +38,8 @@ dep_fnc_unitpatrol          = compile preprocessFileLineNumbers format ["%1unitp
 dep_fnc_enterablehouses     = compile preprocessFileLineNumbers format ["%1enterablehouses.sqf",    dep_directory];
 dep_fnc_findnearhouses      = compile preprocessFileLineNumbers format ["%1findnearhouses.sqf",     dep_directory];
 dep_fnc_buildingpositions   = compile preprocessFileLineNumbers format ["%1buildingpositions.sqf",  dep_directory];
+dep_fnc_vehicledamage       = compile preprocessFileLineNumbers format ["%1vehicledamage.sqf",      dep_directory];
+dep_fnc_nearestroad         = compile preprocessFileLineNumbers format ["%1nearestroad.sqf",        dep_directory];
 dep_fnc_roaddir             = compile preprocessFileLineNumbers format ["%1roaddir.sqf",            dep_directory];
 dep_fnc_roadblock           = compile preprocessFileLineNumbers format ["%1roadblock.sqf",          dep_directory];
 dep_fnc_aacamp1             = compile preprocessFileLineNumbers format ["%1aacamp1.sqf",            dep_directory];
