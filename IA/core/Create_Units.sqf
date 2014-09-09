@@ -200,7 +200,8 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 					
 					//nul=[(leader _spawnGroup), "aoCircle","RANDOM"] execVm "scripts\UPSMON.sqf";
 					sleep 0.5;
-					[(leader _spawnGroup), "aoCircle"] execVM "UPS_BL1P.sqf";
+					//[(leader _spawnGroup), "aoCircle"] execVM "UPS_BL1P.sqf";
+					[_spawnGroup, getMarkerPos currentAO, PARAMS_AOSize] call aw_fnc_spawn2_randomPatrol;
 					sleep 0.5;
 					[(leader _spawnGroup)] execVM "core\spotter.sqf";
 					sleep 0.5;
@@ -272,7 +273,8 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 					[(leader _spawnGroup)] execVM "core\spotter.sqf";
 					sleep 0.5;
 					[(units _spawnGroup)] call aw_setGroupSkill;
-					sleep 1;
+					sleep 0.5;
+					(leader _spawnGroup) setVariable ["asr_ai_exclude", true];
 					
 					if(DEBUG) then
 					{
@@ -348,12 +350,13 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 						//--- bl1p it is hotel
 						if (DEBUG) then {diag_log format ["HOTEL ===== being creating currentAO = %1",currentAO];};
 						
-						_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-						_upsZoneMid setTriggerArea [150, 150, 0, false];
+						//_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
+						//_upsZoneMid setTriggerArea [150, 150, 0, false];
 							
 							//nul=[(leader _spawnGroup), "HOTEL", "RANDOMA", "NOSHARE"] execVm "scripts\UPSMON.sqf";
 						sleep 0.5;
-						[(leader _spawnGroup), _upsZoneMid] execVM "UPS_MID.sqf";
+						//[(leader _spawnGroup), _upsZoneMid] execVM "UPS_MID.sqf";
+						[_spawnGroup, getMarkerPos currentAO, PARAMS_AOSize - 250] call aw_fnc_spawn2_randomPatrol;
 						sleep 0.5;
 						[(leader _spawnGroup)] execVM "core\spotter.sqf";
 						sleep 0.5;
@@ -392,12 +395,13 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 						if (DEBUG) then {diag_log format ["_HousesPercent = %1 PARAMS_HousesPercent = %2 :: Houses = %3",_HousesPercent,PARAMS_HousesPercent,Houses];};
 						if (DEBUG) then {diag_log "=====Creating MIDPAT UPS=====";};
 						
-						_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-						_upsZoneMid setTriggerArea [150, 150, 0, false];
+						//_upsZoneMid = createTrigger ["EmptyDetector", getMarkerPos currentAO];
+						//_upsZoneMid setTriggerArea [150, 150, 0, false];
 						
 							//nul=[(leader _spawnGroup), "aoCircle", "RANDOMDN"] execVm "scripts\UPSMON.sqf";
 							sleep 0.5;
-							[(leader _spawnGroup), _upsZoneMid] execVM "UPS_MID.sqf";
+							//[(leader _spawnGroup), _upsZoneMid] execVM "UPS_MID.sqf";
+							[_spawnGroup, getMarkerPos currentAO, PARAMS_AOSize - 250] call aw_fnc_spawn2_randomPatrol;
 							sleep 0.5;
 							
 						}
@@ -537,12 +541,14 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 							
 							sleep 0.5;
 							
-							_upsZoneExt = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-							_upsZoneExt setTriggerArea [1000, 1000, 0, false];
+							//_upsZoneExt = createTrigger ["EmptyDetector", getMarkerPos currentAO];
+							//_upsZoneExt setTriggerArea [1000, 1000, 0, false];
 							
 							sleep 0.5;
 							
-							[(leader _spawnGroupSPX), _upsZoneExt] execVM "UPS_EXT.sqf";
+							//[(leader _spawnGroupSPX), _upsZoneExt] execVM "UPS_EXT.sqf";
+							[_spawnGroupSPX, getMarkerPos currentAO, PARAMS_AOSize + 300] call aw_fnc_spawn2_randomPatrol;
+							
 							
 							sleep 0.5;
 							[(units _spawnGroupSPX)] call aw_setGroupSkill;
@@ -962,8 +968,8 @@ BL_fnc_towerDefence =
 		{
 			
 			
-			_upsZone3 = createTrigger ["EmptyDetector", getMarkerPos currentAO];
-			_upsZone3 setTriggerArea [100, 100, 0, false];
+			//_upsZone3 = createTrigger ["EmptyDetector", getMarkerPos currentAO];
+			//_upsZone3 setTriggerArea [100, 100, 0, false];
 			
 			_spawnGroupSN = createGroup EAST;
 			
@@ -971,7 +977,8 @@ BL_fnc_towerDefence =
 			// wait untill alive
 			//waitUntil {alive (leader _spawnGroupSN)};
 			
-					[(leader _spawnGroupSN), _upsZone3, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
+					//[(leader _spawnGroupSN), _upsZone3, "RANDOMUP", "NOMOVE"] execVM "ups.sqf";
+					[_spawnGroupSN, getMarkerPos currentAO, PARAMS_AOSize] call aw_fnc_spawn2_randomPatrol;
 				
 			[(units _spawnGroupSN)] call dR_fnc_Snipers;
 			sleep 1;
