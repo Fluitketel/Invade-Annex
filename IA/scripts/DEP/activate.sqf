@@ -79,7 +79,7 @@ if !((_location select 1) in ["patrol"]) then {
             };
             waitUntil {scriptDone _spawnhandle};
         };
-        if ((random 1) <= 0.4 && _enemyamount > 1) then {
+        if ((random 1) <= 0.3 && _enemyamount > 1) then {
             // Make units patrol
             for "_y" from 0 to 8 do {
                 _newpos = [(getPos _house), 10, (45 * _y)] call BIS_fnc_relPos;
@@ -134,7 +134,7 @@ if (_location select 1 == "military") then {
 // Spawn APERS mines
 if ((_location select 1) in ["roadpop"]) then {
     for "_y" from 0 to 2 do {
-        if ((count _validhouses) > 0 && (random 1) <= 0.3) then {
+        if ((count _validhouses) > 0 && (random 1) <= 0.2) then {
             _house = _validhouses call BIS_fnc_selectRandom;
             _validhouses = _validhouses - [_house];
             _minepos = _house buildingExit 0;
@@ -157,7 +157,7 @@ if ((_location select 1) in ["roadpop"]) then {
 // Spawn vehicles
 if ((_location select 1) in ["patrol"]) then {
     _list = _pos nearRoads dep_veh_pat_rad;
-    if (count _list > 0) then {
+    if (count _list > 10) then {
         _numvehicles = round random (dep_veh_chance * 10);
         for "_z" from 1 to _numvehicles do {
             if (dep_total_veh < dep_max_veh) then {
@@ -176,12 +176,15 @@ if ((_location select 1) in ["patrol"]) then {
                 _soldier removeEventHandler ["killed", 0];
                 _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
                 _totalenemies = _totalenemies + 1;
-                _soldier = _depgroup createUnit ["I_G_Soldier_F", (getPos _road), [], 0, "NONE"];
-                _soldier assignAsGunner _veh;
-                _soldier moveInGunner _veh;
-                _soldier removeEventHandler ["killed", 0];
-                _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
-                _totalenemies = _totalenemies + 1;
+                _positions = _veh emptyPositions "Gunner";
+                if (_positions > 0) then {
+                    _soldier = _depgroup createUnit ["I_G_Soldier_F", (getPos _road), [], 0, "NONE"];
+                    _soldier assignAsGunner _veh;
+                    _soldier moveInGunner _veh;
+                    _soldier removeEventHandler ["killed", 0];
+                    _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
+                    _totalenemies = _totalenemies + 1;
+                };
                 if (_veh isKindOf "Tank") then {
                     _soldier = _depgroup createUnit ["I_G_Soldier_SL_F", (getPos _road), [], 0, "NONE"];
                     _soldier assignAsCommander _veh;
@@ -231,7 +234,7 @@ if ((_location select 1) in ["patrol"]) then {
 // Spawn IED and AT mine
 if ((_location select 1) in ["roadpop"]) then {
     _list = _pos nearRoads 75;
-    if (count _list > 0) then {
+    if (count _list > 5) then {
         
         if ((random 1) <= 0.5) then {
             // Create rubble

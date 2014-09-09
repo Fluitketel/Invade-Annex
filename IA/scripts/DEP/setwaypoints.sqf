@@ -6,7 +6,6 @@ private ["_group","_waypoints","_wp"];
 _group  = _this select 0;
 _waypoints  = _this select 1;
 
-diag_log format ["restoring group %2 wps: %1", _waypoints, _group];
 _y = 0;
 {
     _wp = _group addWaypoint [(_x select 0), _y];

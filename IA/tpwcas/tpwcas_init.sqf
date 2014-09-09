@@ -105,12 +105,12 @@ tpwcas_running = true;
 
 	//MINIMUM SKILL VALUE, NONE OF A UNIT'S SKILLS WILL DROP BELOW THIS UNDER SUPPRESSION. 
 	if(isNil "tpwcas_minskill") then {
-		tpwcas_minskill = 0.3; // minimum 30% of original skill
+		tpwcas_minskill = 0.5; // minimum 30% of original skill
 		};  
 
 	//REVEAL VALUE WHEN SUPPRESSED. 0 = REVEAL DISABLED. <1 = SUPPRESSED UNIT KNOWS NOTHING ABOUT SHOOTER. 4 = UNIT KNOWS THE SHOOTER'S SIDE, POSITION, SHOE SIZE ETC. 
 	if(isNil "tpwcas_reveal") then {
-		tpwcas_reveal = 3.0;
+		tpwcas_reveal = 0;
 		}; 
 
 	//UNITS CAN FLEE IF COURAGE AND MORALE TOO LOW. 0 = UNITS WILL NOT FLEE. 1 = UNITS WILL FLEE. SET TO 0 IF TOO MANY UNITS ARE FLEEING OR UNSUPPRESSABLE. 
@@ -160,7 +160,7 @@ tpwcas_running = true;
 	
 	//AI SEARCH COVER REQUIRED MINIMAL SERVER FPS, ELSE PROCESS IS SKIPPED
 	if(isNil "tpwcas_getcover_minfps") then {
-		tpwcas_getcover_minfps = 20;
+		tpwcas_getcover_minfps = 40;
 		};
 	
 	//PLAYER SUPPRESSION SHAKE. 0 = NO SUPPRESSION, 1 = SUPPRESSION.    

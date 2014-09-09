@@ -10,7 +10,6 @@ _dir = _this select 1; // Camp direction
 _road = [_pos, 100] call dep_fnc_nearestroad;
 if !(isNull _road) then {
     _dir = [_road] call dep_fnc_roaddir;
-    systemChat format ["adjusting direction to %1", _dir];
 };
 
 _totalenemies = 0;

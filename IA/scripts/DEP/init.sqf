@@ -2,7 +2,7 @@
     DYNAMIC ENEMY POPULATION 
         by Fluit 
             bugs & feedback:    fluitketel@outlook.com
-            last revision:      2014-09-03
+            last revision:      2014-09-09
     
     This script places cached enemies all across the map including:
     - units in buildings
@@ -74,7 +74,7 @@ for [{_x=0}, {_x<=_numbuildings}, {_x=_x+1}] do {
         if (_distance) then {
             _milbuild = nearestObjects [_pos, ["Cargo_Tower_base_F", "Cargo_House_base_F", "Cargo_HQ_base_F", "Cargo_Patrol_base_F"], _ownradius];
             if (count _milbuild > 2) then {
-                _houses = [_pos, 100] call dep_fnc_enterablehouses;
+                _houses = [_pos, _ownradius] call dep_fnc_enterablehouses;
                 if ((count _houses) > 1) then {
                     _location = [];
                     _location set [0, _pos];            // position
@@ -95,6 +95,48 @@ for [{_x=0}, {_x<=_numbuildings}, {_x=_x+1}] do {
     };
     //sleep 0.005;
 };
+_buildings = nil;
+
+_buildings = nearestObjects [[15000, 15000, 0], ["House_F"], 25000];
+//_numbuildings = (count _buildings);
+_numbuildings = 0;
+
+while {_numbuildings < dep_roadpop} do {
+    _building = _buildings call BIS_fnc_selectRandom;
+    _buildings = _buildings - [_building];
+    _pos = getPos _building;
+    if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
+        _ownradius = 100 + (round random 100);
+        _distance = true;
+        _spacing = 50;
+        {
+            _loc_pos    = _x select 0;
+            _radius     = _x select 2;
+            if ((_pos distance _loc_pos) < (_radius + _spacing + _ownradius)) exitWith { _distance = false; };
+        } foreach dep_locations;
+        if (_distance) then {
+            _houses = [_pos, _ownradius] call dep_fnc_enterablehouses;
+            if ((count _houses) > 1) then {
+                _location = [];
+                _location set [0, _pos];            // position
+                _location set [1, "roadpop"];       // location type
+                _location set [2, _ownradius];      // radius
+                _location set [3, false];           // location active
+                _location set [4, []];              // enemy groups
+                _location set [5, 0];               // time last active
+                _location set [6, 0];               // enemy amount
+                _location set [7, false];           // location cleared
+                _location set [8, []];              // objects to cleanup
+                _location set [9, 0];               // possible direction of objects
+                dep_locations = dep_locations + [_location];
+                dep_loc_cache = dep_loc_cache + [[]];
+                _numbuildings = _numbuildings + 1;
+            };
+        };
+    };
+    //sleep 0.005;
+};
+_buildings = nil;
 
 // Roadblocks
 _list = [15000, 15000, 0] nearRoads 25000;
@@ -133,12 +175,12 @@ for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
                 };
             };
         };
-        sleep 0.01;
+        //sleep 0.01;
     };
 };
 
 // Random road population
-for [{_x=1}, {_x<=dep_roadpop}, {_x=_x+1}] do {
+/*for [{_x=1}, {_x<=dep_roadpop}, {_x=_x+1}] do {
     _valid = false;
     while {!_valid} do {
         _road = _list call BIS_fnc_selectRandom;
@@ -174,7 +216,7 @@ for [{_x=1}, {_x<=dep_roadpop}, {_x=_x+1}] do {
         };
         sleep 0.005;
     };
-};
+};*/
 
 // AA Camps
 _aacamps = [];
@@ -284,7 +326,7 @@ for [{_x=1}, {_x<=80}, {_x=_x+1}] do {
                 _valid = true;
             };
         };
-        sleep 0.005;
+        //sleep 0.005;
     };
 };
 _list = nil;

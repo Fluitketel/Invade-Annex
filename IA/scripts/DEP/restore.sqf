@@ -92,7 +92,7 @@ _totalobjects = [];
         _obj addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
     } foreach _group;
     if ((_location select 1) in ["roadpop"]) then {
-        if ((random 1) <= 0.5) then {
+        if ((random 1) <= 0.3) then {
             [_grp] spawn dep_fnc_housepatrol;
         } else {
             [_grp] spawn dep_fnc_garrison;

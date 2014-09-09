@@ -43,12 +43,4 @@
     
 // Initialize Client DEP functions
 	_handle = execVM "scripts\DEP\client_init.sqf";
-	waitUntil{scriptDone _handle};	
-	
-//--- Remove players voice
-//	player setspeaker "NoVoice";
-	
-//--- Remove radio subtitles by Larrow
-//	waitUntil {! (isNull player) && time > 1}; 
-//	oldSubs = showSubtitles false;  
-//	diag_log "showSubtitles is false";
+	waitUntil{scriptDone _handle};
