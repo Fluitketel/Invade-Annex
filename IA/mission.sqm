@@ -64,7 +64,8 @@ class Mission
 		"a3_characters_f",
 		"A3_Modules_F",
 		"cba_main",
-		"acre_main"
+		"acre_main",
+		"BL1P_NOPV"
 	};
 	addOnsAuto[]=
 	{
@@ -149,7 +150,6 @@ class Mission
 					leader=1;
 					rank="LIEUTENANT";
 					skill=0.60000002;
-
 					description="Alpha Squad Leader";
 				};
 				class Item1
@@ -162,7 +162,6 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Alpha Medic";
 				};
 				class Item2
@@ -175,7 +174,6 @@ class Mission
 					vehicle="B_Soldier_GL_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Alpha Grenadier";
 				};
 				class Item3
@@ -188,7 +186,6 @@ class Mission
 					vehicle="B_soldier_AR_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Alpha Autorifleman";
 				};
 				class Item4
@@ -201,7 +198,6 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Alpha Rifleman (AT)";
 				};
 				class Item5
@@ -215,7 +211,6 @@ class Mission
 					player="PLAY CDG";
 					rank="SERGEANT";
 					skill=0.60000002;
-
 					description="Alpha Team Leader";
 				};
 				class Item6
@@ -228,7 +223,6 @@ class Mission
 					vehicle="B_soldier_exp_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Alpha Explosive Specialist";
 				};
 				class Item7
@@ -241,7 +235,6 @@ class Mission
 					vehicle="B_Soldier_GL_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Alpha Grenadier";
 				};
 				class Item8
@@ -254,7 +247,6 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Alpha Rifleman (AT)";
 				};
 				class Item9
@@ -267,7 +259,6 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Alpha Medic";
 				};
 			};
@@ -330,7 +321,6 @@ class Mission
 					leader=1;
 					rank="LIEUTENANT";
 					skill=0.60000002;
-
 					description="Bravo Squad Leader";
 				};
 				class Item1
@@ -343,7 +333,6 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Bravo Medic";
 				};
 				class Item2
@@ -356,7 +345,6 @@ class Mission
 					vehicle="B_Soldier_GL_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Bravo Grenadier";
 				};
 				class Item3
@@ -369,7 +357,6 @@ class Mission
 					vehicle="B_soldier_AR_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Bravo Autorifleman";
 				};
 				class Item4
@@ -382,7 +369,6 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Bravo Rifleman (AT)";
 				};
 				class Item5
@@ -396,7 +382,6 @@ class Mission
 					player="PLAY CDG";
 					rank="SERGEANT";
 					skill=0.60000002;
-
 					description="Bravo Team Leader";
 				};
 				class Item6
@@ -409,7 +394,6 @@ class Mission
 					vehicle="B_soldier_exp_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Bravo Explosive Specialist";
 				};
 				class Item7
@@ -422,7 +406,6 @@ class Mission
 					vehicle="B_Soldier_GL_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Bravo Grenadier";
 				};
 				class Item8
@@ -435,7 +418,6 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Bravo Rifleman (AT)";
 				};
 				class Item9
@@ -448,7 +430,6 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Bravo Medic";
 				};
 			};
@@ -491,7 +472,6 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-
 					description="Recon Team Leader";
 				};
 				class Item1
@@ -503,7 +483,6 @@ class Mission
 					vehicle="B_recon_M_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Recon Marksman";
 				};
 				class Item2
@@ -515,7 +494,6 @@ class Mission
 					vehicle="B_medic_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Recon Medic";
 				};
 				class Item3
@@ -527,7 +505,6 @@ class Mission
 					vehicle="B_soldier_UAV_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Recon UAV Op";
 				};
 			};
@@ -549,7 +526,6 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-
 					description="Helo Pilot (level 1)";
 				};
 				class Item1
@@ -561,7 +537,6 @@ class Mission
 					vehicle="B_helicrew_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Helo Pilot Crew (level 1)";
 				};
 			};
@@ -583,7 +558,6 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-
 					description="Armour Crew/Rep TL (level 1)";
 				};
 				class Item1
@@ -595,7 +569,6 @@ class Mission
 					vehicle="B_soldier_repair_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Armour Crew/Rep (level 1)";
 				};
 				class Item2
@@ -607,7 +580,6 @@ class Mission
 					vehicle="B_soldier_repair_F";
 					player="PLAY CDG";
 					skill=0.60000002;
-
 					description="Armour Crew/Rep (level 1)";
 				};
 			};
@@ -629,7 +601,6 @@ class Mission
 					leader=1;
 					rank="COLONEL";
 					skill=0.60000002;
-
 					description="Commander (level 2)";
 				};
 			};
@@ -2403,7 +2374,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item162
 		{
@@ -2414,7 +2385,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item163
 		{
@@ -2425,7 +2396,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_2";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item164
 		{
@@ -2436,7 +2407,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_3";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item165
 		{
@@ -2447,7 +2418,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_4";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item166
 		{
@@ -2458,7 +2429,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_5";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item167
 		{
@@ -2469,7 +2440,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_6";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item168
 		{
@@ -2480,7 +2451,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_1_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item169
 		{
@@ -2491,7 +2462,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_2_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item170
 		{
@@ -2502,7 +2473,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_3_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item171
 		{
@@ -2513,7 +2484,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_4_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item172
 		{
@@ -2524,7 +2495,7 @@ class Mission
 			vehicle="B_Quadbike_01_F";
 			skill=0.60000002;
 			text="car_8_1_5_1";
-			init="_m = [this,600,300] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
+			init="_m = [this,600,1800] execVM ""scripts\vehicle.sqf""; _m = [this] execVM ""scripts\aw_unitSetup.sqf"";nul=[this,0.005] execvm ""core\Restrictions\Fuel_Consumption.sqf"";";
 		};
 		class Item173
 		{
