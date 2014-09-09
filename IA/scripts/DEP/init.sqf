@@ -59,6 +59,9 @@ diag_log "Initializing DEP . . .";
 _buildings = nearestObjects [[15000, 15000, 0], ["Cargo_Tower_base_F", "Cargo_House_base_F", "Cargo_HQ_base_F", "Cargo_Patrol_base_F"], 25000];
 _numbuildings = (count _buildings) / 2;
 
+if (dep_debug) then {
+    diag_log "Finding military buildings";
+};
 for [{_x=0}, {_x<=_numbuildings}, {_x=_x+1}] do {
     _building = _buildings call BIS_fnc_selectRandom;
     _buildings = _buildings - [_building];
@@ -97,6 +100,9 @@ for [{_x=0}, {_x<=_numbuildings}, {_x=_x+1}] do {
 };
 _buildings = nil;
 
+if (dep_debug) then {
+    diag_log "Finding normal buildings";
+};
 _buildings = nearestObjects [[15000, 15000, 0], ["House_F"], 25000];
 //_numbuildings = (count _buildings);
 _numbuildings = 0;
@@ -138,6 +144,9 @@ while {_numbuildings < dep_roadpop} do {
 };
 _buildings = nil;
 
+if (dep_debug) then {
+    diag_log "Finding roadblocks";
+};
 // Roadblocks
 _list = [15000, 15000, 0] nearRoads 25000;
 for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
@@ -150,8 +159,8 @@ for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
             {
                 _loc_pos    = _x select 0;
                 _radius     = _x select 2;
-                _spacing    = 500;
-                if ((_x select 1) == "roadblock") then { _spacing = 1500; };
+                _spacing    = 0;
+                if ((_x select 1) == "roadblock") then { _spacing = 1000; };
                 if ((_pos distance _loc_pos) < (_spacing + _radius + 100)) exitWith { _distance = false; };
             } foreach dep_locations;
             if (_distance) then {
@@ -218,6 +227,9 @@ for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
     };
 };*/
 
+if (dep_debug) then {
+    diag_log "Finding aa camps";
+};
 // AA Camps
 _aacamps = [];
 for "_c" from 1 to dep_aa_camps do {
@@ -231,7 +243,7 @@ for "_c" from 1 to dep_aa_camps do {
             if (count _flatPos == 3) then {
                 _distance = true;
                 {
-                    if ((_pos distance _x) < 2000) exitWith { _distance = false; };
+                    if ((_pos distance _x) < 1000) exitWith { _distance = false; };
                 } foreach _aacamps;
                 // Check distance between other AA camps
                 if (_distance) then {
@@ -294,6 +306,9 @@ _aacamps = nil;
 } forEach _locs;
 _locs = nil;*/
 
+if (dep_debug) then {
+    diag_log "Finding patrols";
+};
 // Vehicle patrols
 for [{_x=1}, {_x<=80}, {_x=_x+1}] do {
     _valid = false;
@@ -333,6 +348,9 @@ _list = nil;
 
 // Place makers in debug mode
 if (dep_debug) then {
+    diag_log "Placing markers";
+};
+if (dep_debug) then {
     for [{_x=0}, {_x<(count dep_locations)}, {_x=_x+1}] do {
         _location = dep_locations select _x;
         _pos = _location select 0;
@@ -352,6 +370,9 @@ if (dep_debug) then {
 };
 
 // Start searching for players
+if (dep_debug) then {
+    diag_log "Done creating...";
+};
 dep_num_loc = (count dep_locations);
 diag_log format ["DEP ready with %1 locations", dep_num_loc];
 while {true} do {
