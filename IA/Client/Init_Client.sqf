@@ -34,26 +34,15 @@ if (isServer || isDedicated || !hasInterFace) exitwith {diag_log "I was kicked f
 		};
 	};  
 	
-	//--- Remove GPS toggle unless in Vehicle by BL1P
-	[] spawn {
-		while {true} do
-		{
-			waitUntil {inputAction "minimapToggle" > 0}; 
-			if(vehicle player == player) then {showGPS false;};
-			while {vehicle player != player} do 
-			{
-				showGPS true;
-				waitUntil {vehicle player == player};
-				if ( vehicle player == player ) exitwith 
-				{
-					showGPS false;
-				}; 
-			};
-			waitUntil {inputAction "minimapToggle" == 0};
-			sleep 0.2;
+//--- Remove GPS toggle unless in Vehicle by Fluit
+	addMissionEventHandler ["Draw3D", 
+	{   
+		if (vehicle player == player && visibleGPS && inputAction "minimapToggle" == 0) then {
+			showGPS false;
+		} else {
 			showGPS true;
 		};
-	};
+	}];
 	
 	//--- bl1p remove shift click
 	if (!DEBUG) then 
