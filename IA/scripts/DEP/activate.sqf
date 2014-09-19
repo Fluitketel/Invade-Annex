@@ -21,9 +21,8 @@ _objects    = _location select 8;
 
 _groups = [];
 _totalenemies = 0;
-_NME_pool = ["I_G_Soldier_F","I_G_Soldier_GL_F","I_G_Soldier_AR_F","I_G_Soldier_LAT_F","I_G_medic_F","I_Soldier_AA_F","I_G_Soldier_SL_F","I_G_Soldier_M_F"];
-//_OPFOR_pool = ["O_Soldier_F","O_Soldier_GL_F","O_Soldier_AR_F","O_Soldier_LAT_F","O_medic_F","O_Soldier_AA_F","O_Soldier_SL_F","O_soldier_M_F","O_sniper_F"];
-_OPFOR_pool = ["I_soldier_F","I_Soldier_GL_F","I_Soldier_AR_F","I_Soldier_LAT_F","I_medic_F","I_Soldier_AA_F","I_Soldier_SL_F","I_soldier_M_F","I_Sniper_F"];
+_insurgents_pool = ["I_G_Soldier_F","I_G_Soldier_GL_F","I_G_Soldier_AR_F","I_G_Soldier_LAT_F","I_G_medic_F","I_G_Soldier_SL_F","I_G_Soldier_M_F"];
+_aaf_pool = ["I_soldier_F","I_Soldier_GL_F","I_Soldier_AR_F","I_Soldier_LAT_F","I_medic_F","I_Soldier_AA_F","I_Soldier_SL_F","I_soldier_M_F","I_Sniper_F"];
 _VEH_pool = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_APC_tracked_03_cannon_F","I_APC_Wheeled_03_cannon_F","I_G_offroad_01_armed_F"];
 _rubble_pool = ["Land_Tyres_F","Land_GarbageBags_F","Land_JunkPile_F","Land_GarbageContainer_closed_F","Land_GarbageContainer_open_F","Land_WoodenBox_F"];
 _ied_pool = ["IEDLandBig_Remote_Ammo","IEDLandSmall_Remote_Ammo","IEDUrbanBig_Remote_Ammo","IEDUrbanSmall_Remote_Ammo"];
@@ -65,9 +64,9 @@ if !((_location select 1) in ["patrol"]) then {
             _buildpos = _buildpos - [_newbuildpos];
             _soldiername = "";
             if ((_location select 1) == "military") then {
-                _soldiername = _OPFOR_pool call BIS_fnc_selectRandom;
+                _soldiername = _aaf_pool call BIS_fnc_selectRandom;
             } else {
-                _soldiername = _NME_pool call BIS_fnc_selectRandom;
+                _soldiername = _insurgents_pool call BIS_fnc_selectRandom;
             };
             
             _spawnhandle = [_depgroup, _soldiername, _newbuildpos] spawn {
@@ -110,7 +109,7 @@ if (_location select 1 == "military") then {
         _totalenemies = _totalenemies + _enemyamount;
         
         for "_e" from 1 to _enemyamount do {				
-            _soldiername = _OPFOR_pool call BIS_fnc_selectRandom;
+            _soldiername = _aaf_pool call BIS_fnc_selectRandom;
             _newpos = _pos findEmptyPosition [0,20];
             _spawnhandle = [_depgroup, _soldiername, _newpos] spawn {
                 _soldier = (_this select 0) createUnit [(_this select 1), (_this select 2), [], 0, "NONE"];
@@ -154,8 +153,9 @@ if ((_location select 1) in ["roadpop"]) then {
     };
 };
 
-// Spawn vehicles
+// Spawn vehicles and patroling squad
 if ((_location select 1) in ["patrol"]) then {
+    _soldiername = "";
     _list = _pos nearRoads dep_veh_pat_rad;
     if (count _list > 10) then {
         _numvehicles = round random (dep_veh_chance * 10);
@@ -170,7 +170,14 @@ if ((_location select 1) in ["patrol"]) then {
                 
                 _depgroup = createGroup dep_side;
                 _groups = _groups + [_depgroup];
-                _soldier = _depgroup createUnit ["I_G_Soldier_F", (getPos _road), [], 0, "NONE"];
+                _units = [];
+                if (_vehname == "I_G_offroad_01_armed_F") then {
+                    _units = _insurgents_pool;
+                } else {
+                    _units = _aaf_pool;
+                };
+                _soldiername = _units call BIS_fnc_selectRandom;
+                _soldier = _depgroup createUnit [_soldiername, (getPos _road), [], 0, "NONE"];
                 _soldier assignAsDriver _veh;
                 _soldier moveInDriver _veh;
                 _soldier removeEventHandler ["killed", 0];
@@ -178,7 +185,8 @@ if ((_location select 1) in ["patrol"]) then {
                 _totalenemies = _totalenemies + 1;
                 _positions = _veh emptyPositions "Gunner";
                 if (_positions > 0) then {
-                    _soldier = _depgroup createUnit ["I_G_Soldier_F", (getPos _road), [], 0, "NONE"];
+                    _soldiername = _units call BIS_fnc_selectRandom;
+                    _soldier = _depgroup createUnit [_soldiername, (getPos _road), [], 0, "NONE"];
                     _soldier assignAsGunner _veh;
                     _soldier moveInGunner _veh;
                     _soldier removeEventHandler ["killed", 0];
@@ -186,7 +194,7 @@ if ((_location select 1) in ["patrol"]) then {
                     _totalenemies = _totalenemies + 1;
                 };
                 if (_veh isKindOf "Tank") then {
-                    _soldier = _depgroup createUnit ["I_G_Soldier_SL_F", (getPos _road), [], 0, "NONE"];
+                    _soldier = _depgroup createUnit ["I_Soldier_SL_F", (getPos _road), [], 0, "NONE"];
                     _soldier assignAsCommander _veh;
                     _soldier moveInCommander _veh;
                     _soldier removeEventHandler ["killed", 0];
@@ -198,7 +206,7 @@ if ((_location select 1) in ["patrol"]) then {
                     _freeCargoPositions = _veh emptyPositions "cargo";
                     _freeCargoPositions = round random _freeCargoPositions;
                     for "_y" from 1 to _freeCargoPositions do {
-                        _soldiername = _NME_pool call BIS_fnc_selectRandom;
+                        _soldiername = _units call BIS_fnc_selectRandom;
                         _soldier = _depgroup createUnit [_soldiername, (getPos _road), [], 0, "NONE"];
                         _soldier assignAsCargo _veh;
                         _soldier moveInCargo _veh;
@@ -213,12 +221,12 @@ if ((_location select 1) in ["patrol"]) then {
     
     _depgroup = createGroup dep_side;
     _groups = _groups + [_depgroup];
-    _enemyamount = 6;
+    _enemyamount = [6,8,12] call BIS_fnc_selectRandom;
     _totalenemies = _totalenemies + _enemyamount;
     _newpos = [_pos, 30, (random 360)] call BIS_fnc_relPos;
     
     for "_e" from 1 to _enemyamount do {				
-        _soldiername = _NME_pool call BIS_fnc_selectRandom;
+        _soldiername = _aaf_pool call BIS_fnc_selectRandom;
         _spawnhandle = [_depgroup, _soldiername, _newpos] spawn {
             _soldier = (_this select 0) createUnit [(_this select 1), (_this select 2), [], 0, "NONE"];
             waitUntil{alive _soldier};

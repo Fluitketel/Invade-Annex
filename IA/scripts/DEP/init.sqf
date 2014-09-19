@@ -2,7 +2,7 @@
     DYNAMIC ENEMY POPULATION 
         by Fluit 
             bugs & feedback:    fluitketel@outlook.com
-            last revision:      2014-09-09
+            last revision:      2014-09-19
     
     This script places cached enemies all across the map including:
     - units in buildings
@@ -188,45 +188,6 @@ for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
     };
 };
 
-// Random road population
-/*for [{_x=1}, {_x<=dep_roadpop}, {_x=_x+1}] do {
-    _valid = false;
-    while {!_valid} do {
-        _road = _list call BIS_fnc_selectRandom;
-        _pos = getPos _road;
-        if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
-            _ownradius = 100 + (round random 100);
-            _distance = true;
-            {
-                _loc_pos    = _x select 0;
-                _radius     = _x select 2;
-                _spacing    = 0;
-                if ((_pos distance _loc_pos) < (_spacing + _radius + _ownradius)) exitWith { _distance = false; };
-            } foreach dep_locations;
-            if (_distance) then {
-                _houses = [_pos, 100] call dep_fnc_enterablehouses;
-                if ((count _houses) > 1) then {
-                    _location = [];
-                    _location set [0, _pos];            // position
-                    _location set [1, "roadpop"];       // location type
-                    _location set [2, _ownradius];      // radius
-                    _location set [3, false];           // location active
-                    _location set [4, []];              // enemy groups
-                    _location set [5, 0];               // time last active
-                    _location set [6, 0];               // enemy amount
-                    _location set [7, false];           // location cleared
-                    _location set [8, []];              // objects to cleanup
-                    _location set [9, 0];               // possible direction of objects
-                    dep_locations = dep_locations + [_location];
-                    dep_loc_cache = dep_loc_cache + [[]];
-                    _valid = true;
-                };
-            };
-        };
-        sleep 0.005;
-    };
-};*/
-
 if (dep_debug) then {
     diag_log "Finding aa camps";
 };
@@ -268,43 +229,6 @@ for "_c" from 1 to dep_aa_camps do {
     };
 };
 _aacamps = nil;
-
-// Get other locations
-/*_locs = nearestLocations [ [15000, 15000, 0], ["NameLocal"], 25000];
-{
-    if ((random 1) < 0.5) then {
-        _pos = getPos _x;
-        if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
-            _ownradius = 100 + (round random 100);
-            _distance = true;
-            {
-                _loc_pos    = _x select 0;
-                _radius     = _x select 2;
-                if ((_pos distance _loc_pos) < (_radius + _ownradius)) exitWith { _distance = false; };
-            } foreach dep_locations;
-            if (_distance) then {
-                _houses = [_pos, 100] call dep_fnc_enterablehouses;
-                if ((count _houses) > 1) then {
-                    _location = [];
-                    _location set [0, _pos];            // position
-                    _location set [1, "roadpop"];       // location type
-                    _location set [2, _ownradius];      // radius
-                    _location set [3, false];           // location active
-                    _location set [4, []];              // enemy groups
-                    _location set [5, 0];               // time last active
-                    _location set [6, 0];               // enemy amount
-                    _location set [7, false];           // location cleared
-                    _location set [8, []];              // objects to cleanup
-                    _location set [9, 0];               // possible direction of objects
-                    dep_locations = dep_locations + [_location];
-                    dep_loc_cache = dep_loc_cache + [[]];
-                };
-            };
-        };
-        sleep 0.005;
-    };
-} forEach _locs;
-_locs = nil;*/
 
 if (dep_debug) then {
     diag_log "Finding patrols";
@@ -470,7 +394,7 @@ while {true} do {
             };
 
             // Don't activate when players are too close
-            if (_closest < (2 * _radius) && _type != "vehicle_patrol") then { _tooclose = true; };
+            if (_closest < (2 * _radius) && _type != "patrol") then { _tooclose = true; };
         };
         
         if (_close && !_clear) then {
