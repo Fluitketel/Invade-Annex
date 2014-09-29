@@ -133,6 +133,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 			{
 				player removeItem "Medikit";
 				player globalChat "Only Medics are trained in the use of the Advanced Medical Equipment. Item Removed.";
+                "Item_Medikit" createVehicle (getPos player);
 			};
 		}; 
 		
@@ -283,5 +284,5 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
         };
 		
 		sleep 2;
-	} foreach allUnits;
+	} foreach allUnits; // Fluit: should this be here since it's executed on each client?
 };
