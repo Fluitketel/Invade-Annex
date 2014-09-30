@@ -6,16 +6,16 @@
 	
 //--- Lets remove everything
 	removeAllWeapons player;
-	removeAllItems player;
 	removeBackpack player;
 	removeVest player;
-	removeHeadgear player;
+	removeHeadgear player; 
 	player unassignItem "NVGoggles";
 	player removeItem "NVGoggles";
+	player unassignItem "ItemRadio";
+	player removeItem "ItemRadio";
 	
 //--- BL1P check for acre mod on Client
 	acre_enabled = isClass(configFile/"CfgPatches"/"acre_main");
-	//taskForce_enabled = isClass(configFile/"CfgPatches"/"task_force_radio");
 	
 //--- BL1P Black listed mods
 	STGI = isClass(configFile/"CfgPatches"/"STGI");

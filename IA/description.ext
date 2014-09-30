@@ -12,12 +12,10 @@
 #include "DOM_squad\SquadManagement.hpp"
 
 /* VAS includes */
-#include "VAS\menu.hpp"
 #include "VVS\menu.h"
 
 class CfgFunctions
 {
-	#include "VAS\cfgfunctions.hpp"
 	#include "VVS\Functions.h"
 	#include "taw_vd\CfgFunctions.hpp"
 };
@@ -58,8 +56,8 @@ class Daytime
 	{
 		title = "Time";
 		texts[] = {"Morning","Day","Evening","Night"};
-		values[] = {5,12,18,0};
-		default = 5;
+		values[] = {9,12,18,0};
+		default = 9;
 		function = "BIS_fnc_paramDaytime"; // (Optional) Function called when player joins, selected value is passed as an argument
  		isGlobal = 0; // (Optional) 1 to execute script / function locally for every player who joins, 0 to do it only on server
 	};
@@ -147,7 +145,7 @@ class Daytime
 		title = "DEP Max amount of AI per location";
 		values[] = {10, 20, 30, 40};
 		texts[] = {"10", "20", "30", "40"};
-		default = 10;
+		default = 20;
 	};
     class DEP_AI_TOT
 	{

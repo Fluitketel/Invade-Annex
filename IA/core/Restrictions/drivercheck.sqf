@@ -20,7 +20,11 @@ _layer = 85125;
 	[
 	"B_soldier_repair_F",
 	"B_crew_F",
-	"B_officer_F"
+	"B_officer_F",
+	"DR_DPM_officer",
+	"DR_URBAN_officer",
+	"DR_DPM_soldier_repair_F",
+	"DR_URBAN_soldier_repair"
 	];
 	
     _aircraft = 
