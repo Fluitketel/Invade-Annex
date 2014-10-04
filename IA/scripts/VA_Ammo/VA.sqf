@@ -325,15 +325,6 @@ if (_ret) exitwith {systemchat "You can not use the VR ammo system while you hav
 	"DR_Woolhat_green",
 	"DR_Woolhat_red",
 	
-//--- insignias
-	"111thID",
-	"TFAegis",
-
-//--- glasses
-	"DR_Ciggy_Burn",
-	"DR_Ciggy_Norm",
-	"DR_Joint",
-	
 	//--- bis
 	"G_Spectacles",
 	"G_Combat",

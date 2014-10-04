@@ -17,6 +17,8 @@ publicvariable "ReinforcedTank";
 HeavyReinforcementUnits = [];
 HeavyReVehicles = [];
 
+_SERVERUNITSCHECKHre1 = 0;
+_SERVERUNITSCHECKHreResistance = 0;
 _SERVERUNITSCHECKHre = 0;
 
 while {true} do 
@@ -46,12 +48,12 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 		sleep 1;
 		if(DEBUG) then
 					{
-						diag_log format ["_SERVERUNITSCHECKHre for TOTAL BOTH HEAVY reinforcements = %1",_SERVERUNITSCHECKHre];
+						diag_log format ["_SERVERUNITSCHECKHre1 for TOTAL BOTH HEAVY reinforcements = %1",_SERVERUNITSCHECKHre1];
 					};
 				
 	};			
 		//send plane
-		if (radioTowerAlive && spottedPlane && (_SERVERUNITSCHECKHre < PARAMS_TOTALMAXAI) && (_randHeavyChance <= PARAMS_HeavyReinforcement)) then 
+		if (radioTowerAlive && spottedPlane && (_SERVERUNITSCHECKHre1 < PARAMS_TOTALMAXAI) && (_randHeavyChance <= PARAMS_HeavyReinforcement)) then 
 		{
 			//check not already reinforced
 			if !(ReinforcedPlane) then 
@@ -184,7 +186,7 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 			};
 		};
 		// send tanks
-		if (radioTowerAlive && spottedTank && (_SERVERUNITSCHECKHre < PARAMS_TOTALMAXAI) && (_randHeavyChance <= PARAMS_HeavyReinforcement)) then 
+		if (radioTowerAlive && spottedTank && (_SERVERUNITSCHECKHre1 < PARAMS_TOTALMAXAI) && (_randHeavyChance <= PARAMS_HeavyReinforcement)) then 
 		{
 			if !(ReinforcedTank) then 
 			{
@@ -207,7 +209,11 @@ if ((radioTowerAlive && !ReinforcedPlane && spottedPlane) || (radioTowerAlive &&
 						sleep 1;
 						[_ReinfarmourGroup, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 						[(units _ReinfarmourGroup)] call aw_setGroupSkill;
-						
+						(vehicle (leader _ReinfarmourGroup)) spawn aw_fnc_fuelMonitor;
+						if !(isNil "dep_fnc_vehicledamage") then {
+						[(_armour select 0)] spawn dep_fnc_vehicledamage;
+						};
+									
 						ReinforcedTank = true;
 						publicvariable "ReinforcedTank";
 						if(DEBUG) then

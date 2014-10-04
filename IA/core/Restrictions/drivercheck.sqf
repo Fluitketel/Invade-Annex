@@ -23,7 +23,7 @@ _layer = 85125;
 	"B_officer_F",
 	"DR_DPM_officer",
 	"DR_URBAN_officer",
-	"DR_DPM_soldier_repair_F",
+	"DR_DPM_soldier_repair",
 	"DR_URBAN_soldier_repair"
 	];
 	
@@ -74,18 +74,7 @@ _layer = 85125;
         if(vehicle player != player) then 
 		{
             _veh = vehicle player;
-            //Check if vehicle is aircraft and player is not pilot
-            if(({typeOf _veh == _x} count _aircraft) > 0 ) then 
-			{
-                //Forbidden seats:
-                _forbidden = [_veh turretUnit [0]];
-                if(player in _forbidden) then {
-                    systemChat "Copilot Seat Disabled";
-                    player action ["getOut", _veh];
-                sleep 1;
-				};
-            };
-			
+           
 			//Pilot check on mohawk and armed little bird
 			if (typeOf _veh == "I_Heli_Transport_02_F" || typeOf _veh == "B_Heli_Light_01_armed_F") then 
 			{
@@ -114,19 +103,6 @@ _layer = 85125;
 			   };
             };
 			
-			//friend and pilot check on PLANE
-			//if (typeOf _veh == "B_Plane_CAS_01_F") then 
-			//{
-            //    _friend = player getVariable "friend";
-			//    _forbidden = [driver _veh] + [gunner _veh];
-            //   if ((player in _forbidden && !(_friend)) || (player in _forbidden && !(_iampilot))) then 
-			//   {
-			//		systemChat format ["Sorry %1 Only LvL 1 Plane Pilots in the vehicle",name player];
-            //        player action ["getOut", _veh];
-			//		_veh engineon false;
-			//		sleep 0.5;
-			//   };
-            //};
 			
 			//-- friend and pilot check on CHOPPER
 			if (typeOf _veh == "B_Heli_Attack_01_F") then 

@@ -117,6 +117,10 @@ bl1p_fnc_defend =
 							};
 							_inf_Patrol = createGroup east;
 							_veh = [_roadpos,0,"O_APC_Wheeled_02_rcws_F",_inf_Patrol] call BIS_fnc_spawnVehicle;
+							
+							if !(isNil "dep_fnc_vehicledamage") then {
+							[(_veh select 0)] spawn dep_fnc_vehicledamage;
+							};
 							if(DEBUG) then
 							{
 							diag_log "====================================Wave Motorised Attack forces created==============================";

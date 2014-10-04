@@ -16,6 +16,8 @@ ReinforcementUnits = [];
 ReinforcementVehicles = [];
 
 _SERVERUNITSCHECKRE = 0;
+_SERVERUNITSCHECKRE1 = 0;
+_SERVERUNITSCHECKREresistance = 0;
 
 while {true} do 
 {
@@ -43,11 +45,11 @@ while {true} do
 				sleep 1;
 				if(DEBUG) then
 							{
-								diag_log format ["_SERVERUNITSCHECKRE for TOTAL LIGHT reinforcements = %1",_SERVERUNITSCHECKRE];
+								diag_log format ["_SERVERUNITSCHECKRE1 for TOTAL LIGHT reinforcements = %1",_SERVERUNITSCHECKRE1];
 							};
 			};	
 			
-        if (radioTowerAlive && spotted  && (_SERVERUNITSCHECKRE < PARAMS_TOTALMAXAI) && (_randReinfChance <= PARAMS_AOReinforcement)) then //is tower alive and is spotted and server isnt over loaded
+        if (radioTowerAlive && spotted  && (_SERVERUNITSCHECKRE1 < PARAMS_TOTALMAXAI) && (_randReinfChance <= PARAMS_AOReinforcement)) then //is tower alive and is spotted and server isnt over loaded
 		{
 			if !(Reinforced) then // is it already reinforced 
 			{
@@ -128,6 +130,12 @@ while {true} do
 							
 							[_Arm_Patrol, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
 							
+							[(units _Arm_Patrol)] call aw_setGroupSkill;
+							(vehicle (leader _Arm_Patrol)) spawn aw_fnc_fuelMonitor;
+							if !(isNil "dep_fnc_vehicledamage") then {
+							[(_veh select 0)] spawn dep_fnc_vehicledamage;
+							};
+							
 							{
 							  ReinforcementUnits set [count ReinforcementUnits, _x];
 							  publicVariable "ReinforcementUnits";
@@ -182,6 +190,13 @@ while {true} do
 							ReinforcementVehicles set [count ReinforcementVehicles, _veh select 0];
 							
 							[_Arm_Patrol, getMarkerPos currentAO,250] call dR_fnc_spawn2_perimeterPatrolBL1P;
+							
+							[(units _Arm_Patrol)] call aw_setGroupSkill;
+							(vehicle (leader _Arm_Patrol)) spawn aw_fnc_fuelMonitor;
+							if !(isNil "dep_fnc_vehicledamage") then {
+							[(_veh select 0)] spawn dep_fnc_vehicledamage;
+							};
+							
 							
 							{
 							  ReinforcementUnits set [count ReinforcementUnits, _x];

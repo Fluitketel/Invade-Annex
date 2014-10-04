@@ -5,13 +5,15 @@
 	Description:
 	Opens the VVS menu and fills in the blanks.
 */
-private["_sp","_playerType"];
+private["_sp","_ClassCO"];
 
-_playerType = typeOf player;
-If (_playerType != "B_officer_F") exitwith {systemChat "Comand Access Only";};
+_ClassCO = ["B_officer_F","DR_DPM_officer","DR_URBAN_officer","DR_Desert_officer","DR_Dark_officer"];
+if !(typeOf player in _ClassCO) exitwith {systemChat "Command Access Only";};
+
 if !(IsNil "UnlockAssets") then {
 if (!UnlockAssets) exitwith {systemChat "Cannot Order Until AO Completed";};
 };
+
 _sp = [_this,3,"",["",[]]] call BIS_fnc_param;
 if(typeName _sp == "STRING") then
 {

@@ -23,7 +23,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		) 
 		then
 		{
-			_ClassRM = ["B_recon_M_F","DR_DPM_recon_M","DR_URBAN_recon_M"];
+			_ClassRM = ["B_recon_M_F","DR_DPM_recon_M","DR_URBAN_recon_M","DR_Desert_recon_M","DR_Dark_recon_M"];
 			if !(typeOf player in _ClassRM) then
 			{
 				player removeWeapon "srifle_EBR_F";
@@ -56,7 +56,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		) 
 		then
 		{
-			_ClassMG = ["B_soldier_AR_F","DR_DPM_soldier_AR","DR_URBAN_soldier_AR"];
+			_ClassMG = ["B_soldier_AR_F","DR_DPM_soldier_AR","DR_URBAN_soldier_AR","DR_Desert_soldier_AR","DR_Dark_soldier_AR"];
 			if !(typeOf player in _ClassMG) then
 			{
 				player removeWeapon "LMG_Mk200_F";
@@ -78,7 +78,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 			("optic_DMS" in (primaryWeaponItems player + items player))
 		then
 		{
-			_ClassRM = ["B_recon_M_F","DR_DPM_recon_M","DR_URBAN_recon_M"];
+			_ClassRM = ["B_recon_M_F","DR_DPM_recon_M","DR_URBAN_recon_M","DR_Desert_recon_M","DR_Dark_recon_M"];
 			if !(typeOf player in _ClassRM) then
 			{
 				
@@ -91,15 +91,17 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		//--- GR
 		if 
 		(
+			(player hasWeapon "arifle_MX_GL_F") || 
 			(player hasWeapon "arifle_MX_GL_Black_F") || 
 			(player hasWeapon "DR_arifle_MX_GL_Urban_F") || 
 			(player hasWeapon "DR_arifle_MX_GL_Wood_F") 
 		) 
 		then
 		{
-			_ClassGR = ["B_Soldier_GL_F","DR_DPM_soldier_GL","DR_URBAN_soldier_GL"];
+			_ClassGR = ["B_Soldier_GL_F","DR_DPM_soldier_GL","DR_URBAN_soldier_GL","DR_Desert_soldier_GL","DR_Dark_soldier_GL"];
 			if !(typeOf player in _ClassGR) then
 			{
+				player removeWeapon "arifle_MX_GL_F";
 				player removeWeapon "arifle_MX_GL_Black_F";
 				player removeWeapon "DR_arifle_MX_GL_Urban_F";
 				player removeWeapon "DR_arifle_MX_GL_Wood_F";
@@ -111,7 +113,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		if (("SatchelCharge_Remote_Mag" in magazines player) || ("APERSBoundingMine_Range_Mag" in magazines player) || ("APERSMine_Range_Mag" in magazines player) || ("APERSTripMine_Wire_Mag" in magazines player) || ("ATMine_Range_Mag" in magazines player) || ("ClaymoreDirectionalMine_Remote_Mag" in magazines player) || ("SLAMDirectionalMine_Wire_Mag" in magazines player) || ("DemoCharge_Remote_Mag" in magazines player)) then
 		
 		{
-			_classEX = ["B_soldier_exp_F","DR_DPM_soldier_exp","DR_URBAN_soldier_exp"];
+			_classEX = ["B_soldier_exp_F","DR_DPM_soldier_exp","DR_URBAN_soldier_exp","DR_Desert_soldier_exp","DR_Dark_soldier_exp"];
 			if !(typeOf player in _classEX) then
 			{
 				player removeMagazines "SatchelCharge_Remote_Mag";
@@ -149,7 +151,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		) 
 		then
         {
-			_ClassCR = ["B_soldier_repair_F","DR_DPM_soldier_repair_F","DR_URBAN_soldier_repair"];
+			_ClassCR = ["B_soldier_repair_F","DR_DPM_soldier_repair","DR_URBAN_soldier_repair","DR_Desert_soldier_repair","DR_Dark_soldier_repair"];
             if !(typeOf player in _ClassCR) then 
             {
                 // not alowed!
@@ -161,13 +163,13 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		//--- toolkit
 		if ("ToolKit" in Items player) then
 		{
-			_classEX = ["B_soldier_exp_F","DR_DPM_soldier_exp","DR_URBAN_soldier_exp"];
-			_ClassCR = ["B_soldier_repair_F","DR_DPM_soldier_repair_F","DR_URBAN_soldier_repair"];
+			_classEX = ["B_soldier_exp_F","DR_DPM_soldier_exp","DR_URBAN_soldier_exp","DR_Desert_soldier_exp","DR_Dark_soldier_exp"];
+			_ClassCR = ["B_soldier_repair_F","DR_DPM_soldier_repair","DR_URBAN_soldier_repair","DR_Desert_soldier_repair","DR_Dark_soldier_repair"];
 			_Theworkers = _classEX + _ClassCR;
 			if !(typeOf player in _Theworkers) then
 			{
 				player removeItem "ToolKit";
-				systemchat "Only Medics are trained in the use of the Advanced Medical Equipment. Item Removed.";
+				systemchat "Only Engineer types are trained in the use of the Toolkit, Item Removed.";
 			};
 		}; 
 		
@@ -175,7 +177,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		//--- medic
 		if ("Medikit" in Items player) then
 		{
-			_ClassMD = ["B_medic_F","DR_DPM_medic","DR_URBAN_medic"];
+			_ClassMD = ["B_medic_F","DR_DPM_medic","DR_URBAN_medic","DR_Desert_medic","DR_Dark_medic","DR_URBAN_recon_medic","DR_DPM_recon_medic","DR_Desert_recon_medic","DR_Dark_recon_medic"];
 			if !(typeOf player in _ClassMD) then
 			{
 				player removeItem "Medikit";
@@ -199,7 +201,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		) 
 		then
         {
-            _ClassMD = ["B_medic_F","DR_DPM_medic","DR_URBAN_medic","B_recon_medic_F","DR_DPM_recon_medic","DR_URBAN_recon_medic"];
+           _ClassMD = ["B_medic_F","DR_DPM_medic","DR_URBAN_medic","DR_Desert_medic","DR_Dark_medic","DR_URBAN_recon_medic","DR_DPM_recon_medic","DR_Desert_recon_medic","DR_Dark_recon_medic"];
             if !(typeOf player in _ClassMD) then 
             {
                 // not alowed!
@@ -218,7 +220,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		)
 		then
 		{
-			 _ClassMD = ["B_medic_F","DR_DPM_medic","DR_URBAN_medic"];
+			_ClassMD = ["B_medic_F","DR_DPM_medic","DR_URBAN_medic","DR_Desert_medic","DR_Dark_medic","DR_URBAN_recon_medic","DR_DPM_recon_medic","DR_Desert_recon_medic","DR_Dark_recon_medic"];
             if !(typeOf player in _ClassMD) then 
             {
 				removebackpack player;
@@ -230,10 +232,10 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		if (("Laserdesignator" in Items player ) || ("Laserdesignator" in assignedItems player)) then
         {
                 
-            _ClassCR = ["B_soldier_repair_F","DR_DPM_soldier_repair_F","DR_URBAN_soldier_repair"];
-			_ClassCO = ["B_officer_F","DR_DPM_officer","DR_URBAN_officer"];
-			_ClassSL = ["B_Soldier_SL_F","DR_DPM_soldier_SL","DR_URBAN_soldier_SL"];
-			_ClassTL = ["B_Soldier_TL_F","DR_DPM_soldier_TL","DR_URBAN_soldier_TL"];
+            _ClassCR = ["B_soldier_repair_F","DR_DPM_soldier_repair","DR_URBAN_soldier_repair","DR_Desert_soldier_repair","DR_Dark_soldier_repair"];
+			_ClassCO = ["B_officer_F","DR_DPM_officer","DR_URBAN_officer","DR_Desert_officer","DR_Dark_officer"];
+			_ClassSL = ["B_Soldier_SL_F","DR_DPM_soldier_SL","DR_URBAN_soldier_SL","DR_Desert_soldier_SL","DR_Dark_soldier_SL"];
+			_ClassTL = ["B_Soldier_TL_F","DR_DPM_soldier_TL","DR_URBAN_soldier_TL","DR_Desert_soldier_TL","DR_Dark_soldier_TL"];
 			_TheBrass = _ClassCO + _ClassSL + _ClassTL + _ClassCR;
             if !(typeOf player in _TheBrass) then 
             {
@@ -249,7 +251,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 		if ((player hasWeapon "launch_NLAW_F") || (player hasWeapon "launch_B_Titan_F") || (player hasWeapon "launch_B_Titan_short_F") || (player hasWeapon "launch_I_Titan_F") || (player hasWeapon "launch_I_Titan_short_F") || (player hasWeapon "launch_O_Titan_F") || (player hasWeapon "launch_O_Titan_short_F") || (player hasWeapon "launch_Titan_F") || (player hasWeapon "launch_Titan_short_F") || (player hasWeapon "launch_RPG32_F")) then
 		
 		{
-			_ClassAT = ["B_soldier_LAT_F","DR_DPM_soldier_LAT","DR_URBAN_soldier_LAT"];
+			_ClassAT = ["B_soldier_LAT_F","DR_DPM_soldier_LAT","DR_URBAN_soldier_LAT","DR_Desert_soldier_LAT","DR_Dark_soldier_LAT"];
 			if !(typeOf player in _ClassAT) then
 			{
 				player removeWeapon "launch_NLAW_F";

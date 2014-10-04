@@ -9,6 +9,8 @@ publicVariable "ConvoyAlive";
 
 ConvoyUnits = [];
 ConvoyVehicles = [];
+_SERVERUNITSCHECK1 = 0;
+_SERVERUNITSCHECKresistance = 0;
 _SERVERUNITSCHECK = 0;
 _giveup = false;
 
@@ -38,11 +40,11 @@ while {!_giveup} do
 			sleep 1;
 			if(DEBUG) then
 						{
-							diag_log format ["_SERVERUNITSCHECK for convoys = %1",_SERVERUNITSCHECK];
+							diag_log format ["_SERVERUNITSCHECK1 for convoys = %1",_SERVERUNITSCHECK1];
 						};
 		};		
 		
-    if (radioTowerAlive && (_SERVERUNITSCHECK < PARAMS_TOTALMAXAI) && (_RandCreation <= PARAMS_ConvoyChance)) then 
+    if (radioTowerAlive && (_SERVERUNITSCHECK1 < PARAMS_TOTALMAXAI) && (_RandCreation <= PARAMS_ConvoyChance)) then 
 	{
         if (!ConvoyAlive) then 
 		{
@@ -116,6 +118,9 @@ while {!_giveup} do
 							ConvoyVehicles set [count ConvoyVehicles, _Convoy_Vehicle select 0];
 							
 							(vehicle (leader _ConvoyGroup)) spawn aw_fnc_fuelMonitor;
+							if !(isNil "dep_fnc_vehicledamage") then {
+							[(_Convoy_Vehicle select 0)] spawn dep_fnc_vehicledamage;
+							};
 							sleep 1;
 							
 							//create random amount and type vehs		
@@ -125,6 +130,9 @@ while {!_giveup} do
 									_Convoy_Vehicle = [_ConvoySafePos,0,["O_APC_Wheeled_02_rcws_F","O_APC_Tracked_02_cannon_F","O_APC_Tracked_02_AA_F","O_Truck_03_repair_F"] call BIS_fnc_selectRandom,_ConvoyGroup] call BIS_fnc_spawnVehicle;
 									ConvoyVehicles set [count ConvoyVehicles, _Convoy_Vehicle select 0];
 									(vehicle (leader _ConvoyGroup)) spawn aw_fnc_fuelMonitor;
+									if !(isNil "dep_fnc_vehicledamage") then {
+									[(_Convoy_Vehicle select 0)] spawn dep_fnc_vehicledamage;
+									};
 									sleep 1;
 								};
 								

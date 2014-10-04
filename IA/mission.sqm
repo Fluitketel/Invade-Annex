@@ -65,7 +65,11 @@ class Mission
 		"A3_Modules_F",
 		"cba_main",
 		"acre_main",
-		"dr_units"
+		"dr_units",
+		"DR_Backpacks",
+		"BL1P_UI",
+		"BW_LoadCalc",
+		"A3_Weapons_F_Bootcamp_Ammoboxes"
 	};
 	addOnsAuto[]=
 	{
@@ -93,12 +97,13 @@ class Mission
 		"A3_Air_F_Beta_Heli_Transport_02",
 		"A3_Soft_F_Quadbike",
 		"A3_Weapons_F_Ammoboxes",
+		"A3_Boat_F_Boat_Armed_01",
 		"a3_map_altis"
 	};
 	randomSeed=12935265;
 	class Intel
 	{
-		briefingName="co31 [dR] I&A Search and Destroy Ops V70.1 Altis";
+		briefingName="co31 [dR] I&A Search and Destroy Ops V70.5 Altis";
 		overviewText="Shoot The bad guys... Win... What could possibly go wrong ?";
 		resistanceWest=0;
 		resistanceEast=1;
@@ -129,7 +134,7 @@ class Mission
 				items=10;
 				class Item0
 				{
-					position[]={14621.68,17.91,16758.625};
+					position[]={14621.704,17.91,16758.574};
 					azimut=-226.545;
 					special="NONE";
 					id=0;
@@ -615,7 +620,7 @@ class Mission
 	};
 	class Vehicles
 	{
-		items=177;
+		items=181;
 		class Item0
 		{
 			position[]={15246.208,-0.0082027912,14204.392};
@@ -762,7 +767,7 @@ class Mission
 		};
 		class Item13
 		{
-			position[]={15342.589,0,15822.562};
+			position[]={15331.309,-0.00028146652,15783.741};
 			azimut=-193.16499;
 			id=47;
 			side="EMPTY";
@@ -774,7 +779,7 @@ class Mission
 		};
 		class Item14
 		{
-			position[]={15357.052,0,15763.971};
+			position[]={15338.252,0.0031592057,15754.57};
 			azimut=-555.74402;
 			id=48;
 			side="EMPTY";
@@ -1142,7 +1147,7 @@ class Mission
 		};
 		class Item48
 		{
-			position[]={15345.167,0,15812.801};
+			position[]={15333.887,0.0021146459,15773.98};
 			azimut=-193.16499;
 			id=82;
 			side="EMPTY";
@@ -1154,7 +1159,7 @@ class Mission
 		};
 		class Item49
 		{
-			position[]={15354.587,0,15773.417};
+			position[]={15335.787,-0.0040223747,15764.017};
 			azimut=-192.981;
 			id=83;
 			side="EMPTY";
@@ -2529,6 +2534,46 @@ class Mission
 			skill=0.60000002;
 			text="crate4";
 			init="this addaction [""Open Virtual Arsenal"", ""scripts\VA_Ammo\VA.sqf""];this allowDamage false;_m = [this] execVM ""scripts\aw_unitSetup.sqf"";this addAction [""<t color='#FF0000'>ADD ACRE SHORTRANGE</t>"", ""addacre\add_acre_lr.sqf""];  this addAction [""<t color='#FF0000'>ADD ACRE LONGRANGE</t>"", ""addacre\add_acre_sr.sqf""];";
+		};
+		class Item177
+		{
+			position[]={15347.049,0.00090855017,15809.019};
+			azimut=166.196;
+			id=211;
+			side="EMPTY";
+			vehicle="B_Boat_Armed_01_minigun_F";
+			skill=0.60000002;
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf"";";
+		};
+		class Item178
+		{
+			position[]={15343.736,-1.4208905e-005,15822.499};
+			azimut=166.196;
+			id=212;
+			side="EMPTY";
+			vehicle="B_Boat_Armed_01_minigun_F";
+			skill=0.60000002;
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf"";";
+		};
+		class Item179
+		{
+			position[]={15358.586,2.6789028e-005,15761.279};
+			azimut=166.196;
+			id=213;
+			side="EMPTY";
+			vehicle="B_Boat_Armed_01_minigun_F";
+			skill=0.60000002;
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf"";";
+		};
+		class Item180
+		{
+			position[]={15355.273,0.00016284466,15774.76};
+			azimut=166.196;
+			id=214;
+			side="EMPTY";
+			vehicle="B_Boat_Armed_01_minigun_F";
+			skill=0.60000002;
+			init="_m = [this,600,108000] execVM ""scripts\vehicle.sqf"";";
 		};
 	};
 	class Markers

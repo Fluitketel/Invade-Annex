@@ -651,6 +651,9 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 						[_spawngroupcar, getMarkerPos currentAO, PARAMS_AOSize] call aw_fnc_spawn2_randomPatrol;
 						(vehicle (leader _spawngroupcar)) spawn aw_fnc_fuelMonitor;
 						[(units _spawngroupcar)] call aw_setGroupSkill;
+						if !(isNil "dep_fnc_vehicledamage") then {
+						[(_vehcar select 0)] spawn dep_fnc_vehicledamage;
+						};
 
 						sleep 1;
 						if(DEBUG) then
@@ -761,8 +764,11 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 							
 							
 						(vehicle (leader _armourGroup)) spawn aw_fnc_fuelMonitor;
-						
 						[(units _armourGroup)] call aw_setGroupSkill;
+						if !(isNil "dep_fnc_vehicledamage") then {
+						[(_armour select 0)] spawn dep_fnc_vehicledamage;
+						};
+						
 						
 						sleep 1;
 						if(DEBUG) then
@@ -1189,15 +1195,20 @@ AW_fnc_garrisonBuildings =
 			{
 			diag_log format ["_finalCnt = %1 buildings array",_finalCnt];
 			};
+	
+	_SERVERUNITSCHECKHGarison1 = 0;	
+	_SERVERUNITSCHECKResistance = 0;	
+	_SERVERUNITSCHECKHGarison = 0;
+	
 	_SERVERUNITSCHECKHGarison1 = east countSide allunits;	
 	_SERVERUNITSCHECKResistance = resistance countside allunits;
 	_SERVERUNITSCHECKHGarison = (_SERVERUNITSCHECKHGarison1 + _SERVERUNITSCHECKResistance);
 	
-	if (_SERVERUNITSCHECKHGarison < PARAMS_TOTALMAXAI) then
+	if (_SERVERUNITSCHECKHGarison1 < PARAMS_TOTALMAXAI) then
 		{
 		if(DEBUG) then
 					{
-					diag_log format ["_SERVERUNITSCHECKHGarison = %1",_SERVERUNITSCHECKHGarison];
+					diag_log format ["_SERVERUNITSCHECKHGarison1 = %1",_SERVERUNITSCHECKHGarison1];
 					diag_log "Creating garison units";
 					};
 			{
