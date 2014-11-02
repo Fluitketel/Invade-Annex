@@ -47,21 +47,22 @@ _totalobjects = [];
         _grp = createGroup dep_side;
         _totalgroups = _totalgroups + [_grp];
         {
-            _unit = _grp createUnit [(_x select 0), _pos, [], 0, "NONE"];
+            _unit = [_grp, (_x select 0), _pos] call dep_fnc_createunit;
             _totalenemies = _totalenemies + 1;
             _roles = _x select 1;
+            diag_log format ["roles: %1", _roles];
             if ((count _roles) > 0) then {
                 _role = _roles select 0;
                 switch (_role) do {
-                    case "Driver": {
+                    case "driver": {
                         _unit assignAsDriver _obj;
                         _unit moveInDriver _obj;
                     };
-                    case "Turret": {
+                    case "turret": {
                         _unit assignAsGunner _obj;
                         _unit moveInGunner _obj;
                     };
-                    case "Cargo": {
+                    case "cargo": {
                         _unit assignAsCargo _obj;
                         _unit moveInCargo _obj;
                     };
@@ -84,7 +85,7 @@ _totalobjects = [];
     _totalgroups = _totalgroups + [_grp];
     _group = _x;
     {
-        _obj = _grp createUnit [(_x select 2), (_x select 0), [], 0, "NONE"];
+        _obj = [_grp, (_x select 2), (_x select 0)] call dep_fnc_createunit;
         _totalenemies = _totalenemies + 1;
         _obj setDir (_x select 1);
         _obj setDamage (_x select 3);

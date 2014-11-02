@@ -11,15 +11,9 @@ _pos set [2, 0];
 _validhouses = [];
 _houses = nearestObjects [_pos, ["House"], _size];
 {	
-    _house = _x;
-    _i = 0;
-    while {count ((_house buildingPos _i)-[0]) > 0} do {
-        _i = _i + 1;
-    };
-    //_maxbuildingpos = _i - 1;
-    _maxbuildingpos = _i;
-    if (_maxbuildingpos > 0) then { 
-        _validhouses = _validhouses + [_house]; 
+    _enterable = [_x] call dep_fnc_isenterable;
+    if (_enterable) then { 
+        _validhouses = _validhouses + [_x]; 
     };    
 } foreach _houses;
 _validhouses;

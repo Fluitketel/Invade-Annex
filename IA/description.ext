@@ -143,9 +143,9 @@ class Daytime
     class DEP_AI_LOC
 	{
 		title = "DEP Max amount of AI per location";
-		values[] = {10, 20, 30, 40};
-		texts[] = {"10", "20", "30", "40"};
-		default = 20;
+		values[] = {10, 20, 25, 30, 40};
+		texts[] = {"10", "20", "25", "30", "40"};
+		default = 25;
 	};
     class DEP_AI_TOT
 	{
@@ -166,7 +166,7 @@ class Daytime
 		title = "DEP Enemy spawn positions";
 		values[] = {150, 200, 250, 300};
 		texts[] = {"150", "200", "250", "300"};
-		default = 250;
+		default = 200;
 	};
     class DEP_ROADBLK
 	{
@@ -178,9 +178,9 @@ class Daytime
     class DEP_AA
 	{
 		title = "DEP Enemy AA sites";
-		values[] = {20, 30, 40};
-		texts[] = {"20", "30", "40"};
-		default = 30;
+		values[] = {0, 5, 10, 20, 30, 40};
+		texts[] = {"0", "5", "10", "20", "30", "40"};
+		default = 20;
 	};
     class DEP_MAX_VEH
 	{

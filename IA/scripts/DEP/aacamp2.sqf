@@ -53,7 +53,7 @@ waitUntil {alive _gun1};
 _gun1 setDir _dir + 180;
 _objects = _objects + [_gun1];
 _newpos = [_newpos, 1, _dir] call BIS_fnc_relPos;
-_gunner1 = _campgroup createUnit ["I_G_Soldier_F", _newpos, [], 0, "NONE"];
+_gunner1 = [_campgroup, dep_u_g_soldier, _newpos] call dep_fnc_createunit;
 waitUntil {alive _gunner1};
 _gunner1 assignAsGunner _gun1;
 _gunner1 moveInGunner _gun1;
@@ -75,7 +75,7 @@ _newpos = [_newpos, 4, _dir + 90] call BIS_fnc_relPos;
 _prop = "Land_CncBarrier_F" createVehicle _newpos;
 _prop setDir _dir - 30;
 
-_soldier = _campgroup createUnit ["I_G_Soldier_SL_F", getPos _tower, [], 0, "NONE"];
+_soldier = [_campgroup, dep_u_g_sl, getPos _tower] call dep_fnc_createunit;
 doStop _soldier;
 _soldier removeEventHandler ["killed", 0];
 _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
@@ -83,14 +83,14 @@ _totalenemies = _totalenemies + 1;
 for "_c" from 1 to (1 + round (random 1)) do
 { 
     _newpos = [_pos, round (random 5), random 360] call BIS_fnc_relPos;
-    _soldier = _campgroup createUnit ["I_Soldier_AA_F", _newpos, [], 0, "NONE"];
+    _soldier = [_campgroup, dep_u_aa, _newpos] call dep_fnc_createunit;
     doStop _soldier;
     _soldier removeEventHandler ["killed", 0];
     _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];
     _totalenemies = _totalenemies + 1;
     
     _newpos = [_pos, round (random 5), random 360] call BIS_fnc_relPos;
-    _soldier = _campgroup createUnit ["I_Soldier_AAA_F", _newpos, [], 0, "NONE"];
+    _soldier = [_campgroup, dep_u_aaa, _newpos] call dep_fnc_createunit;
     doStop _soldier;
     _soldier removeEventHandler ["killed", 0];
     _soldier addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];

@@ -2,7 +2,7 @@
     DYNAMIC ENEMY POPULATION 
         by Fluit 
             bugs & feedback:    fluitketel@outlook.com
-            last revision:      2014-09-19
+            last revision:      2014-11-01
     
     This script places cached enemies all across the map including:
     - units in buildings
@@ -14,6 +14,11 @@
     - mines (AT & APERS)
   =======================================================================================*/
 
+ if !(isClass(configFile>>"CfgPatches">>"cba_main_a3")) exitWith 
+ {
+    diag_log "DEP INIT FAILED: CBA NOT FOUND";
+ };
+  
 // SETTINGS
 dep_directory = "scripts\DEP\";   // Script location
 _handle = execVM format ["%1settings.sqf", dep_directory];
@@ -29,45 +34,151 @@ dep_num_loc     = 0;
 dep_act_bl      = [];
 dep_veh_pat_rad = 600;
 
-// FUNCTIONS
-dep_fnc_setwaypoints        = compile preprocessFileLineNumbers format ["%1setwaypoints.sqf",       dep_directory];
-dep_fnc_getwaypoints        = compile preprocessFileLineNumbers format ["%1getwaypoints.sqf",       dep_directory];
-dep_fnc_vehiclepatrol       = compile preprocessFileLineNumbers format ["%1vehiclepatrol.sqf",      dep_directory];
-dep_fnc_housepatrol         = compile preprocessFileLineNumbers format ["%1housepatrol.sqf",        dep_directory];
-dep_fnc_unitpatrol          = compile preprocessFileLineNumbers format ["%1unitpatrol.sqf",         dep_directory];
-dep_fnc_enterablehouses     = compile preprocessFileLineNumbers format ["%1enterablehouses.sqf",    dep_directory];
-dep_fnc_findnearhouses      = compile preprocessFileLineNumbers format ["%1findnearhouses.sqf",     dep_directory];
-dep_fnc_buildingpositions   = compile preprocessFileLineNumbers format ["%1buildingpositions.sqf",  dep_directory];
-dep_fnc_vehicledamage       = compile preprocessFileLineNumbers format ["%1vehicledamage.sqf",      dep_directory];
-dep_fnc_nearestroad         = compile preprocessFileLineNumbers format ["%1nearestroad.sqf",        dep_directory];
-dep_fnc_roaddir             = compile preprocessFileLineNumbers format ["%1roaddir.sqf",            dep_directory];
-dep_fnc_roadblock           = compile preprocessFileLineNumbers format ["%1roadblock.sqf",          dep_directory];
-dep_fnc_aacamp1             = compile preprocessFileLineNumbers format ["%1aacamp1.sqf",            dep_directory];
-dep_fnc_aacamp2             = compile preprocessFileLineNumbers format ["%1aacamp2.sqf",            dep_directory];
-dep_fnc_restore             = compile preprocessFileLineNumbers format ["%1restore.sqf",            dep_directory];
-dep_fnc_activate            = compile preprocessFileLineNumbers format ["%1activate.sqf",           dep_directory];
-dep_fnc_activate_aacamp     = compile preprocessFileLineNumbers format ["%1activate_aacamp.sqf",    dep_directory];
-dep_fnc_deactivate          = compile preprocessFileLineNumbers format ["%1deactivate.sqf",         dep_directory];
-dep_fnc_garrison            = compile preprocessFileLineNumbers format ["%1garrison.sqf",           dep_directory];
-dep_fnc_enemyspawnprotect   = compile preprocessFileLineNumbers format ["%1enemyspawnprotect.sqf",  dep_directory];
-dep_fnc_disable_ied         = compile preprocessFileLineNumbers format ["%1disable_ied.sqf",        dep_directory];
-dep_fnc_disable_ied_action  = compile preprocessFileLineNumbers format ["%1disable_ied_action.sqf", dep_directory];
+if (isNil "dep_side")           then { dep_side         = independent; };   // Enemy side (east, west, independent)
+if (isNil "dep_despawn")        then { dep_despawn      = 5; };             // Despawn location after x minutes inactivity
+if (isNil "dep_debug")          then { dep_debug        = false; };         // Enable debug
+if (isNil "dep_max_ai_loc")     then { dep_max_ai_loc   = 16; };            // Maximum AI per location
+if (isNil "dep_max_ai_tot")     then { dep_max_ai_tot   = 256; };           // Maximum AI in total
+if (isNil "dep_act_dist")       then { dep_act_dist     = 800; };           // Location activation distance
+if (isNil "dep_act_height")     then { dep_act_height   = 80; };            // Player must be below this height to activate location
+if (isNil "dep_act_speed")      then { dep_act_speed    = 160; };           // Player must be below this speed to activate location
+if (isNil "dep_safezone")       then { dep_safezone     = 1000; };          // Respawn safe zone radius
+if (isNil "dep_max_veh")        then { dep_max_veh      = 10; };            // Max number of vehicles
+if (isNil "dep_ied_chance")     then { dep_ied_chance   = 0.6; };           // Chance of IEDs
+if (isNil "dep_veh_chance")     then { dep_veh_chance   = 0.3; };           // Chance of vehicles
+if (isNil "dep_unit_init")      then { dep_unit_init    = ""; };            // Code executed on unit creation
 
-private ["_locations","_pos"];
+if (isNil "dep_u_g_soldier")    then { dep_u_g_soldier  = "I_G_Soldier_F"; };
+if (isNil "dep_u_g_gl")         then { dep_u_g_gl       = "I_G_Soldier_GL_F"; };
+if (isNil "dep_u_g_ar")         then { dep_u_g_ar       = "I_G_Soldier_AR_F"; };
+if (isNil "dep_u_g_at")         then { dep_u_g_at       = "I_G_Soldier_LAT_F"; };
+if (isNil "dep_u_g_medic")      then { dep_u_g_medic    = "I_G_medic_F"; };
+if (isNil "dep_u_g_sl")         then { dep_u_g_sl       = "I_G_Soldier_SL_F"; };
+if (isNil "dep_u_g_marksman")   then { dep_u_g_marksman = "I_G_Soldier_M_F"; };
+
+if (isNil "dep_u_soldier")      then { dep_u_soldier    = "I_soldier_F"; };
+if (isNil "dep_u_gl")           then { dep_u_gl         = "I_Soldier_GL_F"; };
+if (isNil "dep_u_ar")           then { dep_u_ar         = "I_Soldier_AR_F"; };
+if (isNil "dep_u_at")           then { dep_u_at         = "I_Soldier_LAT_F"; };
+if (isNil "dep_u_medic")        then { dep_u_medic      = "I_medic_F"; };
+if (isNil "dep_u_aa")           then { dep_u_aa         = "I_Soldier_AA_F"; };
+if (isNil "dep_u_aaa")          then { dep_u_aaa        = "I_Soldier_AAA_F"; };
+if (isNil "dep_u_sl")           then { dep_u_sl         = "I_Soldier_SL_F"; };
+if (isNil "dep_u_marksman")     then { dep_u_marksman   = "I_soldier_M_F"; };
+if (isNil "dep_u_sniper")       then { dep_u_sniper     = "I_Sniper_F"; };
+
+if (isNil "dep_mil_units")          then { dep_mil_units        = [dep_u_soldier, dep_u_gl, dep_u_ar, dep_u_at, dep_u_medic, dep_u_aa, dep_u_sl, dep_u_marksman, dep_u_sniper]; };
+if (isNil "dep_guer_units")         then { dep_guer_units       = [dep_u_g_soldier, dep_u_g_gl, dep_u_g_ar, dep_u_g_at, dep_u_g_medic, dep_u_g_sl, dep_u_g_marksman]; };
+if (isNil "dep_ground_vehicles")    then { dep_ground_vehicles  = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_APC_tracked_03_cannon_F","I_G_Van_01_transport_F","I_APC_Wheeled_03_cannon_F","I_G_offroad_01_armed_F"]; };
+
+// World specific settings
+switch (worldName) do {
+    case "Altis": {
+        if (isNil "dep_map_center") then { dep_map_center  = [15360, 15360]; };
+        if (isNil "dep_roadpop")    then { dep_roadpop     = 250; };
+        if (isNil "dep_roadblocks") then { dep_roadblocks  = 50; };
+        if (isNil "dep_aa_camps")   then { dep_aa_camps    = 30; };
+        if (isNil "dep_patrols")    then { dep_patrols     = 80; };
+        if (isNil "dep_bunkers")    then { dep_bunkers     = 50; };
+    };
+    case "Stratis": {
+        if (isNil "dep_map_center") then { dep_map_center  = [4096, 4096]; };
+        if (isNil "dep_roadpop")    then { dep_roadpop     = 80; };
+        if (isNil "dep_roadblocks") then { dep_roadblocks  = 8; };
+        if (isNil "dep_aa_camps")   then { dep_aa_camps    = 5; };
+        if (isNil "dep_patrols")    then { dep_patrols     = 20; };
+        if (isNil "dep_bunkers")    then { dep_bunkers     = 10; };
+    };
+    case "Takistan": {
+        if (isNil "dep_map_center") then { dep_map_center  = [6400, 6400]; };
+        if (isNil "dep_roadpop")    then { dep_roadpop     = 100; };
+        if (isNil "dep_roadblocks") then { dep_roadblocks  = 10; };
+        if (isNil "dep_aa_camps")   then { dep_aa_camps    = 8; };
+        if (isNil "dep_patrols")    then { dep_patrols     = 25; };
+        if (isNil "dep_bunkers")    then { dep_bunkers     = 15; };
+    };
+    case "Chernarus": { // Placeholder - don't use yet
+        if (isNil "dep_map_center") then { dep_map_center  = [7680, 7680]; };
+        if (isNil "dep_roadpop")    then { dep_roadpop     = 100; };
+        if (isNil "dep_roadblocks") then { dep_roadblocks  = 10; };
+        if (isNil "dep_aa_camps")   then { dep_aa_camps    = 8; };
+        if (isNil "dep_patrols")    then { dep_patrols     = 25; };
+        if (isNil "dep_bunkers")    then { dep_bunkers     = 30; };
+    };
+    default {
+        if (isNil "dep_map_center") then { dep_map_center  = [0, 0]; };
+        if (isNil "dep_roadpop")    then { dep_roadpop     = 0; };
+        if (isNil "dep_roadblocks") then { dep_roadblocks  = 0; };
+        if (isNil "dep_aa_camps")   then { dep_aa_camps    = 0; };
+        if (isNil "dep_patrols")    then { dep_patrols     = 0; };
+        if (isNil "dep_bunkers")    then { dep_bunkers     = 0; };
+    };
+};
+dep_map_radius  = ceil (sqrt (((dep_map_center select 0) ^ 2) + ((dep_map_center select 1) ^ 2)));
+
+// FUNCTIONS
+dep_fnc_createunit              = compile preprocessFileLineNumbers format ["%1createunit.sqf", dep_directory];
+dep_fnc_isenterable             = compile preprocessFileLineNumbers format ["%1isenterable.sqf", dep_directory];
+dep_fnc_setwaypoints            = compile preprocessFileLineNumbers format ["%1setwaypoints.sqf", dep_directory];
+dep_fnc_getwaypoints            = compile preprocessFileLineNumbers format ["%1getwaypoints.sqf", dep_directory];
+dep_fnc_vehiclepatrol           = compile preprocessFileLineNumbers format ["%1vehiclepatrol.sqf", dep_directory];
+dep_fnc_housepatrol             = compile preprocessFileLineNumbers format ["%1housepatrol.sqf", dep_directory];
+dep_fnc_unitpatrol              = compile preprocessFileLineNumbers format ["%1unitpatrol.sqf", dep_directory];
+dep_fnc_enterablehouses         = compile preprocessFileLineNumbers format ["%1enterablehouses.sqf", dep_directory];
+dep_fnc_findmilitarybuildings   = compile preprocessFileLineNumbers format ["%1findmilitarybuildings.sqf", dep_directory];
+dep_fnc_findnearhouses          = compile preprocessFileLineNumbers format ["%1findnearhouses.sqf", dep_directory];
+dep_fnc_buildingpositions       = compile preprocessFileLineNumbers format ["%1buildingpositions.sqf", dep_directory];
+dep_fnc_vehicledamage           = compile preprocessFileLineNumbers format ["%1vehicledamage.sqf", dep_directory];
+dep_fnc_nearestroad             = compile preprocessFileLineNumbers format ["%1nearestroad.sqf", dep_directory];
+dep_fnc_roaddir                 = compile preprocessFileLineNumbers format ["%1roaddir.sqf", dep_directory];
+dep_fnc_roadblock               = compile preprocessFileLineNumbers format ["%1roadblock.sqf", dep_directory];
+dep_fnc_atcamp                  = compile preprocessFileLineNumbers format ["%1atcamp.sqf", dep_directory];
+dep_fnc_mortarcamp              = compile preprocessFileLineNumbers format ["%1mortarcamp.sqf", dep_directory];
+dep_fnc_aacamp1                 = compile preprocessFileLineNumbers format ["%1aacamp1.sqf", dep_directory];
+dep_fnc_aacamp2                 = compile preprocessFileLineNumbers format ["%1aacamp2.sqf", dep_directory];
+dep_fnc_restore                 = compile preprocessFileLineNumbers format ["%1restore.sqf", dep_directory];
+dep_fnc_activate                = compile preprocessFileLineNumbers format ["%1activate.sqf", dep_directory];
+dep_fnc_activate_aacamp         = compile preprocessFileLineNumbers format ["%1activate_aacamp.sqf", dep_directory];
+dep_fnc_deactivate              = compile preprocessFileLineNumbers format ["%1deactivate.sqf", dep_directory];
+dep_fnc_garrison                = compile preprocessFileLineNumbers format ["%1garrison.sqf", dep_directory];
+dep_fnc_enemyspawnprotect       = compile preprocessFileLineNumbers format ["%1enemyspawnprotect.sqf", dep_directory];
+dep_fnc_disable_ied             = compile preprocessFileLineNumbers format ["%1disable_ied.sqf", dep_directory];
+dep_fnc_disable_ied_action      = compile preprocessFileLineNumbers format ["%1disable_ied_action.sqf", dep_directory];
+
+if (dep_debug) then {
+    waitUntil {time > 0};
+};
+
+private ["_locations","_pos","_building"];
 diag_log "Initializing DEP . . .";
 
-_buildings = nearestObjects [[15000, 15000, 0], ["Cargo_Tower_base_F", "Cargo_House_base_F", "Cargo_HQ_base_F", "Cargo_Patrol_base_F"], 25000];
+_totaltime = 0;
+_starttime = 0;
+_parttime = 0;
+if (dep_debug) then {
+    diag_log "Finding military buildings";
+    _starttime = time;
+};
+_buildings = [dep_map_center, dep_map_radius] call dep_fnc_findmilitarybuildings;
 _numbuildings = (count _buildings) / 2;
 
 if (dep_debug) then {
-    diag_log "Finding military buildings";
+    _parttime = time - _starttime;
+    diag_log format ["Took %1 seconds.", _parttime];
+    _totaltime = _totaltime + _parttime;
+    _starttime = time;
+    diag_log "Creating military areas";
 };
+
 for [{_x=0}, {_x<=_numbuildings}, {_x=_x+1}] do {
+    if (count _buildings == 0) exitWith { 
+        diag_log format ["Not enough military buildings, found %1 of %2.", _numbuildings, dep_roadpop]; 
+    };
     _building = _buildings call BIS_fnc_selectRandom;
     _buildings = _buildings - [_building];
     _pos = getPos _building;
     if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
-        _ownradius = 75;
+        _ownradius = 75 + (round random 50);
         _distance = true;
         {
             _loc_pos    = _x select 0;
@@ -75,24 +186,21 @@ for [{_x=0}, {_x<=_numbuildings}, {_x=_x+1}] do {
             if ((_pos distance _loc_pos) < (_radius + _ownradius)) exitWith { _distance = false; };
         } foreach dep_locations;
         if (_distance) then {
-            _milbuild = nearestObjects [_pos, ["Cargo_Tower_base_F", "Cargo_House_base_F", "Cargo_HQ_base_F", "Cargo_Patrol_base_F"], _ownradius];
+            _milbuild = [_pos, _ownradius] call dep_fnc_findmilitarybuildings;
             if (count _milbuild > 2) then {
-                _houses = [_pos, _ownradius] call dep_fnc_enterablehouses;
-                if ((count _houses) > 1) then {
-                    _location = [];
-                    _location set [0, _pos];            // position
-                    _location set [1, "military"];      // location type
-                    _location set [2, _ownradius];      // radius
-                    _location set [3, false];           // location active
-                    _location set [4, []];              // enemy groups
-                    _location set [5, 0];               // time last active
-                    _location set [6, 0];               // enemy amount
-                    _location set [7, false];           // location cleared
-                    _location set [8, []];              // objects to cleanup
-                    _location set [9, 0];               // possible direction of objects
-                    dep_locations = dep_locations + [_location];
-                    dep_loc_cache = dep_loc_cache + [[]];
-                };
+                _location = [];
+                _location set [0, _pos];            // position
+                _location set [1, "military"];      // location type
+                _location set [2, _ownradius];      // radius
+                _location set [3, false];           // location active
+                _location set [4, []];              // enemy groups
+                _location set [5, 0];               // time last active
+                _location set [6, 0];               // enemy amount
+                _location set [7, false];           // location cleared
+                _location set [8, []];              // objects to cleanup
+                _location set [9, 0];               // possible direction of objects
+                dep_locations = dep_locations + [_location];
+                dep_loc_cache = dep_loc_cache + [[]];
             };
         };
     };
@@ -101,14 +209,28 @@ for [{_x=0}, {_x<=_numbuildings}, {_x=_x+1}] do {
 _buildings = nil;
 
 if (dep_debug) then {
+    _parttime = time - _starttime;
+    diag_log format ["Took %1 seconds.", _parttime];
+    _totaltime = _totaltime + _parttime;
+    _starttime = time;
     diag_log "Finding normal buildings";
 };
-_buildings = nearestObjects [[15000, 15000, 0], ["House_F"], 25000];
-//_numbuildings = (count _buildings);
+_buildings = nearestObjects [dep_map_center, ["House"], dep_map_radius];
 _numbuildings = 0;
+
+if (dep_debug) then {
+    _parttime = time - _starttime;
+    diag_log format ["Took %1 seconds.", _parttime];
+    _totaltime = _totaltime + _parttime;
+    _starttime = time;
+    diag_log "Creating normal areas";
+};
 
 while {_numbuildings < dep_roadpop} do {
     _building = _buildings call BIS_fnc_selectRandom;
+    if (count _buildings == 0) exitWith { 
+        diag_log format ["Not enough buildings, found %1 of %2.", _numbuildings, dep_roadpop]; 
+    };
     _buildings = _buildings - [_building];
     _pos = getPos _building;
     if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
@@ -145,10 +267,15 @@ while {_numbuildings < dep_roadpop} do {
 _buildings = nil;
 
 if (dep_debug) then {
+    _parttime = time - _starttime;
+    diag_log format ["Took %1 seconds.", _parttime];
+    _totaltime = _totaltime + _parttime;
+    _starttime = time;
     diag_log "Finding roadblocks";
 };
+
 // Roadblocks
-_list = [15000, 15000, 0] nearRoads 25000;
+_list = dep_map_center nearRoads dep_map_radius;
 for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
     _valid = false;
     while {!_valid} do {
@@ -189,6 +316,10 @@ for [{_x=1}, {_x<=dep_roadblocks}, {_x=_x+1}] do {
 };
 
 if (dep_debug) then {
+    _parttime = time - _starttime;
+    diag_log format ["Took %1 seconds.", _parttime];
+    _totaltime = _totaltime + _parttime;
+    _starttime = time;
     diag_log "Finding aa camps";
 };
 // AA Camps
@@ -196,7 +327,8 @@ _aacamps = [];
 for "_c" from 1 to dep_aa_camps do {
     _valid = false;
     while {!_valid} do {
-        _pos = [] call BIS_fnc_randomPos;
+        //_pos = [] call BIS_fnc_randomPos;
+        _pos = [dep_map_center, random (dep_map_center select 0), (random 360)] call BIS_fnc_relPos;
         // Check if out of safe zone
         if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
             _flatPos = _pos isFlatEmpty [15, 0, 0.2, 12, 0, false];
@@ -231,10 +363,14 @@ for "_c" from 1 to dep_aa_camps do {
 _aacamps = nil;
 
 if (dep_debug) then {
+    _parttime = time - _starttime;
+    diag_log format ["Took %1 seconds.", _parttime];
+    _totaltime = _totaltime + _parttime;
+    _starttime = time;
     diag_log "Finding patrols";
 };
 // Vehicle patrols
-for [{_x=1}, {_x<=80}, {_x=_x+1}] do {
+for [{_x=1}, {_x<=dep_patrols}, {_x=_x+1}] do {
     _valid = false;
     while {!_valid} do {
         _road = _list call BIS_fnc_selectRandom;
@@ -270,6 +406,47 @@ for [{_x=1}, {_x<=80}, {_x=_x+1}] do {
 };
 _list = nil;
 
+if (dep_debug) then {
+    _parttime = time - _starttime;
+    diag_log format ["Took %1 seconds.", _parttime];
+    _totaltime = _totaltime + _parttime;
+    _starttime = time;
+    diag_log "Finding bunkers";
+};
+
+// Bunkers
+_exp = "(1 + meadow) * (1 - forest) * (1 - trees) * (1 - hills) * (1 - houses) * (1 - sea)";
+_bunkers = selectBestPlaces [ dep_map_center, dep_map_radius,_exp, 75, dep_bunkers];
+for [{_x=0}, {_x<(count _bunkers)}, {_x=_x+1}] do {
+    _place = _bunkers select _x;
+    _pos = _place select 0;
+    if ((_pos distance (getMarkerPos "respawn_west")) > dep_safezone) then {
+        _flatPos = _pos isFlatEmpty [12, 0, 0.2, 10, 0, false];
+        if (count _flatPos == 3) then {
+            _location = [];
+            _location set [0, _pos];            // position
+            _location set [1, "bunker"];        // location type
+            _location set [2, 50];              // radius
+            _location set [3, false];           // location active
+            _location set [4, []];              // enemy groups
+            _location set [5, 0];               // time last active
+            _location set [6, 0];               // enemy amount
+            _location set [7, false];           // location cleared
+            _location set [8, []];              // objects to cleanup
+            _location set [9, 0];               // possible direction of objects
+            dep_locations = dep_locations + [_location];
+            dep_loc_cache = dep_loc_cache + [[]];
+        };
+    };
+};
+
+if (dep_debug) then {
+    _parttime = time - _starttime;
+    diag_log format ["Took %1 seconds.", _parttime];
+    _totaltime = _totaltime + _parttime;
+    diag_log format ["Total initialization took %1 seconds.", _totaltime];
+};
+
 // Place makers in debug mode
 if (dep_debug) then {
     diag_log "Placing markers";
@@ -287,9 +464,10 @@ if (dep_debug) then {
             case "roadblock":       { _m setMarkerColor "ColorGreen";};
             case "roadpop":         { _m setMarkerColor "ColorYellow";};
             case "military":        { _m setMarkerColor "ColorPink";};
+            case "bunker":          { _m setMarkerColor "ColorBrown";};
         };
         _m setMarkerBrush "Solid";
-        _m setMarkerAlpha 0.7;
+        //_m setMarkerAlpha 0.7;
     };
 };
 
