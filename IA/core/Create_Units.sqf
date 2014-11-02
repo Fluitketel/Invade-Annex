@@ -647,8 +647,8 @@ if (PARAMS_Roadblocks == 1 && _numberofcamps <= 2) then {
 								[_spawngroupcar,getMarkerPos currentAO,(PARAMS_AOSize+500)] call aw_fnc_spawn2_perimeterPatrol;
 							};
 							
-						
-						[_spawngroupcar, getMarkerPos currentAO, PARAMS_AOSize] call aw_fnc_spawn2_randomPatrol;
+						[_spawngroupcar,getMarkerPos currentAO,(PARAMS_AOSize)] call aw_fnc_spawn2_perimeterPatrol;
+						//[_spawngroupcar, getMarkerPos currentAO, PARAMS_AOSize] call aw_fnc_spawn2_randomPatrol;
 						(vehicle (leader _spawngroupcar)) spawn aw_fnc_fuelMonitor;
 						[(units _spawngroupcar)] call aw_setGroupSkill;
 						if !(isNil "dep_fnc_vehicledamage") then {

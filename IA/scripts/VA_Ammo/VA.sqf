@@ -263,8 +263,6 @@ if (_ret) exitwith {systemchat "You can not use the VR ammo system while you hav
 	"DR_Beret_Blue",
 	"DR_Beret_Red",
 	"DR_Folded_boonie",
-	"DR_Headsetsmall",
-	"DR_capRev",
 	
 //--- Helmets
 	//--- DR
@@ -349,5 +347,4 @@ if (_ret) exitwith {systemchat "You can not use the VR ammo system while you hav
 	"DR_balaclarva_Ghost"
 	],true] call BIS_fnc_addVirtualItemCargo;	
 
-["open",false] spawn BIS_fnc_arsenal;
 

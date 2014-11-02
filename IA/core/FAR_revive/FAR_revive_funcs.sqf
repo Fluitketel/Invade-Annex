@@ -55,33 +55,7 @@ FAR_HandleDamage_EH =
     };
     _amountOfDamage
 };
-////////////////////////////////////////////////
-// DR handle healing
-////////////////////////////////////////////////
-//dr_handle_healing =
-//{
-//	_this spawn {
-//		diag_log "inside dr_handle_healing";
-//		private ["_unit", "_healer", "_medic", "_damage"];
-//		_unit = _this select 0;
-//		_healer = _this select 1;
-//		_medic = _this select 2;
-//		_damage = 0.4;
-//		
-//		if (_medic) then {
-//			// Medic has beter healing
-//			_damage = 0.2;
-//		};
-//		
-//		if (damage _unit > _damage) then {
-//			_unit setDamage _damage;
-//			diag_log format ["unit %1 is healed by %2 to damage %3", _unit, _healer, _damage];
-//			systemchat format ["unit %1 is healed by %2 to damage %3", _unit, _healer, _damage];
-//		};
-//	   // AISFinishHeal [_unit, _healer, _medic];
-//	   //true;
-//   };
-//};
+
 ////////////////////////////////////////////////
 // Make Player Unconscious
 ////////////////////////////////////////////////
@@ -101,13 +75,15 @@ FAR_Player_Unconscious =
 		["FAR_deathMessage", [_unit, _killer]] call FAR_public_EH;
 		Totalfriendlyfire = Totalfriendlyfire + 1;publicvariable "Totalfriendlyfire";
 	};
+	
+	//--- removed for now
 	// Death message none friendly fire
-	if (FAR_EnableDeathMessages) then //--- param in the revive init
-	{
-		FAR_deathMessage_bl1p = [_unit, _killer];
-		publicVariable "FAR_deathMessage_bl1p";
-		["FAR_deathMessage_bl1p", [_unit, _killer]] call FAR_public_EH;
-	};
+	//if (FAR_EnableDeathMessages) then //--- param in the revive init
+	//{
+	//	FAR_deathMessage_bl1p = [_unit, _killer];
+	//	publicVariable "FAR_deathMessage_bl1p";
+	//	["FAR_deathMessage_bl1p", [_unit, _killer]] call FAR_public_EH;
+	//};
 	
 	
 	if (isPlayer _unit) then
@@ -152,11 +128,7 @@ FAR_Player_Unconscious =
 			_ret = [true] call acre_api_fnc_setSpectator;
 		};
 	
-	//	if (taskForce_enabled) then 
-	//	{
-	//	[player, true] call TFAR_fnc_forceSpectator;
-	//	};
-		
+	
 	_unit switchMove "AinjPpneMstpSnonWrflDnon";
 	_unit enableSimulation false;
 	_unit setVariable ["FAR_isUnconscious", 1, true];
@@ -228,13 +200,7 @@ FAR_Player_Unconscious =
 					{
 						_ret = [false] call acre_api_fnc_setSpectator;
 					};
-					
-				//--- bl1p stop taskforce when uncon
-				//	if (taskForce_enabled) then 
-				//	{
-				//	[player, false] call TFAR_fnc_forceSpectator;
-				//	};
-					
+				
 				disableUserInput false;
 				_unit enableSimulation true;
 				_unit allowDamage true;

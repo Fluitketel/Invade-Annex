@@ -68,7 +68,7 @@ _initialTargets = [
 	"The Stadium",
 	"The Xirolimni Dam",
 	"The small industrial complex",
-	"Lakka military outpost",
+	"Military outpost",
 	"Negades",
 	"Abdera",
 	"Millers Despair",
@@ -113,7 +113,7 @@ _targets = [
 	"The Stadium",
 	"The Xirolimni Dam",
 	"The small industrial complex",
-	"Lakka military outpost",
+	"Military outpost",
 	"Negades",
 	"Abdera",
 	"Millers Despair",
@@ -291,6 +291,8 @@ enableSaving [false, false];
 /* ========================================================== */
 /* ========================================================== */
 
+//-- weather script
+	execVM "randomWeather2.sqf";
 
 //--- Fluit's functions!!
 	_fluitFunctions = [] execVM "core\Fluit\FluitInit.sqf"; 

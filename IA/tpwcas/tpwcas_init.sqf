@@ -150,7 +150,7 @@ tpwcas_running = true;
 	
 	//AI SEARCH COVER: DISABLE = 0, ENABLE = 1 
 	if(isNil "tpwcas_getcover") then {
-		tpwcas_getcover = 1; //enabled by default
+		tpwcas_getcover = 0; //enabled by default
 		};
 
 	//AI SEARCH COVER MAX DISTANCE (M). RECOMMENDED TO KEEP LOW NUMBER (5 to 15)

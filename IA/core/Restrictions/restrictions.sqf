@@ -233,7 +233,7 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
         {
                 
             _ClassCR = ["B_soldier_repair_F","DR_DPM_soldier_repair","DR_URBAN_soldier_repair","DR_Desert_soldier_repair","DR_Dark_soldier_repair"];
-			_ClassCO = ["B_officer_F","DR_DPM_officer","DR_URBAN_officer","DR_Desert_officer","DR_Dark_officer"];
+			_ClassCO = ["B_officer_F","DR_DPM_officer","DR_URBAN_officer","DR_Desert_officer","DR_Dark_officer","DR_DPM_recon_TL"];
 			_ClassSL = ["B_Soldier_SL_F","DR_DPM_soldier_SL","DR_URBAN_soldier_SL","DR_Desert_soldier_SL","DR_Dark_soldier_SL"];
 			_ClassTL = ["B_Soldier_TL_F","DR_DPM_soldier_TL","DR_URBAN_soldier_TL","DR_Desert_soldier_TL","DR_Dark_soldier_TL"];
 			_TheBrass = _ClassCO + _ClassSL + _ClassTL + _ClassCR;
@@ -285,7 +285,12 @@ if (isServer || isDedicated || !hasInterFace) exitWith {Diag_log "I was kicked f
 			(player hasWeapon "srifle_LRR_SOS_F")
 		) then
 		{
-			if ((playerSide == west && typeOf player != "B_sniper_F") || (playerside == east && typeOf player != "O_sniper_F")) then
+			if 
+			(
+				(playerSide == west && typeOf player != "B_sniper_F") || 
+				(playerside == east && typeOf player != "O_sniper_F") || 
+				(playerside == east && typeOf player != "DR_DPM_recon_M")
+			) then
 			{
 				
 				if (random 5 < 3) then 
