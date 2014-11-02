@@ -68,7 +68,6 @@ _layer = 85125;
     //Never ending cycle
     while{true} do 
 	{
-        //--- COPILOT KICK
         //If player is inside vehicle and not on foot
 		waituntil {vehicle player != player};
         if(vehicle player != player) then 
@@ -79,10 +78,10 @@ _layer = 85125;
 			if (typeOf _veh == "I_Heli_Transport_02_F" || typeOf _veh == "B_Heli_Light_01_armed_F") then 
 			{
              //_friend = player getVariable "friend";
-			    _forbidden = [driver _veh];
+			   _forbidden = [driver _veh] + [_veh turretUnit [0]];
                 if (player in _forbidden && !(_iampilotChop)) then 
 			   {
-					systemChat format ["Sorry Pilots only",name player];
+					systemChat format ["Sorry %1 Pilots Only",name player];
                     player action ["getOut", _veh];
 					_veh engineon false;
 					sleep 1;
@@ -111,7 +110,7 @@ _layer = 85125;
 			    _forbidden = [driver _veh] + [gunner _veh];
                 if (player in _forbidden && !(_iampilotChop)) then 
 			   {
-					systemChat format ["Sorry %1 Only LvL 1 Chopper Pilots in the vehicle",name player];
+					systemChat format ["Sorry %1 Pilots Only",name player];
                     player action ["getOut", _veh];
 					_veh engineon false;
 					sleep 1;

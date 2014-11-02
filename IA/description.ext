@@ -17,17 +17,14 @@
 class CfgFunctions
 {
 	#include "VVS\Functions.h"
-	#include "taw_vd\CfgFunctions.hpp"
 };
 
-/* View Distance includes */
-#include "taw_vd\dialog.hpp"
 
 class Header
 {
   gameType = COOP;
   minPlayers = 1;
-  maxPlayers = 31;
+  maxPlayers = 35;
 };
 
 enableSaving = [false, false];
@@ -56,8 +53,8 @@ class Daytime
 	{
 		title = "Time";
 		texts[] = {"Morning","Day","Evening","Night"};
-		values[] = {9,12,18,0};
-		default = 9;
+		values[] = {5,12,18,0};
+		default = 5;
 		function = "BIS_fnc_paramDaytime"; // (Optional) Function called when player joins, selected value is passed as an argument
  		isGlobal = 0; // (Optional) 1 to execute script / function locally for every player who joins, 0 to do it only on server
 	};
