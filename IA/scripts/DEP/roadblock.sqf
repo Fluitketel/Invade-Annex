@@ -78,9 +78,6 @@ _prop setDir _dir;
 //_objects = _objects + [_prop];
 sleep 0.5;
 
-_campgun1group = createGroup dep_side;
-_groups = _groups + [_campgun1group];
-_campgun1group setFormDir _dir;
 _newpos = [_gate, 6, _dir + 90] call BIS_fnc_relPos;
 _gun1 = objNull;
 if (random 1 < 0.3) then {
@@ -92,7 +89,7 @@ waitUntil {alive _gun1};
 _objects = _objects + [_gun1];
 _gun1 setDir _dir;
 _newpos = [_newpos, 1, (_dir + 180)] call BIS_fnc_relPos;
-_gunner1 = [_campgun1group, dep_u_g_soldier, _newpos] call dep_fnc_createunit;
+_gunner1 = [_campgroup, dep_u_g_soldier, _newpos] call dep_fnc_createunit;
 waitUntil {alive _gunner1};
 _gunner1 removeEventHandler ["killed", 0];
 _gunner1 addEventHandler ["killed", {(_this select 0) execVM format ["%1cleanup.sqf", dep_directory]}];

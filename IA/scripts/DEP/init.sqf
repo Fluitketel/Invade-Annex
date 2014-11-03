@@ -33,6 +33,7 @@ dep_loc_cache   = [];
 dep_num_loc     = 0;
 dep_act_bl      = [];
 dep_veh_pat_rad = 600;
+dep_allgroups   = [];
 
 if (isNil "dep_side")           then { dep_side         = independent; };   // Enemy side (east, west, independent)
 if (isNil "dep_despawn")        then { dep_despawn      = 5; };             // Despawn location after x minutes inactivity
@@ -479,6 +480,12 @@ dep_num_loc = (count dep_locations);
 diag_log format ["DEP ready with %1 locations", dep_num_loc];
 while {true} do {
     waitUntil{!dep_spawning};
+    
+    dep_allgroups = [];
+    {
+        if (side _x == dep_side) then { dep_allgroups = dep_allgroups + [_x]; };
+    } forEach allGroups;
+    
     dep_total_ai = 0;
     for "_g" from 0 to (dep_num_loc - 1) do {
         _location = dep_locations select _g;
@@ -577,17 +584,22 @@ while {true} do {
         
         if (_close && !_clear) then {
             // Players are close and location not clear, should enemies be spawned?
-            if (!_active && dep_total_ai < dep_max_ai_tot && !_tooclose) then {
-                // Location is not cleared and not active => spawn units
-                if (_type == "antiair") then {
-                    _handle = _g call dep_fnc_activate_aacamp;
-                } else {
-                    _handle = _g call dep_fnc_activate;
+            if (count dep_allgroups <= 134) then {
+                // Group limit not reached
+                if (!_active && dep_total_ai < dep_max_ai_tot && !_tooclose) then {
+                    // Location is not cleared and not active => spawn units
+                    if (_type == "antiair") then {
+                        _handle = _g call dep_fnc_activate_aacamp;
+                    } else {
+                        _handle = _g call dep_fnc_activate;
+                    };
                 };
+                _time = time;
+                _location set [5, _time];
+                dep_locations set [_g, _location];
+            } else {
+                diag_log format ["Group limit of 134 reached: %1. Location %2 skipped.", count dep_allgroups, _g];
             };
-            _time = time;
-            _location set [5, _time];
-            dep_locations set [_g, _location];
         } else {
             // No players close to location, should it be deactivated?
             if (_active) then {

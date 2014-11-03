@@ -50,7 +50,7 @@ _totalobjects = [];
             _unit = [_grp, (_x select 0), _pos] call dep_fnc_createunit;
             _totalenemies = _totalenemies + 1;
             _roles = _x select 1;
-            diag_log format ["roles: %1", _roles];
+            
             if ((count _roles) > 0) then {
                 _role = _roles select 0;
                 switch (_role) do {

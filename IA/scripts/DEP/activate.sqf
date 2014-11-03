@@ -64,14 +64,21 @@ if !((_location select 1) in ["patrol","bunker","roadblock"]) then {
         _enemyamount = ceil (random _num_buildpos);
         if (_enemyamount < (_num_buildpos / 2)) then { _enemyamount = ceil(_num_buildpos / 2); };
         if (_enemyamount > 8) then { _enemyamount = 8; };
+        if (_enemyamount < 4) then { _enemyamount = 4; };
         
         _depgroup = createGroup dep_side;
         _groups = _groups + [_depgroup];
         _totalenemies = _totalenemies + _enemyamount;
         
         for "_e" from 1 to _enemyamount do {
-            _newbuildpos = _buildpos call BIS_fnc_selectRandom;
-            _buildpos = _buildpos - [_newbuildpos];
+            _newbuildpos = [];
+            if ((count _buildpos) > 0) then {
+                _newbuildpos = _buildpos call BIS_fnc_selectRandom;
+                _buildpos = _buildpos - [_newbuildpos];
+            } else {
+                _newbuildpos = (getPos _house) findEmptyPosition [0,20];
+                if ((count _newbuildpos) == 0) then { _newbuildpos = (getPos _house); };
+            };
             _soldiername = "";
             if ((_location select 1) == "military") then {
                 _soldiername = dep_mil_units call BIS_fnc_selectRandom;
